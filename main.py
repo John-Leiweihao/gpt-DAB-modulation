@@ -12,7 +12,8 @@ st.set_page_config(page_title="Chat with the Power electronic robot", page_icon=
                    initial_sidebar_state="auto", menu_items=None)
 st.title("Chat with the Power electronic robot🤖, powered by LlamaIndex 🙂")
 st.info( "Hello, I am a robot designed specifically for converters!", icon="🤟")
-
+if "messages" not in st.session_state:  # Initialize the chat messages history
+    st.session_state.messages = [ ]
 @st.cache_resource(show_spinner=False)
 def load_data():
     with st.spinner(text="Loading and indexing the buck-boost docs – hang tight! This should take 1-2 minutes."):
