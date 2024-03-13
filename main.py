@@ -16,8 +16,8 @@ st.info( "Hello, I am a robot designed specifically for converters!", icon="🤟
 @st.cache_resource(show_spinner=False)
 def load_data():
     with st.spinner(text="Loading and indexing the buck-boost docs – hang tight! This should take 1-2 minutes."):
-        docs = SimpleDirectoryReader("Modulation评价体系.docx").load_data()
-        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are an expert in power supply design in the field of power electronics, and your job is to answer technical questions.Assume that all problems are related to the power supply design.Keep your answers technical and fact-based -- don't hallucinate."))
+        docs = SimpleDirectoryReader("data").load_data()
+        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
 
