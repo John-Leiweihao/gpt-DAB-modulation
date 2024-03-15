@@ -51,6 +51,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             answer_list = ast.literal_eval(response.response)
             best_modulation=final_score.recommend_modulation(answer_list)
             response1="According to your requirements, I recommend you to use the {} modulation strategy".format(best_modulation)
+            st.write(response1)
             st.session_state.messages.append({"role": "assistant", "content": response1})
             messages_history = [
                 ChatMessage(role=MessageRole.USER if m["role"] == "user" else MessageRole.ASSISTANT,
