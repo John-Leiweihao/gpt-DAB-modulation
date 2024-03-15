@@ -1,0 +1,34 @@
+The following content is only a supplement to the rationale for the chosen modulation strategy.
+
+Single Phase Shift (SPS):
+Advantages:
+Simple structure and easy control strategy.
+High efficiency at low power transfer levels.
+Suitable for applications with limited control complexity.
+
+
+Extended Phase Shift (EPS):
+Advantages:
+Maintains high efficiency over a wide range of load conditions.
+Improved voltage utilization compared to SPS, allowing for smaller transformer and switch ratings.
+Better suited for applications with variable load conditions.
+
+
+Dual Phase Shift (DPS):
+Advantages:
+Further improvement in voltage utilization and conversion efficiency.
+Reduction in the size and cost of transformer and switching devices.
+Suitable for high-power applications where efficiency is critical.
+
+Triple Phase Shift (TPS):
+Advantages:
+Even higher voltage utilization and efficiency compared to DPS.
+Reduced size and cost of passive components such as transformers and filters.
+Enhanced flexibility in controlling power flow and managing circulating energy.
+
+
+Five-Degree Phase Shift:
+Advantages:
+Offers the highest level of flexibility and optimization potential for efficiency.
+Capable of adapting to a wide range of load conditions and input voltages.
+Optimal for applications where maximum efficiency and performance are required.
