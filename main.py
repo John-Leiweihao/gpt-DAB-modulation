@@ -53,12 +53,14 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             response1="According to your requirements, I recommend you to use the {} modulation strategy".format(best_modulation)
             st.write(response1)
             st.session_state.messages.append({"role": "assistant", "content": response1})
+            prompt1="Why is this modulation method recommended?"
+            st.session_state.messages.append({"role": "user", "content": prompt1})
             messages_history = [
                 ChatMessage(role=MessageRole.USER if m["role"] == "user" else MessageRole.ASSISTANT,
                             content=m["content"])
                 for m in st.session_state.messages
             ]
-            response = chat_engine.chat(prompt, messages_history)
+            response = chat_engine.chat(prompt1, messages_history)
             st.write(response.response)
             message = {"role": "assistant", "content": response.response}
             st.session_state.messages.append(message)
