@@ -1,4 +1,7 @@
 def pinn(Uin,Uo,Prated,fsw,modulation):
+    D0 = None
+    current_stress = None
+    efficiency = None
     if modulation=="SPS":
         if Uin>0 and Uo>0 and Prated>0 and fsw>0:
             D0=0.5
