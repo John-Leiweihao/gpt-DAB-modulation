@@ -9,7 +9,4 @@ def PINN(Uin,Uo,Prated,fsw,modulation):
             current_stress = 2
             efficiency=0.8
     return D0,current_stress,efficiency
-modulation="SPS"
-D0,current_stress,efficiency=PINN(900,800,100e3,50e3,modulation)
-print(D0,current_stress,efficiency)
 
