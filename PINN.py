@@ -1,4 +1,4 @@
-def PINN(Uin,Uo,Prated,fsw,modulation):
+def pinn(Uin,Uo,Prated,fsw,modulation):
     if modulation=="SPS":
         if Uin>0 and Uo>0 and Prated>0 and fsw>0:
             D0=0.5
