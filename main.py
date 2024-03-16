@@ -52,6 +52,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             response = chat_engine.chat(prompt, messages_history)
             answer_list = ast.literal_eval(response.response)
             best_modulation=final_score.recommend_modulation(answer_list)
+            global modulation
             modulation=best_modulation
             response1="According to your requirements, I recommend you to use the {} modulation strategy".format(best_modulation)
             st.write(response1)
