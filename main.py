@@ -53,8 +53,8 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             answer_list = ast.literal_eval(response.response)
             best_modulation=final_score.recommend_modulation(answer_list)
             st.session_state.M=best_modulation
-            response = chat_engine.chat(prompt,messages_history)
-            st.write(response.response)
+            response1 = chat_engine.chat(st.session_state.M,messages_history)
+            st.write(response.response1)
             message = {"role": "assistant", "content": response.response}
             st.session_state.messages.append(message)
     elif "Uin" in prompt:
