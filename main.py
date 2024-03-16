@@ -59,7 +59,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
                             content=m["content"])
                 for m in st.session_state.messages
             ]
-            response = chat_engine.chat(prompt1, messages_history)
+            response = chat_engine.chat(prompt, messages_history)
             st.write(response.response)
             message = {"role": "assistant", "content": response.response}
             st.session_state.messages.append(message)
