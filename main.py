@@ -69,7 +69,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             response = chat_engine.chat(prompt, messages_history)
             answer_list1 = ast.literal_eval(response.response)
             Uin, Uo, Prated, fsw = answer_list1   
-            D0,current_stress,efficiency=PINN.PINN(Uin,Uo,Prated,fsw,modulation)
+            D0,current_stress,efficiency=PINN.pinn(Uin,Uo,Prated,fsw,modulation)
             reply="The optimal D0 is designed to be {} and the current stress performance is shown with the following figure. At rated power level, the current stress is {}A.The efficiency performance is shown with the following figure . At rated power level, the  efficiency is {}.".format(D0,current_stress,efficiency)
             st.write(reply)
             col1,col2=st.columns(2)
