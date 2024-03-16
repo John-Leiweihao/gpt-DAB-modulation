@@ -62,7 +62,8 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
                 for m in st.session_state.messages
             ]
             response = chat_engine.chat("Please introduce this control strategy",messages_history)
-            st.write(response.response)
+            st.write(response.response)  
+            st.write(modulation)     
     elif "Uin" in prompt:
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
