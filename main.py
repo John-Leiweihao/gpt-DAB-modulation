@@ -33,7 +33,7 @@ def load_data():
 
 index = load_data()
 chat_engine = index.as_chat_engine( chat_mode="context")
-modulation="X"
+M="X"
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
     with st.chat_message(message["role"]):
         st.write(message["content"])
@@ -52,8 +52,8 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             response = chat_engine.chat(prompt, messages_history)
             answer_list = ast.literal_eval(response.response)
             best_modulation=final_score.recommend_modulation(answer_list)
-            global modulation
-            modulation=best_modulation
+            global M
+            M=best_modulation
             response1="According to your requirements, I recommend you to use the {} modulation strategy".format(best_modulation)
             st.write(response1)
             st.session_state.messages.append({"role": "assistant", "content": response1})
@@ -71,7 +71,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             response = chat_engine.chat(prompt, messages_history)
             answer_list1 = ast.literal_eval(response.response)
             Uin, Uo, Prated, fsw = answer_list1   
-            D0,current_stress,efficiency=PINN.pinn(Uin,Uo,Prated,fsw,modulation)
+            D0,current_stress,efficiency=PINN.pinn(Uin,Uo,Prated,fsw,M)
             reply="The optimal D0 is designed to be {} and the current stress performance is shown with the following figure. At rated power level, the current stress is {}A.The efficiency performance is shown with the following figure . At rated power level, the  efficiency is {}.".format(D0,current_stress,efficiency)
             st.write(reply)
             col1,col2=st.columns(2)
