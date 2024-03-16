@@ -66,7 +66,6 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     elif "Uin" in prompt:
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            st.write(st.session_state.M)
             response = chat_engine.chat(prompt, messages_history)
             answer_list1 = ast.literal_eval(response.response)
             Uin, Uo, Prated, fsw = answer_list1   
