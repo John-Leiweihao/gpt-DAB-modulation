@@ -6,6 +6,7 @@ from llama_index.llms.openai import OpenAI
 from llama_index.core.llms import ChatMessage, MessageRole
 import final_score
 import ast
+import PINN
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 api_base = "https://pro.aiskt.com/v1"
 openai.base_url = api_base
@@ -32,7 +33,7 @@ def load_data():
 
 index = load_data()
 chat_engine = index.as_chat_engine( chat_mode="context")
-
+modulation="X"
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
     with st.chat_message(message["role"]):
         st.write(message["content"])
@@ -51,6 +52,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             response = chat_engine.chat(prompt, messages_history)
             answer_list = ast.literal_eval(response.response)
             best_modulation=final_score.recommend_modulation(answer_list)
+            modulation=best_modulation
             response1="According to your requirements, I recommend you to use the {} modulation strategy".format(best_modulation)
             st.write(response1)
             st.session_state.messages.append({"role": "assistant", "content": response1})
@@ -67,7 +69,18 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             response = chat_engine.chat(prompt, messages_history)
-            st.write(response.response)
+            answer_list1 = ast.literal_eval(response.response)
+            Uin, Uo, Prated, fsw = answer_list1   
+            D0,current_stress,efficiency=PINN.PINN(Uin,Uo,Prated,fsw,modulation)
+            reply="The optimal D0 is designed to be {} and the current stress performance is shown with the following figure. At rated power level, the current stress is {}A.The efficiency performance is shown with the following figure . At rated power level, the  efficiency is {}.".format(D0,current_stress,efficiency)
+            st.write(reply)
+            col1,col2=st.columns(2)
+            with col1:
+              st.image("current stress.png")
+            with col2:
+              st.image("efficiency.png")
+            message = {"role": "assistant", "content": response.reply}
+            st.session_state.messages.append(message)
     else:
          with st.chat_message("assistant"):
              with st.spinner("Thinking..."):
