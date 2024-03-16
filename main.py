@@ -77,7 +77,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
               st.image("current stress.png")
             with col2:
               st.image("efficiency.png")
-            message = {"role": "assistant", "content": response.reply}
+            message = {"role": "assistant", "content": reply}
             st.session_state.messages.append(message)
     else:
          with st.chat_message("assistant"):
