@@ -50,7 +50,6 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     if "consideration" in prompt.lower():
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            global M
             response = chat_engine.chat(prompt, messages_history)
             answer_list = ast.literal_eval(response.response)
             best_modulation=final_score.recommend_modulation(answer_list)
