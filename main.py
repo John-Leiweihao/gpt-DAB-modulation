@@ -30,7 +30,8 @@ def load_data():
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
 
-
+if "M" not in st.session_state:
+    st.session_state.M = "X"  # 初始化M的值
 index = load_data()
 chat_engine = index.as_chat_engine( chat_mode="context")
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
@@ -51,7 +52,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             response = chat_engine.chat(prompt, messages_history)
             answer_list = ast.literal_eval(response.response)
             best_modulation=final_score.recommend_modulation(answer_list)
-            M=best_modulation
+            st.session_state.M=best_modulation
             response1="According to your requirements, I recommend you to use the {} modulation strategy".format(best_modulation)
             st.write(response1)
             st.session_state.messages.append({"role": "assistant", "content": response1})
@@ -65,11 +66,11 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     elif "Uin" in prompt:
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            st.write(M)
+            st.write(st.session_state.M)
             response = chat_engine.chat(prompt, messages_history)
             answer_list1 = ast.literal_eval(response.response)
             Uin, Uo, Prated, fsw = answer_list1   
-            D0,current_stress,efficiency=PINN.pinn(Uin,Uo,Prated,fsw,M)
+            D0,current_stress,efficiency=PINN.pinn(Uin,Uo,Prated,fsw,st.session_state.M)
             reply="The optimal D0 is designed to be {} and the current stress performance is shown with the following figure. At rated power level, the current stress is {}A.The efficiency performance is shown with the following figure . At rated power level, the  efficiency is {}.".format(D0,current_stress,efficiency)
             st.write(reply)
             col1,col2=st.columns(2)
