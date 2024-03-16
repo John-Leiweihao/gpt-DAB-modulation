@@ -54,17 +54,8 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             best_modulation=final_score.recommend_modulation(answer_list)
             st.session_state.M=best_modulation
             response = chat_engine.chat(prompt,messages_history)
-            response1="According to your requirements, I recommend you to use the {} modulation strategy".format(best_modulation)
-            st.write(response1)
-            st.session_state.messages.append({"role": "assistant", "content": response1})
-            messages_history = [
-                ChatMessage(role=MessageRole.USER if m["role"] == "user" else MessageRole.ASSISTANT,
-                            content=m["content"])
-                for m in st.session_state.messages
-            ]
-            response = chat_engine.chat("Please introduce this control strategy",messages_history)
-            st.write(response.response)      
-            message = {"role": "assistant", "content": response}
+            st.write(response.response)
+            message = {"role": "assistant", "content": response.response}
             st.session_state.messages.append(message)
     elif "Uin" in prompt:
       with st.chat_message("assistant"):
