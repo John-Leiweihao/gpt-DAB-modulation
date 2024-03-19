@@ -16,6 +16,9 @@ st.title("Chat with the Power electronic robot🤖, powered by LlamaIndex 🙂")
 st.info( "Hello, I am a robot designed specifically for converters!", icon="🤟")
 
 clear_button=st.sidebar.button('Clear Conversation',key='clear')
+uploaded_file = st.file_uploader("Choose  files")
+if uploaded_file is not None:
+  df = pd.read_csv(uploaded_file)
 with open('./prompt.txt', 'r') as file:
     content1 = file.read()
 if clear_button or "messages" not in st.session_state:  # Initialize the chat messages history
