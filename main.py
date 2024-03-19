@@ -17,7 +17,6 @@ st.title("Chat with the Power electronic robot🤖, powered by LlamaIndex 🙂")
 st.info( "Hello, I am a robot designed specifically for converters!", icon="🤟")
 
 clear_button=st.sidebar.button('Clear Conversation',key='clear')
-uploaded_file = st.file_uploader("Choose  files")
 if uploaded_file is not None:
   df = pd.read_csv(uploaded_file)
 with open('./prompt.txt', 'r') as file:
@@ -37,7 +36,7 @@ def load_data():
 if "M" not in st.session_state:
     st.session_state.M = "X"  # 初始化M的值
 index = load_data()
-uploaded_file = st.sidebar.file_uploader("Choose  files")
+uploaded_file = st.sidebar.file_uploader("Choose a file")
 if uploaded_file is not None:
   documents=SimpleDirectoryReader(uploaded_file).load_data()
   index.insert(documents)
