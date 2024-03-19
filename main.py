@@ -43,7 +43,7 @@ if uploaded_file :
   with open(path, "wb") as f:
     f.write(uploaded_file.getvalue())
   documents=SimpleDirectoryReader(temp_dir).load_data()
-  service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1)
+  service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
   index1 = VectorStoreIndex.from_documents(docs, service_context=service_context)
   index.merge(index1)
   
