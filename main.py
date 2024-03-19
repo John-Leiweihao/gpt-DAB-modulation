@@ -48,7 +48,7 @@ if uploaded_file :
   #index1 = VectorStoreIndex.from_documents(documents, service_context=service_context)
   #parser = SimpleNodeParser()
   #new_nodes = parser.get_nodes_from_documents(documents)
-  index.insert_nodes(document=documents,service_context=service_context)
+  index.insert(document=documents,service_context=service_context)
   
 chat_engine = index.as_chat_engine( chat_mode="context")
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
