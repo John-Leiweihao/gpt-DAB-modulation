@@ -44,7 +44,7 @@ if uploaded_file :
     f.write(uploaded_file.getvalue())
   documents=SimpleDirectoryReader(temp_dir).load_data()
   service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
-  index1 = VectorStoreIndex.from_documents(docs, service_context=service_context)
+  index1 = VectorStoreIndex.from_documents(documents, service_context=service_context)
   index.merge(index1)
   
 chat_engine = index.as_chat_engine( chat_mode="context")
