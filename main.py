@@ -40,7 +40,7 @@ index = load_data()
 uploaded_file = st.sidebar.file_uploader("Choose a file")
 if uploaded_file is not None:
     dataframe = pd.read_csv(uploaded_file)
-	  st.write(dataframe)
+    st.write(dataframe)
   #temp_dir = tempfile.mkdtemp()
  # path = os.path.join(temp_dir, uploaded_file.name)
  # with open(path, "wb") as f:
