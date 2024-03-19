@@ -38,18 +38,20 @@ if "M" not in st.session_state:
     st.session_state.M = "X"  # 初始化M的值
 index = load_data()
 uploaded_file = st.sidebar.file_uploader("Choose a file")
-if uploaded_file :
-  temp_dir = tempfile.mkdtemp()
-  path = os.path.join(temp_dir, uploaded_file.name)
-  with open(path, "wb") as f:
-    f.write(uploaded_file.getvalue())
-  documents=SimpleDirectoryReader(temp_dir).load_data()
-  service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are a data analyst and you need to analyze this set of data for users"))
+if uploaded_file is not None:
+    dataframe = pd.read_csv(uploaded_file)
+	  st.write(dataframe)
+  #temp_dir = tempfile.mkdtemp()
+ # path = os.path.join(temp_dir, uploaded_file.name)
+ # with open(path, "wb") as f:
+  #  f.write(uploaded_file.getvalue())
+ # documents=SimpleDirectoryReader(temp_dir).load_data()
+ # service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are a data analyst and you need to analyze this set of data for users"))
   #index1 = VectorStoreIndex.from_documents(documents, service_context=service_context)
   #parser = SimpleNodeParser()
   #new_nodes = parser.get_nodes_from_documents(documents)
-  for d in documents:
-    index.insert(document=d,service_context=service_context)
+ # for d in documents:
+ #   index.insert(document=d,service_context=service_context)
   
 chat_engine = index.as_chat_engine( chat_mode="context")
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
