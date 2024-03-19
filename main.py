@@ -9,6 +9,7 @@ import ast
 import PINN
 import pandas as pd
 import tempfile
+from llama_index.core.node_parser import SimpleNodeParser
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 api_base = "https://pro.aiskt.com/v1"
 openai.base_url = api_base
@@ -43,9 +44,11 @@ if uploaded_file :
   with open(path, "wb") as f:
     f.write(uploaded_file.getvalue())
   documents=SimpleDirectoryReader(temp_dir).load_data()
-  service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
-  index1 = VectorStoreIndex.from_documents(documents, service_context=service_context)
-  index.merge(index1)
+  #service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
+  #index1 = VectorStoreIndex.from_documents(documents, service_context=service_context)
+  parser = SimpleNodeParser()
+  new_nodes = parser.get_nodes_from_documents(documents)
+  index.insert_nodes(new_nodes)
   
 chat_engine = index.as_chat_engine( chat_mode="context")
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
