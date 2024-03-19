@@ -42,7 +42,7 @@ if uploaded_file :
   path = os.path.join(temp_dir, uploaded_file.name)
   with open(path, "wb") as f:
     f.write(uploaded_file.getvalue())
-  documents=SimpleDirectoryReader(path).load_data()
+  documents=SimpleDirectoryReader(temp_dir).load_data()
   index.insert(documents)
   
 chat_engine = index.as_chat_engine( chat_mode="context")
