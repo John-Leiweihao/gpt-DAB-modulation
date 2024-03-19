@@ -8,6 +8,7 @@ import final_score
 import ast
 import PINN
 import pandas as pd
+import tempfile
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 api_base = "https://pro.aiskt.com/v1"
 openai.base_url = api_base
@@ -36,8 +37,10 @@ if "M" not in st.session_state:
     st.session_state.M = "X"  # 初始化M的值
 index = load_data()
 uploaded_file = st.sidebar.file_uploader("Choose a file")
-if uploaded_file is not None:
-  documents=SimpleDirectoryReader(uploaded_file).load_data()
+if uploaded_file :
+  temp_dir = tempfile.mkdtemp()
+  path = os.path.join(temp_dir, uploaded_file.name)
+  documents=SimpleDirectoryReader(path).load_data()
   index.insert(documents)
   
 chat_engine = index.as_chat_engine( chat_mode="context")
