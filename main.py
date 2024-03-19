@@ -37,6 +37,11 @@ def load_data():
 if "M" not in st.session_state:
     st.session_state.M = "X"  # 初始化M的值
 index = load_data()
+uploaded_file = st.sidebar.file_uploader("Choose  files")
+if uploaded_file is not None:
+  documents=SimpleDirectoryReader(uploaded_file).load_data()
+  index.insert(documents)
+  
 chat_engine = index.as_chat_engine( chat_mode="context")
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
     with st.chat_message(message["role"]):
