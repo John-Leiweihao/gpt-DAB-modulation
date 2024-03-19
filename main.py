@@ -43,7 +43,9 @@ if uploaded_file :
   with open(path, "wb") as f:
     f.write(uploaded_file.getvalue())
   documents=SimpleDirectoryReader(temp_dir).load_data()
-  index.insert(documents)
+  service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1)
+  index1 = VectorStoreIndex.from_documents(docs, service_context=service_context)
+  index.merge(index1)
   
 chat_engine = index.as_chat_engine( chat_mode="context")
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
