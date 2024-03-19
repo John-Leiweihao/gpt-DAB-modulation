@@ -7,6 +7,7 @@ from llama_index.core.llms import ChatMessage, MessageRole
 import final_score
 import ast
 import PINN
+import pandas as pd
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 api_base = "https://pro.aiskt.com/v1"
 openai.base_url = api_base
