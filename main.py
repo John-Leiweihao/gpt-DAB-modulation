@@ -40,6 +40,8 @@ uploaded_file = st.sidebar.file_uploader("Choose a file")
 if uploaded_file :
   temp_dir = tempfile.mkdtemp()
   path = os.path.join(temp_dir, uploaded_file.name)
+  with open(path, "wb") as f:
+    f.write(uploaded_file.getvalue())
   documents=SimpleDirectoryReader(path).load_data()
   index.insert(documents)
   
