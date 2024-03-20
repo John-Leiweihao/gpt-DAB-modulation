@@ -76,8 +76,8 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             #st.session_state.M = best_modulation
             #response1 = "According to your requirements, I recommend you to use the {} modulation strategy.Can I have your operating conditions so that I can design the optimal modulation parameters for you?".format( best_modulation)
             #st.write(response1)
-            message = {"role": "assistant", "content": response1}
-            st.session_state.messages.append(message)
+           # message = {"role": "assistant", "content": response1}
+            #st.session_state.messages.append(message)
     elif "Uin" in prompt:
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
