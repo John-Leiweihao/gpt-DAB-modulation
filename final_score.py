@@ -1,4 +1,5 @@
-def recommend_modulation(user_selected_indicators):
+def recommend_modulation(weights):
+    user_selected_indicators = list(weights.keys())
     # Step 1: Calculate the indicator values for each modulation mode
     modulations = {
         "SPS": {"Soft switching Range": 1, "Current Stress": 1, "Easiness to implement": 5},
@@ -31,9 +32,9 @@ def recommend_modulation(user_selected_indicators):
 
     # Step 3: Calculate the final score for each modulation mode
     for modulation, indicators in modulations.items():
-        user_selected_score = sum(indicators[indicator] for indicator in user_selected_indicators)
+        user_selected_score = sum(indicators[indicator] * weights[indicator] for indicator in user_selected_indicators)
         user_unselected_score = sum(indicators[indicator] for indicator in indicators if indicator not in user_selected_indicators)
-        final_score = (0.8 / N * user_selected_score) + (0.2 / K * user_unselected_score)
+        final_score = user_selected_score + (0.2 / K * user_unselected_score)
         modulations[modulation]["Final Score"] = final_score
 
     # Find the modulation mode with the highest final score
@@ -42,5 +43,5 @@ def recommend_modulation(user_selected_indicators):
     return best_modulation
 
 # Example usage
-best_modulation = recommend_modulation([ "Easiness to implement"])
-print(f"The recommended modulation is {best_modulation}" )
+#best_modulation = recommend_modulation([ "Easiness to implement"])
+#print(f"The recommended modulation is {best_modulation}" )
