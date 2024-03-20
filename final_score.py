@@ -2,23 +2,25 @@ def recommend_modulation(weights):
     user_selected_indicators = list(weights.keys())
     # Step 1: Calculate the indicator values for each modulation mode
     modulations = {
-        "SPS": {"Soft switching Range": 1, "Current Stress": 1, "Easiness to implement": 5},
-        "DPS": {"Soft switching Range": 2, "Current Stress": 2, "Easiness to implement": 4},
-        "EPS": {"Soft switching Range": 3, "Current Stress": 3, "Easiness to implement": 3},
-        "TPS": {"Soft switching Range": 4, "Current Stress": 4, "Easiness to implement": 2},
+        "SPS": {"Soft switching Range": 3, "Current Stress": 3, "Easiness to implement": 5},
+        "DPS": {"Soft switching Range": 4, "Current Stress": 3, "Easiness to implement": 4},
+        "EPS": {"Soft switching Range": 4, "Current Stress": 4, "Easiness to implement": 3},
+        "TPS": {"Soft switching Range": 5, "Current Stress": 4, "Easiness to implement": 2},
         "Five-Degree": {"Soft switching Range": 5, "Current Stress": 5, "Easiness to implement": 1},
     }
 
     # Define the calculation formulas for additional indicators
     additional_indicators_formulas = {
-        "Conduction loss": lambda x: 1 * x["Current Stress"],
-        "Copper loss": lambda x: 1 * x["Current Stress"],
-        "Core Loss": lambda x: 1 * x["Current Stress"],
-        "Switch loss": lambda x: 0.8 * x["Soft switching Range"] + 0.2 * x["Current Stress"],
+        "Conduction loss": lambda x: 0.4 * x["Current Stress"] + 0.6 * x["Soft switching Range"],
+        "Copper loss": lambda x: 0.4 * x["Current Stress"] + 0.6 * x["Soft switching Range"],
+        "Core Loss": lambda x: 2.5 + 0.5 * x["Current Stress"],
+        "Switch loss": lambda x: 1.5 + 0.7 * x["Soft switching Range"],
         "Efficiency": lambda x: 0.4 * x["Soft switching Range"] + 0.6 * x["Current Stress"],
-        "Circulating current": lambda x: 1 * x["Current Stress"],
-        "Reactive power": lambda x: 1 * x["Current Stress"],
-        "Thermal performance": lambda x: 0.6 * x["Soft switching Range"] + 1.4 * x["Current Stress"],
+        "Circulating current": lambda x: 0.5 * x["Current Stress"] + 0.5 * x["Soft switching Range"],
+        "Reactive power": lambda x: 0.3 * x["Current Stress"] + 0.7 * x["Soft switching Range"],
+        "Thermal performance": lambda x: 0.6 * x["Soft switching Range"] + 0.4 * x["Current Stress"],
+       # "Implementation Cost": lambda x: 0.9 * x["Easiness to implement"] + 0.1 * x["Current Stress"],
+        "Control complexity": lambda x: 0.9 * x["Easiness to implement"] + 0.1 * x["Soft switching Range"]
     }
 
     # Calculate the additional indicator values for each modulation mode
