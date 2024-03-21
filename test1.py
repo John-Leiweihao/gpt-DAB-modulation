@@ -3,6 +3,7 @@ from pinn_train import *
 from star_optim import *
 import matplotlib.pyplot as plt
 import matplotlib
+from io import BytesIO
 def plot_modulation(idx, inputs, pred):
     fig, ax1 = plt.subplots(figsize=(9, 6))
     ax2 = ax1.twinx()
