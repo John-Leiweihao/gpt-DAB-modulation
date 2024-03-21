@@ -6,7 +6,7 @@ from llama_index.llms.openai import OpenAI
 from llama_index.core.llms import ChatMessage, MessageRole
 import final_score
 import ast
-import PINN
+from PA-RNN.test1 import PINN,answer
 import pandas as pd
 import tempfile
 from llama_index.core.node_parser import SimpleNodeParser
