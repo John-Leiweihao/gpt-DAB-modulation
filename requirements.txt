@@ -4,4 +4,4 @@ llama-index
 nltk
 pypdf
 docx2txt
-
+scipy
