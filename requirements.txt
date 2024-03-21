@@ -4,6 +4,4 @@ llama-index
 nltk
 pypdf
 docx2txt
-io
-matplotlib
-numpy
+
