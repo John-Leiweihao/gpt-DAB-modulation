@@ -101,7 +101,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
               st.write(response.response)
               modulation_methods = ["SPS", "DPS", "EPS", "TPS", "Five-Degree"]
               for method in modulation_methods:
-                if method in response.text:
+                if method in response.response:
                   st.session_state.M = method
               message = {"role": "assistant", "content": response.response}
               st.session_state.messages.append(message)
