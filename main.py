@@ -6,7 +6,7 @@ from llama_index.llms.openai import OpenAI
 from llama_index.core.llms import ChatMessage, MessageRole
 import final_score
 import ast
-from test1 import PINN,answer
+import test1 
 import pandas as pd
 import tempfile
 from llama_index.core.node_parser import SimpleNodeParser
@@ -88,8 +88,8 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             response = chat_engine.chat(prompt, messages_history)
             answer_list1 = ast.literal_eval(response.response)
             Uin, Uo, Prated = answer_list1   
-            current_Stress,pos,plot,M=PINN(Uin,Uo,Prated,st.session_state.M )
-            Answer=answer(pos,st.session_state.M ,current_Stress,M)
+            current_Stress,pos,plot,M=test1.PINN(Uin,Uo,Prated,st.session_state.M )
+            Answer=test1.answer(pos,st.session_state.M ,current_Stress,M)
             reply=Answer
             st.write(reply)
             st.image(plot)
