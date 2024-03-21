@@ -92,7 +92,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
               st.image("current stress.png")
             with col2:
               st.image("efficiency.png")
-            message = {"role": "assistant", "content": reply，"images": ["current stress.png", "efficiency.png"]}
+            message = {"role": "assistant", "content": reply,"images": ["current stress.png", "efficiency.png"]}
             st.session_state.messages.append(message)
     elif "current stress" in prompt.lower():
         with st.chat_message("assistant"):
