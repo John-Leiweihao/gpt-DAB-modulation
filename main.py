@@ -38,6 +38,12 @@ def load_data():
 
 if "M" not in st.session_state:
     st.session_state.M = "X"  # 初始化M的值
+if "Uin" not in st.session_state: 
+   st.session_state.Uin=1
+if "Uo" not in st.session_state: 
+    st.session_state.Uo=1
+if "P" not in st.session_state:
+    st.session_state.P=1
 index = load_data()
 uploaded_file = st.sidebar.file_uploader("Choose a file")
 if uploaded_file is not None:
@@ -87,8 +93,8 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
         with st.spinner("Thinking..."):
             response = chat_engine.chat(prompt, messages_history)
             answer_list1 = ast.literal_eval(response.response)
-            Uin, Uo, Prated = answer_list1   
-            current_Stress,pos,plot,M=test1.PINN(Uin,Uo,Prated,st.session_state.M )
+            st.session_state.Uin, st.session_state.Uo,st.session_state.P = answer_list1   
+            current_Stress,pos,plot,M=test1.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
             Answer=test1.answer(pos,st.session_state.M ,current_Stress,M)
             reply=Answer
             st.write(reply)
@@ -106,6 +112,16 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
                   st.session_state.M = method
               message = {"role": "assistant", "content": response.response}
               st.session_state.messages.append(message)
+    elif "ok" in prompt.lower():
+      with st.chat_message("assistant"):
+        with st.spinner("Thinking..."):
+            current_Stress,pos,plot,M=test1.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
+            Answer=test1.answer(pos,st.session_state.M ,current_Stress,M)
+            reply=Answer
+            st.write(reply)
+            st.image(plot)
+            message = {"role": "assistant", "content": reply,"images": [plot]}
+            st.session_state.messages.append(message)
     else:
          with st.chat_message("assistant"):
              with st.spinner("Thinking..."):
