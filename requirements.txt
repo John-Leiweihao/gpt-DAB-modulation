@@ -5,3 +5,4 @@ nltk
 pypdf
 docx2txt
 scipy
+torch
