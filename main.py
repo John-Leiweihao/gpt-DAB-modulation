@@ -10,6 +10,8 @@ from PA-RNN.test1 import PINN,answer
 import pandas as pd
 import tempfile
 from llama_index.core.node_parser import SimpleNodeParser
+from io import BytesIO
+import matplotlib.pyplot as plt
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 api_base = "https://pro.aiskt.com/v1"
 openai.base_url = api_base
@@ -85,16 +87,13 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
         with st.spinner("Thinking..."):
             response = chat_engine.chat(prompt, messages_history)
             answer_list1 = ast.literal_eval(response.response)
-            Uin, Uo, Prated, fsw = answer_list1   
-            D0,current_stress,efficiency=PINN.pinn(Uin,Uo,Prated,fsw,st.session_state.M)
-            reply="The optimal D0 is designed to be {} and the current stress performance is shown with the following figure. At rated power level, the current stress is {}A.The efficiency performance is shown with the following figure . At rated power level, the  efficiency is {}.".format(D0,current_stress,efficiency)
+            Uin, Uo, Prated = answer_list1   
+            current_Stress,pos,plot,M=PINN(Uin,Uo,Prated,st.session_state.M )
+            Answer=answer(pos,st.session_state.M ,current_Stress,M)
+            reply=Answer
             st.write(reply)
-            col1,col2=st.columns(2)
-            with col1:
-              st.image("current stress.png")
-            with col2:
-              st.image("efficiency.png")
-            message = {"role": "assistant", "content": reply,"images": ["current stress.png", "efficiency.png"]}
+            st.image(plot)
+            message = {"role": "assistant", "content": reply,"images": [plot]}
             st.session_state.messages.append(message)
     elif "current stress" in prompt.lower():
         with st.chat_message("assistant"):
