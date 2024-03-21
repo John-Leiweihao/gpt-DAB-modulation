@@ -3,6 +3,7 @@ from pinn_train import *
 from star_optim import *
 import matplotlib.pyplot as plt
 import matplotlib
+from io import BytesIO
 def plot_modulation(idx, inputs, pred):
     fig, ax1 = plt.subplots(figsize=(9, 6))
     ax2 = ax1.twinx()
@@ -11,7 +12,15 @@ def plot_modulation(idx, inputs, pred):
     ax2.plot(pred[idx,:,0],label='IL',color='b')
     ax1.legend(loc='upper right')  # 将输入的图例放在左上角
     ax2.legend(loc='upper left')  # 将预测的图例放在右上角
-    plt.show()
+    buf = BytesIO()
+    fig.savefig(buf, format='png')
+    # 重要：关闭图像，防止内存泄露
+    plt.close(fig)
+    # 移动缓冲区的读取指针到开始位置
+    buf.seek(0)
+    
+    # 返回字节缓冲区
+    return buf
 
 def PINN(Vin,Vref,P_required,modulation):
     n = 2.0
