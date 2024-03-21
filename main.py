@@ -94,6 +94,17 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
               st.image("efficiency.png")
             message = {"role": "assistant", "content": reply}
             st.session_state.messages.append(message)
+    elif "current stress" in prompt.lower():
+        with st.chat_message("assistant"):
+          with st.spinner("Thinking..."):
+              response = chat_engine.chat(prompt, messages_history)
+              st.write(response.response)
+              modulation_methods = ["SPS", "DPS", "EPS", "TPS", "Five-Degree"]
+              for method in modulation_methods:
+                if method in response:
+                  st.session_state.M = method
+              message = {"role": "assistant", "content": response.response}
+              st.session_state.messages.append(message)
     else:
          with st.chat_message("assistant"):
              with st.spinner("Thinking..."):
