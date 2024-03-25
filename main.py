@@ -19,7 +19,11 @@ st.set_page_config(page_title="Chat with the Power electronic robot", page_icon=
                    initial_sidebar_state="auto", menu_items=None)
 st.title("Chat with the Power electronic robot🤖, powered by LlamaIndex 🙂")
 st.info( "Hello, I am a robot designed specifically for converters!", icon="🤟")
-
+with st.sidebar:
+  st.markdown("<h1 style='color: #FF5733;'>Optional modulation strategy</h1>", unsafe_allow_html=True)
+  st.markdown('---')
+  st.markdown('\n- SPS\n- EPS\n- DPS\n- TPS\n- Five-Degree')
+  st.markdown('---')
 clear_button=st.sidebar.button('Clear Conversation',key='clear')
 
 with open('./prompt.txt', 'r') as file:
