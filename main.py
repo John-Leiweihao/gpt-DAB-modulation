@@ -84,7 +84,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             response = chat_engine.chat(prompt, messages_history)
-            st.write(response.response)
+            #st.write(response.response)
             answer_list = ast.literal_eval(response.response)
             best_modulation = final_score.recommend_modulation(answer_list)
             st.session_state.M = best_modulation
