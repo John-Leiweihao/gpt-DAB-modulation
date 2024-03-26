@@ -80,19 +80,19 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     ChatMessage(role=MessageRole.USER if m["role"] == "user" else MessageRole.ASSISTANT, content=m["content"])
     for m in st.session_state.messages
 ]
-    if "consideration" in prompt.lower():
-        with st.chat_message("assistant"):
-          with st.spinner("Thinking..."):
-              response = chat_engine.chat(prompt, messages_history)
-              st.write(response.response)
-              modulation_methods = ["SPS", "DPS", "EPS", "TPS", "Five-Degree"]
-              for method in modulation_methods:
-                  if method in response.response:
-                      st.session_state.M = method
-                      break  # 找到第一个匹配项后即退出循环
-              message = {"role": "assistant", "content": response.response}
-              st.session_state.messages.append(message)
-    elif "Uin" in prompt:
+    #if "consideration" in prompt.lower():
+       # with st.chat_message("assistant"):
+       #   with st.spinner("Thinking..."):
+         #     response = chat_engine.chat(prompt, messages_history)
+         #     st.write(response.response)
+          #    modulation_methods = ["SPS", "DPS", "EPS", "TPS", "Five-Degree"]
+          #    for method in modulation_methods:
+           #       if method in response.response:
+            #          st.session_state.M = method
+            #          break  # 找到第一个匹配项后即退出循环
+            #  message = {"role": "assistant", "content": response.response}
+            #  st.session_state.messages.append(message)
+    if "Uin" in prompt:
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             response = chat_engine.chat(prompt, messages_history)
@@ -105,7 +105,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             st.image(plot)
             message = {"role": "assistant", "content": reply,"images": [plot]}
             st.session_state.messages.append(message)
-    elif any(keyword in prompt.lower() for keyword in ["high", "big", "large"]):
+    elif any(keyword in prompt.lower() for keyword in ["high", "big", "large","consideration","but"]):
         with st.chat_message("assistant"):
           with st.spinner("Thinking..."):
               response = chat_engine.chat(prompt, messages_history)
@@ -114,6 +114,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
               for method in modulation_methods:
                 if method in response.response:
                   st.session_state.M = method
+                  break
               message = {"role": "assistant", "content": response.response}
               st.session_state.messages.append(message)
     elif "OK" in prompt:
