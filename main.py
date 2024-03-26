@@ -80,16 +80,24 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     ChatMessage(role=MessageRole.USER if m["role"] == "user" else MessageRole.ASSISTANT, content=m["content"])
     for m in st.session_state.messages
 ]
-    if any(keyword in prompt.lower() for keyword in ["consideration"]):
+    if any(keyword in prompt.lower() for keyword in ["consideration","requirement"]):
         with st.chat_message("assistant"):
           with st.spinner("Thinking..."):
               response = chat_engine.chat(prompt, messages_history)
               st.write(response.response)
               modulation_methods = ["SPS", "DPS", "EPS", "TPS", "Five-Degree"]
+              first_method_found = None
+              first_method_index = len(response.response)
+              # 遍历每个方法，检查它是否在response.response中，并记录位置
               for method in modulation_methods:
-                  if method in response.response:
-                      st.session_state.M = method
-                      break  # 找到第一个匹配项后即退出循环
+                  index = response.response.find(method)
+                  # 如果找到了方法，并且这个位置比之前记录的位置更前，就更新记录
+                  if index != -1 and index < first_method_index:
+                      first_method_found = method
+                      first_method_index = index
+                # 如果找到了一个方法，就设置st.session_state.M
+              if first_method_found:
+                    st.session_state.M = first_method_found
               message = {"role": "assistant", "content": response.response}
               st.session_state.messages.append(message)
     elif "Uin" in prompt:
