@@ -2,7 +2,7 @@ def recommend_modulation(weights):
     user_selected_indicators = list(weights.keys())
     # Step 1: Calculate the indicator values for each modulation mode
     modulations = {
-        "SPS": {"Soft switching Range": 3, "Current Stress": 3, "Easiness to implement": 5},
+        "SPS": {"Soft switching Range": 3, "Current Stress": 2, "Easiness to implement": 5},
         "DPS": {"Soft switching Range": 4, "Current Stress": 3, "Easiness to implement": 4},
         "EPS": {"Soft switching Range": 4, "Current Stress": 4, "Easiness to implement": 3},
         "TPS": {"Soft switching Range": 5, "Current Stress": 4, "Easiness to implement": 2},
