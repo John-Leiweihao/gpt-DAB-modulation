@@ -87,8 +87,9 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
               st.write(response.response)
               modulation_methods = ["SPS", "DPS", "EPS", "TPS", "Five-Degree"]
               for method in modulation_methods:
-                if method in response.response:
-                  st.session_state.M = method
+                  if method in response.response:
+                      st.session_state.M = method
+                      break  # 找到第一个匹配项后即退出循环
               message = {"role": "assistant", "content": response.response}
               st.session_state.messages.append(message)
     elif "Uin" in prompt:
