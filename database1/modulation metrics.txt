@@ -46,19 +46,19 @@ EPS: Improved efficiency, especially across a wide range of loads.
 DPS: Further enhanced efficiency by optimizing performance through dual-phase shift control.
 TPS: Possibly the highest efficiency among all modulation strategies.
 Five-Degree: High efficiency through precise control, though challenging to implement.
-7. Circulating Current
+9. Circulating Current
 SPS: In SPS, the phase shift between the primary and secondary bridges controls the power flow. However, this can result in significant circulating currents, especially at low power levels or under light-load conditions, leading to inefficiencies.
 EPS: The EPS strategy aims to reduce circulating currents by extending the phase shift capabilities, allowing for a more flexible adjustment of power flow and potentially reducing circulating currents compared to SPS.
 DPS: DPS significantly reduces circulating currents by adjusting the phase shifts on both bridges independently. This finer control allows for a more efficient reduction in circulating currents, especially in wide load and input voltage ranges.
 TPS: TPS further minimizes circulating currents through even more sophisticated control over the phase shifts. By precisely managing the phase relationship across three phases, TPS can nearly eliminate unnecessary circulating currents, enhancing efficiency.
 Five-Degree: This advanced modulation technique uses a highly detailed phase control strategy to minimize circulating currents. By finely tuning the operation, it achieves minimal circulating current levels, even in complex operating conditions
-8.Reactive Power
+10.Reactive Power
 SPS: SPS modulation may lead to higher reactive power demands due to its basic phase shifting method, potentially straining the system at certain operating points.
 EPS: By offering extended phase shift capabilities, EPS can better manage reactive power compared to SPS, reducing the strain on the system and improving efficiency.
 DPS: DPS offers improved reactive power control by independently adjusting the phase shift on both sides of the bridge, allowing for a more precise balance of reactive power and reducing its impact on the system.
 TPS: TPS achieves superior reactive power management through its tri-phase control capability, optimally balancing reactive power across different operating conditions to ensure system stability and efficiency.
 Five-Degree: The Five-Degree strategy provides the most refined control over reactive power by implementing complex phase shift adjustments. This approach allows for the precise management of reactive power, optimizing system performance and efficiency.
-9.Thermal Performance
+11.Thermal Performance
 SPS: Due to the potential for higher circulating currents and reactive power, SPS might lead to poorer thermal performance, requiring additional cooling measures.
 EPS: EPS can offer some improvements in thermal performance over SPS by reducing circulating currents and reactive power, thereby reducing heat generation.
 DPS: DPS generally shows better thermal performance by significantly reducing circulating currents, leading to lower losses and heat generation. This allows for more efficient cooling and improved reliability.
