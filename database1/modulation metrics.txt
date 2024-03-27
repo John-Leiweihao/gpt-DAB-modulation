@@ -22,16 +22,45 @@ EPS: Conduction losses can be reduced by optimizing phase shift.
 DPS: Further optimized to reduce conduction losses.
 TPS: Optimized to a state of minimal conduction losses.
 Five-Degree: Focuses on further reducing conduction losses through complex modulation.
-5. Copper Loss, Core Loss, and Switch Loss
-These types of losses are similar to the above analysis, gradually reduced through the optimization of modulation strategies. DPS, TPS, and Five-Degree strategies, by providing more complex control means, help to minimize these losses.
-
-6. Efficiency
+5.Copper Loss
+SPS: Single-phase shift modulation, which only adjusts the phase difference between the primary and secondary bridge arms, may lead to suboptimal current waveforms, causing relatively higher copper losses.
+EPS: By extending the phase shift range, EPS can somewhat improve the current waveform, reducing copper losses, but the improvement is limited.
+DPS: Dual-phase shift modulation, by adjusting the phase differences of both bridge arms simultaneously, can significantly improve the current waveform, further reducing copper losses.
+TPS: Triple-phase shift modulation offers even more refined control by adjusting the differences between three phases, achieving near-ideal current waveforms and minimizing copper losses to the greatest extent.
+Five-Degree: This strategy employs more complex control logic to precisely adjust phases, aiming for the best match between current and voltage waveforms, thereby minimizing copper losses.
+6.Core Loss
+SPS: Single-phase shift modulation may cause large magnetic flux changes in the transformer core, resulting in higher core losses.
+EPS: By extending the phase shift, EPS can somewhat reduce magnetic flux changes, thereby lowering core losses.
+DPS: Dual-phase shift modulation further lowers core losses through smoother magnetic flux changes.
+TPS: Triple-phase shift modulation optimizes the magnetic flux change curve, further reducing core losses.
+Five-Degree: This strategy aims to minimize core losses by precisely controlling magnetic flux changes, though its effectiveness depends on the precision of the control logic and the optimization of the transformer design.
+7.Switch Loss
+SPS: Single-phase shift modulation may result in higher switching frequencies and losses due to its limited modulation range.
+EPS: EPS might reduce the switching frequency by improving the modulation method, thereby decreasing switch losses.
+DPS: Dual-phase shift modulation can further reduce switch losses by optimizing the switching timings.
+TPS: Triple-phase shift modulation provides more detailed control over switching actions, effectively reducing switch losses.
+Five-Degree: This strategy minimizes switch losses through highly optimized switching sequences but requires complex control strategies and high-performance switching devices.
+8. Efficiency
 SPS: Lower efficiency due to not being optimal in various aspects.
 EPS: Improved efficiency, especially across a wide range of loads.
 DPS: Further enhanced efficiency by optimizing performance through dual-phase shift control.
 TPS: Possibly the highest efficiency among all modulation strategies.
 Five-Degree: High efficiency through precise control, though challenging to implement.
-7. Circulating Current, Reactive Power, and Thermal Performance
-SPS: Higher circulating current and reactive power, limited thermal performance.
-EPS: Reduction in circulating current and reactive power, improved thermal performance through modulation strategy improvement.
-DPS, TPS, and Five-Degree: These strategies further reduce circulating current and reactive power and improve thermal performance through more complex phase control.
+7. Circulating Current
+SPS: In SPS, the phase shift between the primary and secondary bridges controls the power flow. However, this can result in significant circulating currents, especially at low power levels or under light-load conditions, leading to inefficiencies.
+EPS: The EPS strategy aims to reduce circulating currents by extending the phase shift capabilities, allowing for a more flexible adjustment of power flow and potentially reducing circulating currents compared to SPS.
+DPS: DPS significantly reduces circulating currents by adjusting the phase shifts on both bridges independently. This finer control allows for a more efficient reduction in circulating currents, especially in wide load and input voltage ranges.
+TPS: TPS further minimizes circulating currents through even more sophisticated control over the phase shifts. By precisely managing the phase relationship across three phases, TPS can nearly eliminate unnecessary circulating currents, enhancing efficiency.
+Five-Degree: This advanced modulation technique uses a highly detailed phase control strategy to minimize circulating currents. By finely tuning the operation, it achieves minimal circulating current levels, even in complex operating conditions
+8.Reactive Power
+SPS: SPS modulation may lead to higher reactive power demands due to its basic phase shifting method, potentially straining the system at certain operating points.
+EPS: By offering extended phase shift capabilities, EPS can better manage reactive power compared to SPS, reducing the strain on the system and improving efficiency.
+DPS: DPS offers improved reactive power control by independently adjusting the phase shift on both sides of the bridge, allowing for a more precise balance of reactive power and reducing its impact on the system.
+TPS: TPS achieves superior reactive power management through its tri-phase control capability, optimally balancing reactive power across different operating conditions to ensure system stability and efficiency.
+Five-Degree: The Five-Degree strategy provides the most refined control over reactive power by implementing complex phase shift adjustments. This approach allows for the precise management of reactive power, optimizing system performance and efficiency.
+9.Thermal Performance
+SPS: Due to the potential for higher circulating currents and reactive power, SPS might lead to poorer thermal performance, requiring additional cooling measures.
+EPS: EPS can offer some improvements in thermal performance over SPS by reducing circulating currents and reactive power, thereby reducing heat generation.
+DPS: DPS generally shows better thermal performance by significantly reducing circulating currents, leading to lower losses and heat generation. This allows for more efficient cooling and improved reliability.
+TPS: TPS, with its advanced control, minimizes unnecessary power losses and optimizes thermal performance, potentially reducing the need for extensive cooling systems.
+Five-Degree: The Five-Degree modulation, by minimizing circulating currents and managing reactive power efficiently, likely exhibits the best thermal performance, ensuring that the converter operates within optimal temperature ranges even under high loads.
