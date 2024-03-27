@@ -33,13 +33,18 @@ if clear_button or "messages" not in st.session_state:  # Initialize the chat me
                                  {"role": "assistant", "content": "OK,I understand."}
                                  ]
 @st.cache_resource(show_spinner=False)
-def load_data():
+def load_data0():
     with st.spinner(text="Loading and indexing the buck-boost docs – hang tight! This should take 1-2 minutes."):
         docs = SimpleDirectoryReader("database").load_data()
         service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods of dual active bridge.Please answer the questions based on the documents I have provided you and your own understanding .Keep your answers technical and fact-based -- don't hallucinate."))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
-
+def load_data1():
+    with st.spinner(text="Loading and indexing the buck-boost docs – hang tight! This should take 1-2 minutes."):
+        docs = SimpleDirectoryReader("database1").load_data()
+        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods of dual active bridge.Please answer the questions based on the documents I have provided you and your own understanding .Keep your answers technical and fact-based -- don't hallucinate."))
+        index = VectorStoreIndex.from_documents(docs, service_context=service_context)
+        return index
 if "M" not in st.session_state:
     st.session_state.M = "X"  # 初始化M的值
 if "Uin" not in st.session_state: 
@@ -48,7 +53,7 @@ if "Uo" not in st.session_state:
     st.session_state.Uo=1
 if "P" not in st.session_state:
     st.session_state.P=1
-index = load_data()
+
 uploaded_file = st.sidebar.file_uploader("Choose a file")
 if uploaded_file is not None:
     dataframe = pd.read_csv(uploaded_file)
@@ -64,8 +69,10 @@ if uploaded_file is not None:
   #new_nodes = parser.get_nodes_from_documents(documents)
  # for d in documents:
  #   index.insert(document=d,service_context=service_context)
-  
-chat_engine = index.as_chat_engine( chat_mode="context")
+index0 = load_data0()  
+chat_engine = index0.as_chat_engine( chat_mode="context")
+index1 = load_data1()  
+chat_engine1 = index1.as_chat_engine( chat_mode="context")
 for message in st.session_state.messages:  # Display the prior chat messages
     with st.chat_message(message["role"]):
         st.write(message["content"])
@@ -83,7 +90,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     if any(keyword in prompt.lower() for keyword in ["consideration","requirement"]):
         with st.chat_message("assistant"):
           with st.spinner("Thinking..."):
-              response = chat_engine.chat(prompt, messages_history)
+              response = chat_engine1.chat(prompt, messages_history)
               st.write(response.response)
               modulation_methods = ["SPS", "DPS", "EPS", "TPS", "Five-Degree"]
               first_method_found = None
