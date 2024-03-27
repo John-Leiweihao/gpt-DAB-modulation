@@ -92,18 +92,22 @@ def PINN(Vin,Vref,P_required,modulation):
 def answer(pos,modulation,Current_stress,M=3):
     Current_stress=round(Current_stress,2)
     if modulation=="EPS":
+        n=4
         D0, D1 = round(pos[0], 3), round(pos[1], 3)
         if M==1:
-            response="Under the {}{} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {}, and the inductive current waveform diagram is shown with the following figure.The current stress is {}A ".format(modulation,M,D0,D1,Current_stress)
+            response="Under the {}{} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {}, and the inductive current waveform diagram is shown with the following figure.The current stress is {}A,the number of switches that achieve zero-voltage turn-on is {}. ".format(modulation,M,D0,D1,Current_stress,n)
         if M==2:
-            response = "Under the {}{} modulation strategy,the optimal D0 is designed to be {},D2 is designed to be {}, and the inductive current waveform diagram is shown with the following figure.The current stress is {}A".format(modulation, M, D0, D1,Current_stress)
+            response = "Under the {}{} modulation strategy,the optimal D0 is designed to be {},D2 is designed to be {}, and the inductive current waveform diagram is shown with the following figure.The current stress is {}A,the number of switches that achieve zero-voltage turn-on is {}.".format(modulation, M, D0, D1,Current_stress,n)
     if modulation=="DPS":
+        n=5
         D0, D1 = round(pos[0], 3), round(pos[1], 3)
-        response="Under the {}modulation strategy,the optimal D0 is designed to be {},D1 and D2 are designed to be {}, and the inductive current waveform diagram is shown with the following figure.The current stress is {}A".format(modulation,D0,D1,Current_stress)
+        response="Under the {}modulation strategy,the optimal D0 is designed to be {},D1 and D2 are designed to be {}, and the inductive current waveform diagram is shown with the following figure.The current stress is {}A,the number of switches that achieve zero-voltage turn-on is {}".format(modulation,D0,D1,Current_stress,n)
     if modulation=="TPS":
+        n=6
         D0, D1,D2 = round(pos[0], 3), round(pos[1], 3),round(pos[2], 3)
-        response="Under the {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {}, and the inductive current waveform diagram is shown with the following figure.The current stress is {}A".format(modulation,D0,D1,D2,Current_stress)
+        response="Under the {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {}, and the inductive current waveform diagram is shown with the following figure.The current stress is {}A,the number of switches that achieve zero-voltage turn-on is {}".format(modulation,D0,D1,D2,Current_stress,n)
     if modulation=="Five-Degree":
+        n=8
         D0,D1,D2,phi1,phi2=round(pos[0], 3), round(pos[1], 3),round(pos[2], 3), round(pos[3], 3),round(pos[4], 3)
-        response="Under the {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {},phi1 is designed to be {},phi2 is designed to be {}, and the inductive current waveform diagram is shown with the following figure.The current stress is {}A".format(modulation,D0,D1,D2,phi1,phi2,Current_stress)
+        response="Under the {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {},phi1 is designed to be {},phi2 is designed to be {}, and the inductive current waveform diagram is shown with the following figure.The current stress is {}A,the number of switches that achieve zero-voltage turn-on is {}".format(modulation,D0,D1,D2,phi1,phi2,Current_stress,n)
     return response
