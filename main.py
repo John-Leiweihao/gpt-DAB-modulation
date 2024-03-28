@@ -126,9 +126,20 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
               response = chat_engine.chat(prompt, messages_history)
               st.write(response.response)
               modulation_methods = ["SPS", "DPS", "EPS", "TPS", "Five-Degree"]
-              for method in modulation_methods:
-                if method in response.response:
-                  st.session_state.M = method
+              last_method_found = None
+              last_method_index = -1  # 初始化为-1，表示尚未找到
+
+              # 反向遍历每个方法，检查它是否在response.response中，并记录位置
+              for method in reversed(modulation_methods):
+                    index = response.response.rfind(method)  # 使用rfind来找最后一次出现的位置
+                      # 如果找到了方法，并且这个位置比之前记录的位置更后，就更新记录
+                    if index != -1 and index > last_method_index:
+                            last_method_found = method
+                            last_method_index = index
+
+# 如果找到了一个方法，就设置st.session_state.M
+              if last_method_found:
+                      st.session_state.M = last_method_found
               message = {"role": "assistant", "content": response.response}
               st.session_state.messages.append(message)
     elif "OK" in prompt:
