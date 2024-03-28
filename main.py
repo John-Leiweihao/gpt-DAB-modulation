@@ -73,7 +73,7 @@ index0 = load_data0()
 chat_engine = index0.as_chat_engine( chat_mode="context")
 index1 = load_data1()  
 chat_engine1 = index1.as_chat_engine( chat_mode="context")
-for message in st.session_state.messages:  # Display the prior chat messages
+for message in st.session_state.messages[2:]:  # Display the prior chat messages
     with st.chat_message(message["role"]):
         st.write(message["content"])
         if "images" in message:
