@@ -120,7 +120,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             st.image(plot)
             message = {"role": "assistant", "content": reply,"images": [plot]}
             st.session_state.messages.append(message)
-    elif any(keyword in prompt.lower() for keyword in ["high", "big", "large","but"]):
+    elif any(keyword in prompt.lower() for keyword in ["high", "big", "large","but","seems","good"]):
         with st.chat_message("assistant"):
           with st.spinner("Thinking..."):
               response = chat_engine.chat(prompt, messages_history)
