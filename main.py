@@ -115,7 +115,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
                     st.session_state.M = first_method_found
               message = {"role": "assistant", "content": response.response}
               st.session_state.messages.append(message)
-    elif any(keyword in prompt.lower() for keyword in ["PE-GPT", "introduce"]):
+    elif any(keyword in prompt for keyword in ["PE-GPT", "introduce"]):
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             response="good"
