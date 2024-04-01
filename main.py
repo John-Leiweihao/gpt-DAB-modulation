@@ -118,9 +118,10 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     elif any(keyword in prompt.lower() for keyword in ["PE", "introduce"]):
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            response = chat_engine2.chat(prompt)
-            st.write(response.response)
-            message = {"role": "assistant", "content": response.response}
+            response="good"
+            #response = chat_engine2.chat(prompt)
+            #st.write(response.response)
+            message = {"role": "assistant", "content": response}
             st.session_state.messages.append(message)
     elif "Uin" in prompt:
       with st.chat_message("assistant"):
