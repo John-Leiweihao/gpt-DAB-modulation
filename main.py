@@ -120,7 +120,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
         with st.spinner("Thinking..."):
             response = chat_engine2.chat(prompt)
             st.write(response.response)
-            message = {"role": "assistant", "content": response}
+            message = {"role": "assistant", "content": response.response}
             st.session_state.messages.append(message)
     elif "Uin" in prompt:
       with st.chat_message("assistant"):
