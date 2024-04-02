@@ -78,7 +78,7 @@ if uploaded_file is not None:
 index0 = load_data0()  
 chat_engine = index0.as_chat_engine( chat_mode="context")
 index1 = load_data1()  
-chat_engine1 = index1.as_chat_engine( chat_mode="context")
+chat_engine1 = index1.as_chat_engine( )
 index2 = load_data2()  
 chat_engine2 = index2.as_chat_engine( chat_mode="context")
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
