@@ -95,7 +95,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     ChatMessage(role=MessageRole.USER if m["role"] == "user" else MessageRole.ASSISTANT, content=m["content"])
     for m in st.session_state.messages
 ]
-    if any(keyword in prompt.lower() for keyword in ["consideration","requirement","recommend","modulation","design","scheme","designs","application","desire","solution","goal"]):
+    if any(keyword in prompt.lower() for keyword in ["consideration","requirement","recommend","modulation","design","scheme","designs","application","desire","solution","goal"，"strategy"]):
         with st.chat_message("assistant"):
           with st.spinner("Thinking..."):
               response = chat_engine1.chat(prompt, messages_history)
