@@ -30,7 +30,7 @@ with open('./prompt.txt', 'r') as file:
     content1 = file.read()
 if clear_button or "messages" not in st.session_state:  # Initialize the chat messages history
     st.session_state.messages = [{"role": "user", "content": content1},
-                                 {"role": "assistant", "content": "OK,I understand."}
+                                 {"role": "assistant", "content": "OK,I understand.I will follow your instructions"}
                                  ]
 @st.cache_resource(show_spinner=False)
 def load_data0():
