@@ -22,10 +22,12 @@ def plot_modulation(idx, inputs, pred):
     # 返回字节缓冲区
     return buf
 def PINN(Vin,Vref,P_required,modulation):
-    n = 2.0
+    n = 1
     RL = 120e-3
-    Lr = 65e-6
-    M=3
+    Lr = 63e-6
+    Ts = 1/50e3
+    Tslen = 250
+    dt = Ts/Tslen
     scripted_ImplicitEulerCell = torch.jit.script(ImplicitEulerCell(dt, Lr, RL, n))
     model_implicit_PINN = torch.jit.script(Implicit_PINN(scripted_ImplicitEulerCell))
     if modulation=="SPS":
@@ -65,7 +67,7 @@ def PINN(Vin,Vref,P_required,modulation):
         phi2 = [0.0 for i in range(0, 10)]
         upper_bounds = [0.36, 1.0]
         lower_bounds = [-0.16, 0.72]
-        current_Stress, pos = optimize_cs(P_required, Vin, Vref, 50, model_implicit_PINN, upper_bounds, lower_bounds,"DPS")
+        current_Stress, pos = optimize_cs(50,model_implicit_PINN,)
     if modulation=="TPS":
         D0 = [0.008 * i for i in range(1, 11)]
         D1 = [1 - 0.016 * i for i in range(0, 10)]
