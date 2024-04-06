@@ -1,33 +1,29 @@
-"""
-Created on Thu Mar 21 07:50:04 2024
+def eval_cs(pred, criterion="ipp"):
+    assert criterion in ["ipp", "irms"]
+    if criterion == "ipp":
+        current_stress = (pred.max(axis=1).ravel()-pred.min(axis=1).ravel())
+    elif criterion == "irms":
+        current_stress = (pred[..., 0]**2).mean(axis=1)
+    return current_stress
 
-@author: XinzeLee
-@github: https://github.com/XinzeLee
+def eval_ZVZCS(inputs, pred, Vin, Vref):
+    ZVS = np.zeros((len(pred),))
+    ZCS = np.zeros((len(pred),))
+    threshold = 1e-2 # EXTENSION
+    for i in range(len(pred)):
+        index_p = locate(inputs[i, :, 0], Vin)
+        index_s = locate(inputs[i, :, 1], Vref)
+        i_p = pred[i, index_p, 0]
+        i_s = pred[i, index_s, 0]
+        ZVS[i] = (i_p[:2]<=threshold).sum()+(i_p[2:]>=-threshold).sum()+\
+                (i_s[:2]>=-threshold).sum()+(i_s[2:]<=threshold).sum()
+        ZCS[i] = (np.abs(i_p)<=threshold).sum()+(np.abs(i_s)<=threshold).sum()
+    return ZVS, ZCS
 
-@reference:
-    1: Temporal Modeling for Power Converters With Physics-in-Architecture Recurrent Neural Network
-        Authors: Xinze Li, Fanfan Lin (corresponding and co-first author), Huai Wang, Xin Zhang, Hao Ma, Changyun Wen and Frede Blaabjerg
-        Paper DOI: 10.1109/TIE.2024.3352119
-    2: Data-Light Physics-Informed Modeling for the Modulation Optimization of a Dual-Active-Bridge Converter
-        Authors: Xinze Li, Fanfan Lin (corresponding and co-first author), Xin Zhang, Hao Ma and Frede Blaabjerg
-        Paper DOI: 10.1109/TPEL.2024.3378184
-
-"""
-
-from pinn_net import *
-import pyswarms as ps
-
-
-
-
-def obj_func(x, model_PINN, 
-             P_required, Vin, Vref, 
-             modulation):
-    """
-        objective function for modulation optimization
-        objectives: minimal peak-to-peak current stress with required power transfer
-    """
-    if modulation == "Five-Degree":
+def obj_func(x, model_PINN, P_required, 
+             Vin, Vref, modulation="5DOF", 
+             with_ZVS=False, return_all=False):
+    if modulation == "5DOF":
         D0, D1, D2, phi1, phi2 = x.T.tolist()
     elif modulation == "TPS":
         D0, D1, D2 = x.T.tolist()
@@ -41,34 +37,31 @@ def obj_func(x, model_PINN,
     elif modulation == "EPS2":
         D0, D2 = x.T.tolist()
         D1, phi1, phi2 = [1.0]*len(D0), [0.0]*len(D0), [0.0]*len(D0)
+    elif modulation == "SPS":
+        D0 = x.T.tolist()
+        D1, D2, phi1, phi2 = [1.0]*len(D0), [1.0]*len(D0), [0.0]*len(D0), [0.0]*len(D0)
     
     model_PINN.eval()
     with torch.no_grad():
-        inputs = torch.FloatTensor(get_inputs(D0, D1, D2, phi1, phi2, Vin, Vref))
-        pred, inputs = evaluate(inputs, None, model_PINN, Vin, convert_to_mean=True)
+        inputs = torch.FloatTensor(get_inputs(D0, D1, D2, phi1, phi2))
+        pred, inputs = evaluate(inputs, None, model_PINN, convert_to_mean=True)
         P_predicted = (inputs[..., 0]*pred[..., 0]).mean(dim=1).numpy()
-        ipp = (pred.max(dim=1)[0].ravel()-pred.min(dim=1)[0].ravel()).numpy()
+        pred, inputs = pred.numpy(), inputs.numpy()
+        ipp = eval_cs(pred, criterion="ipp")
+        # irms = eval_cs(pred, criterion="irms")
+    
+    if with_ZVS:
+        ZVS, ZCS = eval_ZVZCS(inputs, pred, Vin, Vref)
+    else:
+        ZVS, ZCS = 0, 0 # do not consider ZVS and ZCS performances
+    
     penalty = np.zeros((len(pred),))
-    penalty[np.abs(P_predicted-P_required)>min(P_required/10, 35)] = 100.0
-    return ipp+penalty
-
-
-def optimize_cs(P_required, Vin, Vref,
-                nums, model_PINN, upper_bounds,
-                lower_bounds,modulation, n_particles=100):
-    upper_bounds = np.array(upper_bounds)
-    lower_bounds = np.array(lower_bounds)
-    dimension=len(upper_bounds)
-    PSO_optimizer = ps.single.GlobalBestPSO(n_particles=n_particles, dimensions=dimension, bounds=(lower_bounds,
-                                                                                  upper_bounds),
-                                            options={'c1': 2.05, 'c2': 2.05, 'w':0.9},
-                                            bh_strategy="nearest",
-                                            velocity_clamp=(lower_bounds*0.1, upper_bounds*0.1),
-                                            vh_strategy="invert",
-                                            oh_strategy={"w": "lin_variation"})
-    cost, pos = PSO_optimizer.optimize(obj_func, nums, 
-                                       model_PINN=model_PINN,
-                                       Vin=Vin, Vref=Vref,
-                                       P_required=P_required,
-                                       modulation=modulation)
-    return cost, pos
+    P_threshold = 5.
+    idx = np.abs(P_predicted-P_required)>P_threshold
+    # penalty[idx] = 100.0
+    penalty[idx] = (np.abs(P_predicted[idx]-P_required)-P_threshold)*10
+    ipp_origin = copy.deepcopy(ipp)
+    ipp[~idx] = ipp[~idx]*P_required/P_predicted[~idx] # *(np.abs(P_predicted[~idx]-P_required)/P_required+1)
+    if return_all:
+        return ipp_origin, P_predicted, pred, inputs, ZVS, ZCS, penalty
+    return 5*ipp-(ZVS+ZCS)*20+penalty
