@@ -62,6 +62,28 @@ def obj_func(x, model_PINN, P_required,
     penalty[idx] = (np.abs(P_predicted[idx]-P_required)-P_threshold)*10
     ipp_origin = copy.deepcopy(ipp)
     ipp[~idx] = ipp[~idx]*P_required/P_predicted[~idx] # *(np.abs(P_predicted[~idx]-P_required)/P_required+1)
+
+import pyswarms as ps
+
+def optimize_cs(nums, model_PINN,
+               P_required, Vin, Vref,
+               with_ZVS=False):
+    upper_bounds = np.array(upper_bound)
+    lower_bounds = np.array(lower_bound)
+    PSO_optimizer = ps.single.GlobalBestPSO(n_particles=50, dimensions=len(upper_bounds), bounds=(lower_bounds, 
+                                                                                  upper_bounds),
+                                            options={'c1': 2.05, 'c2': 2.05, 'w':0.9},
+                                            bh_strategy=bh_strategy,
+                                            velocity_clamp=None, # (lower_bounds*0.2, upper_bounds*0.2)
+                                            vh_strategy=vh_strategy,
+                                            oh_strategy={"w": "lin_variation"})
+    cost, pos = PSO_optimizer.optimize(obj_func, nums, 
+                                       model_PINN=model_PINN,
+                                       P_required=P_required,
+                                       modulation=modulation,
+                                      Vin=Vin, Vref=Vref,
+                                      with_ZVS=with_ZVS)
+    return cost, pos
     if return_all:
         return ipp_origin, P_predicted, pred, inputs, ZVS, ZCS, penalty
     return 5*ipp-(ZVS+ZCS)*20+penalty
