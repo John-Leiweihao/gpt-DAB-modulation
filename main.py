@@ -167,8 +167,8 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     elif "OK" in prompt:
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            current_Stress,pos,plot,M=test1.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
-            Answer=test1.answer(pos,st.session_state.M ,current_Stress,M)
+            Current_Stress,Current_Stress1,nZVS,P,pos,plot,M=test1.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
+            Answer=test1.answer(pos,st.session_state.M ,Current_Stress,Current_Stress1,nZVS,P,M)
             reply=Answer
             st.write(reply)
             st.image(plot)
