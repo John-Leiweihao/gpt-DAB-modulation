@@ -66,7 +66,7 @@ def obj_func(x, model_PINN, P_required,
 import pyswarms as ps
 
 def optimize_cs(nums, model_PINN,
-               P_required, Vin, Vref,
+               P_required, Vin, Vref,modulation,
                with_ZVS=False):
     upper_bounds = np.array(upper_bound)
     lower_bounds = np.array(lower_bound)
