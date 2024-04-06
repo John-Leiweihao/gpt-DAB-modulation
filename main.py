@@ -22,7 +22,7 @@ st.info( "Hello, I am a robot designed specifically for converters!", icon="🤟
 with st.sidebar:
   st.markdown("<h1 style='color: #FF5733;'>Optional modulation strategy</h1>", unsafe_allow_html=True)
   st.markdown('---')
-  st.markdown('\n- SPS\n- EPS\n- DPS\n- TPS\n- Five-Degree')
+  st.markdown('\n- SPS\n- EPS\n- DPS\n- TPS\n- 5DOF')
   st.markdown('---')
 clear_button=st.sidebar.button('Clear Conversation',key='clear')
 
@@ -100,7 +100,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
           with st.spinner("Thinking..."):
               response = chat_engine1.chat(prompt, messages_history)
               st.write(response.response)
-              modulation_methods = ["SPS", "DPS", "EPS", "TPS", "Five-Degree"]
+              modulation_methods = ["SPS", "DPS", "EPS", "TPS", "5DOF"]
               first_method_found = None
               first_method_index = len(response.response)
               # 遍历每个方法，检查它是否在response.response中，并记录位置
@@ -147,7 +147,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
           with st.spinner("Thinking..."):
               response = chat_engine.chat(prompt, messages_history)
               st.write(response.response)
-              modulation_methods = ["SPS", "DPS", "EPS", "TPS", "Five-Degree"]
+              modulation_methods = ["SPS", "DPS", "EPS", "TPS", "5DOF"]
               last_method_found = None
               last_method_index = -1  # 初始化为-1，表示尚未找到
 
