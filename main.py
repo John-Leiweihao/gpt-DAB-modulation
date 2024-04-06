@@ -128,13 +128,20 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             response = chat_engine.chat(prompt, messages_history)
             answer_list1 = ast.literal_eval(response.response)
             st.session_state.Uin, st.session_state.Uo,st.session_state.P = answer_list1   
-            current_Stress,pos,plot,M=test1.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
-            Answer=test1.answer(pos,st.session_state.M ,current_Stress,M)
+            Current_Stress,Current_Stress1,nZVS,P,pos,plot,M=test1.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
+            Current_Stress_sps,Current_Stress1_sps,nZVS_sps,P_sps, pos_sps, plot_sps, M_sps=PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,"SPS")
+            Answer=test1.answer(pos,st.session_state.M ,Current_Stress,Current_Stress1,nZVS,P,M)
             reply=Answer
+            Answer1=test1.answer1(Current_Stress_sps,Current_Stress1_sps)
+            reply1=Answer1
             st.write(reply)
             st.image(plot)
+            st.write(reply1)
+            st.image(plot_sps)
             message = {"role": "assistant", "content": reply,"images": [plot]}
+            message1 = {"role": "assistant", "content": reply1,"images": [plot_sps]}
             st.session_state.messages.append(message)
+            st.session_state.messages.append(message1)
     elif any(keyword in prompt.lower() for keyword in ["high", "big", "large","but","seems","good","satisfy"]):
         with st.chat_message("assistant"):
           with st.spinner("Thinking..."):
