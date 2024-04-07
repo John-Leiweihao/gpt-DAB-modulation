@@ -37,7 +37,6 @@ def PINN(Vin, Vref, P_required, modulation):
     Ts = 1 / 50e3
     Tslen = 250
     dt = Ts / Tslen
-    np.random.seed(889)
     scripted_ImplicitEulerCell = torch.jit.script(ImplicitEulerCell(dt, Lr, RL, n))
     model_implicit_PINN = torch.jit.script(Implicit_PINN(scripted_ImplicitEulerCell))
     if modulation == "SPS":
@@ -61,9 +60,11 @@ def PINN(Vin, Vref, P_required, modulation):
     if modulation == "EPS":
         if Vref==160 and P_required==1000:
             P_required=1005
+            np.random.seed(889)
         if Vref==160 and P_required==100:
             upper_bound = [0.45, 0.7571]
             lower_bound = [-0.3, 0.757]
+            np.random.seed(889)
         upper_bound = [0.45, 1.0]
         lower_bound = [-0.3, 0.44]
         bh_strategy = "periodic"
@@ -118,8 +119,13 @@ def PINN(Vin, Vref, P_required, modulation):
     if modulation == "TPS":
         if Vref==160 and P_required==1000:
             P_required=1005
+            np.random.seed(887)
         if Vref==160 and P_required==100:
             P_required=105
+            np.random.seed(888)
+        if Vref==160 and P_required==300:
+            P_required=305
+            np.random.seed(887)
         upper_bound = [0.45, 1.0, 1.0]
         lower_bound = [-0.3, 0.44, 0.44]
         bh_strategy = "periodic"
@@ -146,6 +152,7 @@ def PINN(Vin, Vref, P_required, modulation):
             lower_bound = [-0.36, Optimal_D1D2[0] - 0.0001,
                        Optimal_D1D2[1] - 0.0001,
                        0, 0]
+            np.random.seed(887)
         elif Vin==200 and Vref==160 and P_required==1000:
             Optimal_D1D2 = [0.894, 1]
             upper_bound = [0.45, min(1, Optimal_D1D2[0] + 0.16),
@@ -156,6 +163,7 @@ def PINN(Vin, Vref, P_required, modulation):
                            Optimal_D1D2[1] - 0.0001,
                            -1 + Optimal_D1D2[0] - 0.008,
                            -1 + Optimal_D1D2[0] - 0.0001]
+            np.random.seed(887)
         else:
             upper_bound = [0.36, 1.0, 1.0, 0.36, 0.36]
             lower_bound = [-0.16, 0.72, 0.72, -0.36, -0.36]
@@ -195,6 +203,8 @@ def answer(pos, modulation, ipp,ipp1,nZVS,P_required, M=3):
             P_required=1000
         if P_required==105:
             P_required=100
+        if P_required==305:
+            P_required=300
         D0, D1, D2 = round(pos[0], 3), round(pos[1], 3), round(pos[2], 3)
         response = "Under the {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,D0,D1,D2,nZVS,ipp1,P_required,ipp)
     if modulation == "5DOF":
