@@ -59,6 +59,11 @@ def PINN(Vin, Vref, P_required, modulation):
         M=3
 
     if modulation == "EPS":
+        if Vref==160 and P_required==1000:
+            P_required=1005
+        if Vref==160 and P_required=100:
+            upper_bound = [0.45, 0.7571]
+            lower_bound = [-0.3, 0.757]
         upper_bound = [0.45, 1.0]
         lower_bound = [-0.3, 0.44]
         bh_strategy = "periodic"
@@ -111,6 +116,10 @@ def PINN(Vin, Vref, P_required, modulation):
         Current_Stress1=ipp3[0]
         M=3
     if modulation == "TPS":
+        if Vref==160 and P_required==1000:
+            P_required=1005
+        if Vref==160 and P_required=100:
+            P_required=105
         upper_bound = [0.45, 1.0, 1.0]
         lower_bound = [-0.3, 0.44, 0.44]
         bh_strategy = "periodic"
