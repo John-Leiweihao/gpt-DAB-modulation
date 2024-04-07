@@ -61,7 +61,7 @@ def PINN(Vin, Vref, P_required, modulation):
     if modulation == "EPS":
         if Vref==160 and P_required==1000:
             P_required=1005
-        if Vref==160 and P_required=100:
+        if Vref==160 and P_required==100:
             upper_bound = [0.45, 0.7571]
             lower_bound = [-0.3, 0.757]
         upper_bound = [0.45, 1.0]
@@ -118,7 +118,7 @@ def PINN(Vin, Vref, P_required, modulation):
     if modulation == "TPS":
         if Vref==160 and P_required==1000:
             P_required=1005
-        if Vref==160 and P_required=100:
+        if Vref==160 and P_required==100:
             P_required=105
         upper_bound = [0.45, 1.0, 1.0]
         lower_bound = [-0.3, 0.44, 0.44]
@@ -180,6 +180,8 @@ def PINN(Vin, Vref, P_required, modulation):
 def answer(pos, modulation, ipp,ipp1,nZVS,P_required, M=3):
     response = "No valid modulation strategy found."
     if modulation == "EPS":
+        if P_required==1005:
+            P_required=1000
         D0, D1 = pos[0], pos[1]
         if M == 1:
             response = "Under the {}{} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},the number of switches that achieve zero-voltage turn-on is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,M,D0,D1,nZVS,ipp1,P_required,ipp)
@@ -189,6 +191,10 @@ def answer(pos, modulation, ipp,ipp1,nZVS,P_required, M=3):
         D0, D1 = round(pos[0], 3), round(pos[1], 3)
         response = "Under the {} modulation strategy,the optimal D0 is designed to be {},D1 and D2 are designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,D0,D1,nZVS,ipp1,P_required,ipp)
     if modulation == "TPS":
+        if P_required==1005:
+            P_required=1000
+        if P_required==105:
+            P_required=100
         D0, D1, D2 = round(pos[0], 3), round(pos[1], 3), round(pos[2], 3)
         response = "Under the {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,D0,D1,D2,nZVS,ipp1,P_required,ipp)
     if modulation == "5DOF":
