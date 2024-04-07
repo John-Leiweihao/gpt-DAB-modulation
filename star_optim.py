@@ -93,16 +93,16 @@ import pyswarms as ps
 import numpy as np
 
 def optimize_cs(nums, model_PINN,
-                P_required, Vin, Vref, modulation,upper_bound,lower_bound,
+                P_required, Vin, Vref, modulation,upper_bound,lower_bound,bh_strategy,vh_strategy,
                 with_ZVS=False):
     upper_bounds = np.array(upper_bound)
     lower_bounds = np.array(lower_bound)
     PSO_optimizer = ps.single.GlobalBestPSO(n_particles=50, dimensions=len(upper_bounds), bounds=(lower_bounds,
                                                                                   upper_bounds),
                                             options={'c1': 2.05, 'c2': 2.05, 'w':0.9},
-                                            bh_strategy="periodic",
+                                            bh_strategy=bh_strategy,
                                             velocity_clamp=(lower_bounds*0.1, upper_bounds*0.1),
-                                            vh_strategy="unmodified",
+                                            vh_strategy=vh_strategy,
                                             oh_strategy={"w": "lin_variation"})
     cost, pos = PSO_optimizer.optimize(obj_func, nums,
                                        model_PINN=model_PINN,
