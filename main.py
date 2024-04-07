@@ -6,7 +6,7 @@ from llama_index.llms.openai import OpenAI
 from llama_index.core.llms import ChatMessage, MessageRole
 import final_score
 import ast
-import test1 
+import test2 
 import pandas as pd
 import tempfile
 from llama_index.core.node_parser import SimpleNodeParser
@@ -128,11 +128,11 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             response = chat_engine.chat(prompt, messages_history)
             answer_list1 = ast.literal_eval(response.response)
             st.session_state.Uin, st.session_state.Uo,st.session_state.P = answer_list1   
-            Current_Stress,Current_Stress1,nZVS,P,pos,plot,M=test1.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
-            Current_Stress_sps,Current_Stress1_sps,nZVS_sps,P_sps, pos_sps, plot_sps, M_sps=test1.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,"SPS")
-            Answer=test1.answer(pos,st.session_state.M ,Current_Stress,Current_Stress1,nZVS,P,M)
+            Current_Stress,Current_Stress1,nZVS,P,pos,plot,M=test2.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
+            Current_Stress_sps,Current_Stress1_sps,nZVS_sps,P_sps, pos_sps, plot_sps, M_sps=test2.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,"SPS")
+            Answer=test2.answer(pos,st.session_state.M ,Current_Stress,Current_Stress1,nZVS,P,M)
             reply=Answer
-            Answer1=test1.answer1(Current_Stress_sps,Current_Stress1_sps)
+            Answer1=test2.answer1(Current_Stress_sps,Current_Stress1_sps)
             reply1=Answer1
             st.write(reply)
             st.image(plot)
@@ -167,8 +167,8 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     elif "OK" in prompt:
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            Current_Stress,Current_Stress1,nZVS,P,pos,plot,M=test1.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
-            Answer=test1.answer(pos,st.session_state.M ,Current_Stress,Current_Stress1,nZVS,P,M)
+            Current_Stress,Current_Stress1,nZVS,P,pos,plot,M=test2.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
+            Answer=test2.answer(pos,st.session_state.M ,Current_Stress,Current_Stress1,nZVS,P,M)
             reply=Answer
             st.write(reply)
             st.image(plot)
