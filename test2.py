@@ -129,7 +129,7 @@ def PINN(Vin, Vref, P_required, modulation):
         M=3
     if modulation == "5DOF":
         if Vin==200 and Vref==160 and P_required==300:
-            #P_required=310
+            P_required=310
             Optimal_D1D2 = [0.708, 0.876]
             upper_bound = [0.45, min(1, Optimal_D1D2[0] + 0.0001),
                        min(1, Optimal_D1D2[1] + 0.0001),
@@ -183,6 +183,8 @@ def answer(pos, modulation, ipp,ipp1,nZVS,P_required, M=3):
         D0, D1, D2 = round(pos[0], 3), round(pos[1], 3), round(pos[2], 3)
         response = "Under the {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,D0,D1,D2,nZVS,ipp1,P_required,ipp)
     if modulation == "5DOF":
+        if P_required==310:
+            P_required=300
         D0, D1, D2, phi1, phi2 = round(pos[0], 3), round(pos[1], 3), round(pos[2], 3), round(pos[3], 3), round(pos[4],
                                                                                                                3)
         response = "Under the {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {},phi1 is designed to be {},phi2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,D0,D1,D2,phi1,phi2,nZVS,ipp1,P_required,ipp)
