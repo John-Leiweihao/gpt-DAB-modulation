@@ -148,6 +148,8 @@ def PINN(Vin, Vref, P_required, modulation):
         pos = list(map(lambda x: round(x, 3), optimal_x))
         M=3
     if modulation == "5DOF":
+        bh_strategy = "periodic"
+        vh_strategy = "unmodified"
         if Vin==200 and Vref==160 and P_required==300:
             P_required=310
             Optimal_D1D2 = [0.708, 0.876]
@@ -181,8 +183,6 @@ def PINN(Vin, Vref, P_required, modulation):
             obj, optimal_x = optimize_cs(50, model_implicit_PINN, P_required, Vin, Vref, "5DOF",upper_bound,lower_bound,bh_strategy,vh_strategy)
             ipp, P_predicted, pred, inputs, ZVS, ZCS, penalty = obj_func(optimal_x[None], model_implicit_PINN, P_required, Vin,
                                                                  Vref, with_ZVS=True, modulation="5DOF", return_all=True)
-        bh_strategy = "periodic"
-        vh_strategy = "unmodified"
         Current_Stress = ipp[0]
         nZVS=ZVS[0]
         nZCS=ZCS[0]
