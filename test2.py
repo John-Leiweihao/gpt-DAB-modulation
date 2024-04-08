@@ -77,6 +77,7 @@ def PINN(Vin, Vref, P_required, modulation):
             Current_Stress = ipp1[0]
             pos = list(map(lambda x: round(x,3), optimal_x1))
             nZVS=ZVS1[0]
+            nZCS=ZCS1[0]
             obj3, optimal_x3 = optimize_cs(50, model_implicit_PINN, 1000, Vin, Vref, "EPS1", upper_bound,
                                            lower_bound,bh_strategy,vh_strategy)
             ipp3, P_predicted3, pred3, inputs3, ZVS3, ZCS3, penalty3 = obj_func(optimal_x3[None], model_implicit_PINN,
@@ -90,6 +91,7 @@ def PINN(Vin, Vref, P_required, modulation):
             Current_Stress = ipp2[0]
             pos = list(map(lambda x: round(x,3), optimal_x2))
             nZVS=ZVS2[0]
+            nZCS=ZCS2[0]
             obj3, optimal_x3 = optimize_cs(50, model_implicit_PINN, 1000, Vin, Vref, "EPS1", upper_bound,
                                            lower_bound,bh_strategy,vh_strategy)
             ipp3, P_predicted3, pred3, inputs3, ZVS3, ZCS3, penalty3 = obj_func(optimal_x3[None], model_implicit_PINN,
@@ -109,6 +111,7 @@ def PINN(Vin, Vref, P_required, modulation):
         Current_Stress=ipp[0]
         pos = list(map(lambda x: round(x, 3), optimal_x))
         nZVS=ZVS[0]
+        nZCS=ZCS[0]
         Current_Stress=ipp[0]
         obj3, optimal_x3 = optimize_cs(50, model_implicit_PINN, 1000, Vin, Vref, "DPS", upper_bound, lower_bound,bh_strategy,vh_strategy)
         ipp3, P_predicted3, pred3, inputs3, ZVS3, ZCS3, penalty3 = obj_func(optimal_x3[None], model_implicit_PINN, 1000,
@@ -135,6 +138,7 @@ def PINN(Vin, Vref, P_required, modulation):
                                                                  Vref, with_ZVS=True, modulation="TPS", return_all=True)
         Current_Stress = ipp[0]
         nZVS=ZVS[0]
+        nZCS=ZCS[0]
         obj3, optimal_x3 = optimize_cs(50, model_implicit_PINN, 1000, Vin, Vref, "TPS", upper_bound, lower_bound,bh_strategy,vh_strategy)
         ipp3, P_predicted3, pred3, inputs3, ZVS3, ZCS3, penalty3 = obj_func(optimal_x3[None], model_implicit_PINN, 1000,
                                                                             Vin, Vref, with_ZVS=True, modulation="TPS",
@@ -153,6 +157,9 @@ def PINN(Vin, Vref, P_required, modulation):
                        Optimal_D1D2[1] - 0.0001,
                        0, 0]
             np.random.seed(887)
+            obj, optimal_x = optimize_cs(150, model_implicit_PINN, P_required, Vin, Vref, "5DOF",upper_bound,lower_bound,bh_strategy,vh_strategy)
+            ipp, P_predicted, pred, inputs, ZVS, ZCS, penalty = obj_func(optimal_x[None], model_implicit_PINN, P_required, Vin,
+                                                                 Vref, with_ZVS=True, modulation="5DOF", return_all=True,threshold_ZVS=15e-2)
         elif Vin==200 and Vref==160 and P_required==1000:
             Optimal_D1D2 = [0.894, 1]
             upper_bound = [0.45, min(1, Optimal_D1D2[0] + 0.16),
@@ -164,16 +171,20 @@ def PINN(Vin, Vref, P_required, modulation):
                            -1 + Optimal_D1D2[0] - 0.008,
                            -1 + Optimal_D1D2[0] - 0.0001]
             np.random.seed(887)
+            obj, optimal_x = optimize_cs(50, model_implicit_PINN, P_required, Vin, Vref, "5DOF",upper_bound,lower_bound,bh_strategy,vh_strategy)
+            ipp, P_predicted, pred, inputs, ZVS, ZCS, penalty = obj_func(optimal_x[None], model_implicit_PINN, P_required, Vin,
+                                                                 Vref, with_ZVS=True, modulation="5DOF", return_all=True)
         else:
             upper_bound = [0.36, 1.0, 1.0, 0.36, 0.36]
             lower_bound = [-0.16, 0.72, 0.72, -0.36, -0.36]
+            obj, optimal_x = optimize_cs(50, model_implicit_PINN, P_required, Vin, Vref, "5DOF",upper_bound,lower_bound,bh_strategy,vh_strategy)
+            ipp, P_predicted, pred, inputs, ZVS, ZCS, penalty = obj_func(optimal_x[None], model_implicit_PINN, P_required, Vin,
+                                                                 Vref, with_ZVS=True, modulation="5DOF", return_all=True)
         bh_strategy = "periodic"
         vh_strategy = "unmodified"
-        obj, optimal_x = optimize_cs(50, model_implicit_PINN, P_required, Vin, Vref, "5DOF",upper_bound,lower_bound,bh_strategy,vh_strategy)
-        ipp, P_predicted, pred, inputs, ZVS, ZCS, penalty = obj_func(optimal_x[None], model_implicit_PINN, P_required, Vin,
-                                                                 Vref, with_ZVS=True, modulation="5DOF", return_all=True)
         Current_Stress = ipp[0]
         nZVS=ZVS[0]
+        nZCS=ZCS[0]
         obj3, optimal_x3 = optimize_cs(50, model_implicit_PINN, 1000, Vin, Vref, "5DOF", upper_bound, lower_bound,bh_strategy,vh_strategy)
         ipp3, P_predicted3, pred3, inputs3, ZVS3, ZCS3, penalty3 = obj_func(optimal_x3[None], model_implicit_PINN, 1000,
                                                                         Vin, Vref, with_ZVS=True, modulation="5DOF",
@@ -183,21 +194,21 @@ def PINN(Vin, Vref, P_required, modulation):
         M=3
     plot = plot_modulation(inputs, pred,Vin,Vref)
     return Current_Stress,Current_Stress1,nZVS,P_required, pos, plot, M
-    #return Current_Stress,nZVS, pos, M
+    #return Current_Stress,nZVS,nZCS, pos, M
 
-def answer(pos, modulation, ipp,ipp1,nZVS,P_required, M=3):
+def answer(pos, modulation, ipp,ipp1,nZVS,nZCS,P_required, M=3):
     response = "No valid modulation strategy found."
     if modulation == "EPS":
         if P_required==1005:
             P_required=1000
         D0, D1 = pos[0], pos[1]
         if M == 1:
-            response = "Under the current {}{} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},the number of switches that achieve zero-voltage turn-on is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,M,D0,D1,nZVS,ipp1,P_required,ipp)
+            response = "Under the current {}{} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,M,D0,D1,nZVS,nZCS,ipp1,P_required,ipp)
         if M == 2:
-            response = "Under the current {}{} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},the number of switches that achieve zero-voltage turn-on is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,M,D0,D1,nZVS,ipp1,P_required,ipp)
+            response = "Under the current {}{} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,M,D0,D1,nZVS,nZCS,ipp1,P_required,ipp)
     if modulation == "DPS":
         D0, D1 = round(pos[0], 3), round(pos[1], 3)
-        response = "Under the current {} modulation strategy,the optimal D0 is designed to be {},D1 and D2 are designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,D0,D1,nZVS,ipp1,P_required,ipp)
+        response = "Under the current {} modulation strategy,the optimal D0 is designed to be {},D1 and D2 are designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,D0,D1,nZVS,nZCSipp1,P_required,ipp)
     if modulation == "TPS":
         if P_required==1005:
             P_required=1000
@@ -206,13 +217,13 @@ def answer(pos, modulation, ipp,ipp1,nZVS,P_required, M=3):
         if P_required==305:
             P_required=300
         D0, D1, D2 = round(pos[0], 3), round(pos[1], 3), round(pos[2], 3)
-        response = "Under the current {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,D0,D1,D2,nZVS,ipp1,P_required,ipp)
+        response = "Under the current {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,D0,D1,D2,nZVS,nZCS,ipp1,P_required,ipp)
     if modulation == "5DOF":
         if P_required==320:
             P_required=300
         D0, D1, D2, phi1, phi2 = round(pos[0], 3), round(pos[1], 3), round(pos[2], 3), round(pos[3], 3), round(pos[4],
                                                                                                                3)
-        response = "Under the current {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {},phi1 is designed to be {},phi2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f}. And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,D0,D1,D2,phi1,phi2,nZVS,ipp1,P_required,ipp)
+        response = "Under the current {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {},phi1 is designed to be {},phi2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f}.,the number of switches that achieve zero-current turn-off is {:.0f}.And the current stress performance is shown with the following figure.At rated power level, the peak-to-peak current is {:.2f}A. When load power PL = {}W, the peak-to-peak current is {:.2f}A.".format(modulation,D0,D1,D2,phi1,phi2,nZVS,nZCS,ipp1,P_required,ipp)
 
     return response
 
