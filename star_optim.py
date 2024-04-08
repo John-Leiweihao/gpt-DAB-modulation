@@ -28,10 +28,10 @@ def eval_cs(pred, criterion="ipp"):
     return current_stress
 
 
-def eval_ZVZCS(inputs, pred, Vin, Vref):
+def eval_ZVZCS(inputs, pred, Vin, Vref,threshold=1e-2):
     ZVS = np.zeros((len(pred),))
     ZCS = np.zeros((len(pred),))
-    threshold = 1e-2  # EXTENSION
+    threshold = threshold  # EXTENSION
     for i in range(len(pred)):
         index_p = locate(inputs[i, :, 0], Vin)
         index_s = locate(inputs[i, :, 1], Vref)
@@ -45,7 +45,7 @@ def eval_ZVZCS(inputs, pred, Vin, Vref):
 import torch
 def obj_func(x, model_PINN, P_required,
              Vin, Vref, modulation="5DOF",
-             with_ZVS=False, return_all=False):
+             with_ZVS=False, return_all=False,threshold_ZVS=1e-2):
     if modulation == "5DOF":
         D0, D1, D2, phi1, phi2 = x.T.tolist()
     elif modulation == "TPS":
@@ -74,7 +74,7 @@ def obj_func(x, model_PINN, P_required,
         # irms = eval_cs(pred, criterion="irms")
 
     if with_ZVS:
-        ZVS, ZCS = eval_ZVZCS(inputs, pred, Vin, Vref)
+        ZVS, ZCS = eval_ZVZCS(inputs, pred, Vin, Vref,threshold_ZVS)
     else:
         ZVS, ZCS = 0, 0  # do not consider ZVS and ZCS performances
 
