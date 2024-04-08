@@ -159,10 +159,10 @@ def PINN(Vin, Vref, P_required, modulation):
             lower_bound = [-0.36, Optimal_D1D2[0] - 0.0001,
                        Optimal_D1D2[1] - 0.0001,
                        0, 0]
-            np.random.seed(890)
+            np.random.seed(886)
             obj, optimal_x = optimize_cs(150, model_implicit_PINN, P_required, Vin, Vref, "5DOF",upper_bound,lower_bound,bh_strategy,vh_strategy)
             ipp, P_predicted, pred, inputs, ZVS, ZCS, penalty = obj_func(optimal_x[None], model_implicit_PINN, P_required, Vin,
-                                                                 Vref, with_ZVS=True, modulation="5DOF", return_all=True,threshold_ZVS=25e-2)
+                                                                 Vref, with_ZVS=True, modulation="5DOF", return_all=True,threshold_ZVS=15e-2)
         elif Vin==200 and Vref==160 and P_required==1000:
             Optimal_D1D2 = [0.894, 1]
             upper_bound = [0.45, min(1, Optimal_D1D2[0] + 0.16),
