@@ -49,6 +49,7 @@ def PINN(Vin, Vref, P_required, modulation):
                                                                  Vref, with_ZVS=True, modulation="SPS", return_all=True)
         Current_Stress = ipp[0]
         nZVS=ZVS[0]
+        nZCS=ZCS[0]
         obj3, optimal_x3 = optimize_cs(50, model_implicit_PINN, 1000, Vin, Vref, "SPS", upper_bound, lower_bound,bh_strategy,vh_strategy)
         ipp3, P_predicted3, pred3, inputs3, ZVS3, ZCS3, penalty3 = obj_func(optimal_x3[None], model_implicit_PINN, 1000,
                                                                             Vin, Vref, with_ZVS=True, modulation="SPS",
