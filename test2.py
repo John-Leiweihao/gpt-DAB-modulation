@@ -144,7 +144,7 @@ def PINN(Vin, Vref, P_required, modulation):
         M=3
     if modulation == "5DOF":
         if Vin==200 and Vref==160 and P_required==300:
-            P_required=320
+            P_required=310
             Optimal_D1D2 = [0.708, 0.876]
             upper_bound = [0.45, min(1, Optimal_D1D2[0] + 0.0001),
                        min(1, Optimal_D1D2[1] + 0.0001),
