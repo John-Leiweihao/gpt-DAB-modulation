@@ -193,7 +193,7 @@ def PINN(Vin, Vref, P_required, modulation):
         pos = list(map(lambda x: round(x, 3), optimal_x))
         M=3
     plot = plot_modulation(inputs, pred,Vin,Vref)
-    return Current_Stress,Current_Stress1,nZVS,P_required, pos, plot, M
+    return Current_Stress,Current_Stress1,nZVS,nZCS,P_required, pos, plot, M
     #return Current_Stress,nZVS,nZCS, pos, M
 
 def answer(pos, modulation, ipp,ipp1,nZVS,nZCS,P_required, M=3):
