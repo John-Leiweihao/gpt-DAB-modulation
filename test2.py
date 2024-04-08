@@ -228,6 +228,6 @@ def answer(pos, modulation, ipp,ipp1,nZVS,nZCS,P_required, M=3):
 
     return response
 
-def answer1(ipp,ipp1):
-    response1 ="The conventional SPS realizes {:.2f}A peak-to-peak current at rated power, while showing {:.2f}A peak-to-peak current at 10% light load (100 W).The inductor current waveforms in steady state are shown below. ".format(ipp1,ipp)
+def answer1(ipp,ipp1,modulation):
+    response1 ="The current{} modulation strategy is better than SPS.The conventional SPS realizes {:.2f}A peak-to-peak current at rated power, while showing {:.2f}A peak-to-peak current at 10% light load (100 W).The inductor current waveforms in steady state are shown below. ".format(modulation,ipp1,ipp)
     return response1
