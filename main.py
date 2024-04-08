@@ -76,11 +76,11 @@ if uploaded_file is not None:
  # for d in documents:
  #   index.insert(document=d,service_context=service_context)
 index0 = load_data0()  
-chat_engine = index0.as_chat_engine()
+chat_engine = index0.as_chat_engine(chat_mode="context")
 index1 = load_data1()  
-chat_engine1 = index1.as_chat_engine()
+chat_engine1 = index1.as_chat_engine(chat_mode="context")
 index2 = load_data2()  
-chat_engine2 = index2.as_chat_engine()
+chat_engine2 = index2.as_chat_engine(chat_mode="context")
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
     with st.chat_message(message["role"]):
         st.write(message["content"])
