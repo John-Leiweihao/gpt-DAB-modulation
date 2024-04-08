@@ -13,7 +13,7 @@ from llama_index.core.node_parser import SimpleNodeParser
 from io import BytesIO
 import matplotlib.pyplot as plt
 openai.api_key = st.secrets["OPENAI_API_KEY"]
-api_base = "https://pro.aiskt.com/v1"
+api_base = "https://one.aiskt.com/v1"
 openai.base_url = api_base
 st.set_page_config(page_title="PE-GPT", page_icon="💎", layout="centered",
                    initial_sidebar_state="auto", menu_items=None)
