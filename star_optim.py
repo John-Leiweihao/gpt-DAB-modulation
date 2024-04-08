@@ -101,7 +101,7 @@ def optimize_cs(nums, model_PINN,
                                                                                   upper_bounds),
                                             options={'c1': 2.05, 'c2': 2.05, 'w':0.9},
                                             bh_strategy=bh_strategy,
-                                            velocity_clamp=(lower_bounds*0.1, upper_bounds*0.1),
+                                            velocity_clamp=None,
                                             vh_strategy=vh_strategy,
                                             oh_strategy={"w": "lin_variation"})
     cost, pos = PSO_optimizer.optimize(obj_func, nums,
