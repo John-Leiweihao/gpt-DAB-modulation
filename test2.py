@@ -126,7 +126,7 @@ def PINN(Vin, Vref, P_required, modulation):
             np.random.seed(887)
         if Vref==160 and P_required==100:
             P_required=105
-            np.random.seed(888)
+            np.random.seed(887)
         if Vref==160 and P_required==300:
             P_required=305
             np.random.seed(887)
