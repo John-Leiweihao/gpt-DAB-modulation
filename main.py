@@ -18,9 +18,9 @@ openai.base_url = api_base
 st.set_page_config(page_title="PE-GPT", page_icon="💎", layout="centered",
                    initial_sidebar_state="auto", menu_items=None)
 st.title("Chat with the Power electronic robot🤖, powered by LlamaIndex 🙂")
-st.info( "Hello, I am a robot designed specifically for converters!", icon="🤟")
+st.info( "Hello, I am a robot designed specifically for DAB!", icon="🤟")
 with st.sidebar:
-  st.markdown("<h1 style='color: #FF5733;'>Optional modulation strategy</h1>", unsafe_allow_html=True)
+  st.markdown("<h1 style='color: #FF5733;'>PE-GPT (v2.0) supports the design of modulation strategies for the dual active bridge converter .</h1>", unsafe_allow_html=True)
   st.markdown('---')
   st.markdown('\n- SPS\n- EPS\n- DPS\n- TPS\n- 5DOF')
   st.markdown('---')
@@ -34,7 +34,7 @@ if clear_button or "messages" not in st.session_state:  # Initialize the chat me
                                  ]
 @st.cache_resource(show_spinner=False)
 def load_data0():
-    with st.spinner(text="Loading and indexing the buck-boost docs – hang tight! This should take 1-2 minutes."):
+    with st.spinner(text="Loading and indexing  docs – hang tight! This should take 1-2 minutes."):
         docs = SimpleDirectoryReader("database").load_data()
         service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods of dual active bridge.Please answer the questions based on the documents I have provided you and your own understanding .Keep your answers technical and fact-based -- don't hallucinate."))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
