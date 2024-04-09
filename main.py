@@ -20,7 +20,7 @@ st.set_page_config(page_title="PE-GPT", page_icon="💎", layout="centered",
 st.title("Chat with the Power electronic robot🤖")
 st.info( "Hello, I am a robot designed specifically for DAB!", icon="🤟")
 with st.sidebar:
-  st.markdown("<h1 style='color: #FF5733;'>PE-GPT (v2.0) supports the design of modulation strategies for the dual active bridge converter .</h1>", unsafe_allow_html=True)
+  st.markdown("<h1 style='color: #FF5733;'>PE-GPT (v2.0)</h1>", unsafe_allow_html=True)
   st.markdown('---')
   st.markdown('\n- SPS\n- EPS\n- DPS\n- TPS\n- 5DOF')
   st.markdown('---')
