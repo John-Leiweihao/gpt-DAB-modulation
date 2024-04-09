@@ -23,7 +23,7 @@ with st.sidebar:
   st.markdown("<h1 style='color: #FF5733;'>PE-GPT (v2.0)</h1>", unsafe_allow_html=True)
   st.markdown('---')
   #st.markdown('\n- SPS:\n- EPS\n- DPS\n- TPS\n- 5DOF')
-  st.markdown('\n- supports the design of modulation strategies for the dual active bridge converter.)
+  st.markdown('\n- supports the design of modulation strategies for the dual active bridge converter.')
   st.markdown('---')
 clear_button=st.sidebar.button('Clear Conversation',key='clear')
 
