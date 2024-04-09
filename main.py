@@ -17,7 +17,7 @@ api_base = "https://pro.aiskt.com/v1"
 openai.base_url = api_base
 st.set_page_config(page_title="PE-GPT", page_icon="💎", layout="centered",
                    initial_sidebar_state="auto", menu_items=None)
-st.title("Chat with the Power electronic robot🤖, powered by LlamaIndex 🙂")
+st.title("Chat with the Power electronic robot🤖")
 st.info( "Hello, I am a robot designed specifically for DAB!", icon="🤟")
 with st.sidebar:
   st.markdown("<h1 style='color: #FF5733;'>PE-GPT (v2.0) supports the design of modulation strategies for the dual active bridge converter .</h1>", unsafe_allow_html=True)
