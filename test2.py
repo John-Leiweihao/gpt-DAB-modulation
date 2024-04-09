@@ -136,14 +136,14 @@ def PINN(Vin, Vref, P_required, modulation):
         vh_strategy = "unmodified"
         obj, optimal_x = optimize_cs(100, model_implicit_PINN, P_required, Vin, Vref, "TPS",upper_bound,lower_bound,bh_strategy,vh_strategy)
         ipp, P_predicted, pred, inputs, ZVS, ZCS, penalty = obj_func(optimal_x[None], model_implicit_PINN, P_required, Vin,
-                                                                 Vref, with_ZVS=True, modulation="TPS", return_all=True)
+                                                                 Vref, with_ZVS=True, modulation="TPS", return_all=True,threshold_ZVS=0.3)
         Current_Stress = ipp[0]
         nZVS=ZVS[0]
         nZCS=ZCS[0]
         obj3, optimal_x3 = optimize_cs(50, model_implicit_PINN, 1000, Vin, Vref, "TPS", upper_bound, lower_bound,bh_strategy,vh_strategy)
         ipp3, P_predicted3, pred3, inputs3, ZVS3, ZCS3, penalty3 = obj_func(optimal_x3[None], model_implicit_PINN, 1000,
                                                                             Vin, Vref, with_ZVS=True, modulation="TPS",
-                                                                            return_all=True,threshold_ZVS=0.3)
+                                                                            return_all=True)
         Current_Stress1=ipp3[0]
         pos = list(map(lambda x: round(x, 3), optimal_x))
         M=3
