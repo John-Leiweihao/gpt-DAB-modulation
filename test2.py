@@ -72,8 +72,8 @@ def PINN(Vin, Vref, P_required, modulation):
         vh_strategy = "unmodified"
         obj1, optimal_x1 = optimize_cs(50, model_implicit_PINN, P_required, Vin, Vref,"EPS1",upper_bound,lower_bound,bh_strategy,vh_strategy)
         obj2, optimal_x2 = optimize_cs(50, model_implicit_PINN, P_required, Vin, Vref, "EPS2",upper_bound,lower_bound,bh_strategy,vh_strategy)
-        ipp1, P_predicted1, pred1, inputs1, ZVS1, ZCS1, penalty1 = obj_func(optimal_x1[None], model_implicit_PINN,P_required, Vin, Vref, with_ZVS=True, modulation="EPS1",return_all=True)
-        ipp2, P_predicted2, pred2, inputs2, ZVS2, ZCS2, penalty2 = obj_func(optimal_x2[None], model_implicit_PINN,P_required, Vin, Vref, with_ZVS=True,modulation="EPS2", return_all=True)
+        ipp1, P_predicted1, pred1, inputs1, ZVS1, ZCS1, penalty1 = obj_func(optimal_x1[None], model_implicit_PINN,P_required, Vin, Vref, with_ZVS=True, modulation="EPS1",return_all=True,threshold_ZVS=1e-3)
+        ipp2, P_predicted2, pred2, inputs2, ZVS2, ZCS2, penalty2 = obj_func(optimal_x2[None], model_implicit_PINN,P_required, Vin, Vref, with_ZVS=True,modulation="EPS2", return_all=True,threshold_ZVS=1e-3)
         if ipp1 < ipp2:
             Current_Stress = ipp1[0]
             pos = list(map(lambda x: round(x,3), optimal_x1))
