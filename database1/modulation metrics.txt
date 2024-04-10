@@ -9,7 +9,7 @@ SPS: Higher current stress as it lacks specific design features to reduce it.
 EPS: Helps to alleviate current stress, especially when operating in the extended phase shift range.
 DPS: Further reduction in current stress by optimizing phase shifts.
 TPS: Provides an additional dimension of modulation to minimize current stress.
-5DOF: Aims to minimize current stress through precise phase control as much as possible.
+5DOF:  minimize the current stress 
 3. Easiness to Implement
 SPS: Relatively simple to implement, being the most basic modulation strategy.
 EPS: Medium complexity in implementation, requiring more sophisticated control algorithms.
