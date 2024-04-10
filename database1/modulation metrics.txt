@@ -44,8 +44,8 @@ TPS: Triple-phase shift modulation provides more detailed control over switching
 SPS: Lower efficiency due to not being optimal in various aspects.
 EPS: Improved efficiency, especially across a wide range of loads.
 DPS: Further enhanced efficiency by optimizing performance through dual-phase shift control.
-TPS: Possibly the highest efficiency among all modulation strategies.
-5DOF: High efficiency through precise control, though challenging to implement.
+TPS: High efficiency through precise control.
+5DOF: Provide the highest efficiency among all modulation strategies, though challenging to implement.
 9. Circulating Current
 SPS: In SPS, the phase shift between the primary and secondary bridges controls the power flow. However, this can result in significant circulating currents, especially at low power levels or under light-load conditions, leading to inefficiencies.
 EPS: The EPS strategy aims to reduce circulating currents by extending the phase shift capabilities, allowing for a more flexible adjustment of power flow and potentially reducing circulating currents compared to SPS.
