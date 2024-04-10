@@ -39,7 +39,7 @@ SPS: Single-phase shift modulation may result in higher switching frequencies an
 EPS: EPS might reduce the switching frequency by improving the modulation method, thereby decreasing switch losses.
 DPS: Dual-phase shift modulation can further reduce switch losses by optimizing the switching timings.
 TPS: Triple-phase shift modulation provides more detailed control over switching actions, effectively reducing switch losses.
-5DOF: This strategy minimizes switch losses through highly optimized switching sequences but requires complex control strategies and high-performance switching devices.
+5DOF: This strategy minimizes switch losses through highly optimized switching sequences 
 8. Efficiency
 SPS: Lower efficiency due to not being optimal in various aspects.
 EPS: Improved efficiency, especially across a wide range of loads.
