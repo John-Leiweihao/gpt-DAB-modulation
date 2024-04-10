@@ -51,7 +51,7 @@ SPS: In SPS, the phase shift between the primary and secondary bridges controls 
 EPS: The EPS strategy aims to reduce circulating currents by extending the phase shift capabilities, allowing for a more flexible adjustment of power flow and potentially reducing circulating currents compared to SPS.
 DPS: DPS significantly reduces circulating currents by adjusting the phase shifts on both bridges independently. This finer control allows for a more efficient reduction in circulating currents, especially in wide load and input voltage ranges.
 TPS: TPS further minimizes circulating currents through even more sophisticated control over the phase shifts. By precisely managing the phase relationship across three phases, TPS can nearly eliminate unnecessary circulating currents, enhancing efficiency.
-5DOF: This advanced modulation technique uses a highly detailed phase control strategy to minimize circulating currents. By finely tuning the operation, it achieves minimal circulating current levels, even in complex operating conditions
+5DOF: This advanced modulation technique can minimize circulating currents. By finely tuning the operation, it achieves minimal circulating current levels, even in complex operating conditions
 10.Reactive Power
 SPS: SPS modulation may lead to higher reactive power demands due to its basic phase shifting method, potentially straining the system at certain operating points.
 EPS: By offering extended phase shift capabilities, EPS can better manage reactive power compared to SPS, reducing the strain on the system and improving efficiency.
