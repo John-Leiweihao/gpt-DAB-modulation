@@ -178,7 +178,9 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     else:
          with st.chat_message("assistant"):
              with st.spinner("Thinking..."):
-                response = chat_engine.chat(prompt,messages_history)
-                st.write(response.response)
+                def generate_response():
+                    response = chat_engine.chat(prompt, messages_history)
+                    yield response.response
+                st.write_stream(generate_response)
                 message = {"role": "assistant", "content": response.response}
                 st.session_state.messages.append(message)
