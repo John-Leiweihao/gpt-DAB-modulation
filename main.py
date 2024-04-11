@@ -99,10 +99,8 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     if any(keyword in prompt.lower() for keyword in ["consideration","requirement","recommend","modulation","design","scheme","designs","desire","solution","goal","strategy"]):
         with st.chat_message("assistant"):
           with st.spinner("Thinking..."):
-              def generate_response():
-                  response = chat_engine1.chat(prompt, messages_history)
-                  yield response.response
-              st.write_stream(generate_response)
+              response = chat_engine1.chat(prompt, messages_history)
+              st.write(response.response)
               modulation_methods = ["SPS", "DPS", "EPS", "TPS", "5DOF"]
               first_method_found = None
               first_method_index = len(response.response)
