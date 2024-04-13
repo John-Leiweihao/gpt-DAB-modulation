@@ -41,13 +41,13 @@ def load_data0():
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
 def load_data1():
-    with st.spinner(text="Loading and indexing the buck-boost docs – hang tight! This should take 1-2 minutes."):
+    with st.spinner(text="Loading and indexing the docs – hang tight! This should take 1-2 minutes."):
         docs = SimpleDirectoryReader("database1").load_data()
         service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods of dual active bridge.Please provide modulation to user according to my prompt .keep your answer follow the rules I told u-- don't hallucinate."))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
 def load_data2():
-    with st.spinner(text="Loading and indexing the buck-boost docs – hang tight! This should take 1-2 minutes."):
+    with st.spinner(text="Loading and indexing the  docs – hang tight! This should take 1-2 minutes."):
         docs = SimpleDirectoryReader("introduction").load_data()
         service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
