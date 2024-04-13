@@ -12,8 +12,8 @@ TPS: Provides an additional dimension of modulation to minimize current stress.
 5DOF:  minimize the current stress 
 3. Easiness to Implement
 SPS: Relatively simple to implement, being the most basic modulation strategy.
-EPS: Medium complexity in implementation, requiring more sophisticated control algorithms.
-DPS: Higher complexity than EPS, requiring control over the phase shift of two bridges.
+EPS: Higher complexity than DPS, requiring more sophisticated control algorithms.
+DPS:  Medium complexity in implementation, requiring control over the phase shift of two bridges.
 TPS: The most complex to implement but offers the best performance tuning capability.
 5DOF: Extremely high complexity, demanding accurate control and complex algorithms.
 4. Conduction Loss
@@ -66,7 +66,7 @@ TPS: TPS, with its advanced control, minimizes unnecessary power losses and opti
 5DOF: The 5DOF modulation, by minimizing circulating currents and managing reactive power efficiently, likely exhibits the best thermal performance, ensuring that the converter operates within optimal temperature ranges even under high loads.
 12.control complexity
 SPS：SPS modulation is the most basic strategy, controlling power flow and magnitude by changing the phase difference between the two bridge ends. Since it involves only one modulation parameter (the phase shift), it has relatively low control complexity.
-EPS：EPS modulation adds adjustment of the switching angles on the secondary side to improve system dynamic response and reduce switching losses on top of SPS. EPS has higher control complexity than SPS because it involves more modulation parameters.
-DPS：The DPS strategy further increases control flexibility by independently adjusting the phase shifts of both bridge ends to optimize conversion efficiency and reduce losses. DPS has higher control complexity than SPS and EPS, requiring coordination of phase movements at both ends.
+EPS：EPS modulation adds adjustment of the switching angles on the secondary side to improve system dynamic response and reduce switching losses on top of SPS. EPS has higher control complexity than SPS and DPS, because it involves more modulation parameters.
+DPS：The DPS strategy further increases control flexibility by independently adjusting the phase shifts of both bridge ends to optimize conversion efficiency and reduce losses. DPS has higher control complexity than SPS , requiring coordination of phase movements at both ends.
 TPS:TPS modulation expands upon DPS by adding a third modulation dimension. It optimizes conversion efficiency and further reduces losses by adjusting a third phase shift. TPS has one of the highest control complexities among these strategies, involving more modulation parameters and more complex control algorithms.
 5DOF:The 5DOF modulation strategy is an advanced method that uses multiple phase shifts to optimize conversion efficiency, reduce losses, and improve system performance. This strategy has the highest control complexity, requiring precise control over multiple phase shifts, typically relying on advanced control algorithms and processing capabilities.
