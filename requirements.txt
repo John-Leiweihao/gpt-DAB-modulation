@@ -7,3 +7,4 @@ docx2txt
 scipy
 torch
 pyswarms
+psutil
