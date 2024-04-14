@@ -180,7 +180,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
          with st.chat_message("assistant"):
              with st.spinner("Thinking..."):
                 plot,test_loss,val_loss=Training.Training_PINN(inputs,states)
-                reply= "Retraining is done. The mean square error is improved from {:.3f} to {:.3f}. The predicted waveform and experimental waveform are shown below ".format(test_loss,val_loss)
+                reply= "Retraining is done. The mean absolute error is improved from {:.3f} to {:.3f}. The predicted waveform and experimental waveform are shown below ".format(test_loss,val_loss)
                 st.write(reply)
                 st.image(plot)
                 message = {"role": "assistant", "content": reply,"images": [plot]}
