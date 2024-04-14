@@ -12,7 +12,7 @@ import tempfile
 from llama_index.core.node_parser import SimpleNodeParser
 from io import BytesIO
 import matplotlib.pyplot as plt
-from Training import Training_PINN
+import Training
 import pickle
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 api_base = "https://pro.aiskt.com/v1"
