@@ -12,6 +12,8 @@ import tempfile
 from llama_index.core.node_parser import SimpleNodeParser
 from io import BytesIO
 import matplotlib.pyplot as plt
+from Training import Training_PINN
+import pickle
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 api_base = "https://pro.aiskt.com/v1"
 openai.base_url = api_base
@@ -63,8 +65,7 @@ if "P" not in st.session_state:
 
 uploaded_file = st.sidebar.file_uploader("Choose a file")
 if uploaded_file is not None:
-    dataframe = pd.read_csv(uploaded_file)
-    st.write(dataframe)
+    inputs, states = pickle.load(uploaded_file)
   #temp_dir = tempfile.mkdtemp()
  # path = os.path.join(temp_dir, uploaded_file.name)
  # with open(path, "wb") as f:
@@ -175,6 +176,15 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             st.image(plot)
             message = {"role": "assistant", "content": reply,"images": [plot]}
             st.session_state.messages.append(message)
+    elif "Here you go" in prompt:
+         with st.chat_message("assistant"):
+             with st.spinner("Thinking..."):
+                plot,test_loss,val_loss=Training.Training_PINN(inputs,states)
+                reply= "Retraining is done. The mean square error is improved from {:.3f} to {:.3f}. The predicted waveform and experimental waveform are shown below ".format(test_loss,val_loss)
+                st.write(reply)
+                st.image(plot)
+                message = {"role": "assistant", "content": reply,"images": [plot]}
+                st.session_state.messages.append(message)
     else:
          with st.chat_message("assistant"):
              with st.spinner("Thinking..."):
