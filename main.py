@@ -185,6 +185,12 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
                 st.image(plot)
                 message = {"role": "assistant", "content": reply,"images": [plot]}
                 st.session_state.messages.append(message)
+     elif "experimental data" in prompt:
+             with st.spinner("Thinking..."):
+                response = "Yes, I can. Please upload your data through pickle file and I will retrain the physics-informed model embedded in PE-GPT.The pickle file should be an array arr with its first element arr[0] as "inputs", and the second element arr[1] as "states".  The shape of "inputs" is bs x seqlen x ndim_inp, denoting batch size, sequence length, and dimension of inputs, respectively. The shape of "outputs" is bs x seqlen x ndim_out, denoting batch size, sequence length, and dimension of outputs, respectively.
+                st.write(response)
+                message = {"role": "assistant", "content": response}
+                st.session_state.messages.append(message)
     else:
          with st.chat_message("assistant"):
              with st.spinner("Thinking..."):
