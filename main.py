@@ -39,7 +39,7 @@ if clear_button or "messages" not in st.session_state:  # Initialize the chat me
 def load_data0():
     with st.spinner(text="Loading and indexing  docs – hang tight! This should take 1-2 minutes."):
         docs = SimpleDirectoryReader("database").load_data()
-        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4", temperature=0.1,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods(SPS,EPS,DPS,TPS,5DOF) of dual active bridge.Please answer the questions based on the documents I have provided you and your own understanding  .Make sure your answers are professional and accurate -- don't hallucinate."))
+        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods(SPS,EPS,DPS,TPS,5DOF) of dual active bridge.Please answer the questions based on the documents I have provided you and your own understanding  .Make sure your answers are professional and accurate -- don't hallucinate."))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
 def load_data1():
