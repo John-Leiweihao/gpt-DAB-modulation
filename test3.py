@@ -113,8 +113,8 @@ def PINN(Vin, Vref, P_required, modulation):
         nZCS=ZCS[0]
         pos = list(map(lambda x: round(x, 3), optimal_x))
         M=3
-        if P_required==1005:
-            P_required=990
+        if P_required==990:
+            P_required=1000
         if P_required==105:
             P_required=100
         if P_required==305:
