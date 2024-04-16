@@ -105,7 +105,7 @@ def PINN(Vin, Vref, P_required, modulation):
         lower_bound = [-0.3, 0.44, 0.44]
         bh_strategy = "periodic"
         vh_strategy = "unmodified"
-        obj, optimal_x = optimize_cs(150, model_implicit_PINN, P_required, Vin, Vref, "TPS",upper_bound,lower_bound,bh_strategy,vh_strategy)
+        obj, optimal_x = optimize_cs(200, model_implicit_PINN, P_required, Vin, Vref, "TPS",upper_bound,lower_bound,bh_strategy,vh_strategy)
         ipp, P_predicted, pred, inputs, ZVS, ZCS, penalty = obj_func(optimal_x[None], model_implicit_PINN, P_required, Vin,
                                                                  Vref, with_ZVS=True, modulation="TPS", return_all=True)
         Current_Stress = ipp[0]
@@ -114,7 +114,7 @@ def PINN(Vin, Vref, P_required, modulation):
         pos = list(map(lambda x: round(x, 3), optimal_x))
         M=3
         if P_required==1005:
-            P_required==1000
+            P_required=1000
         if P_required==105:
             P_required=100
         if P_required==305:
