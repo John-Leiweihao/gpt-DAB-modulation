@@ -39,7 +39,7 @@ if clear_button or "messages" not in st.session_state:  # Initialize the chat me
 def load_data0():
     with st.spinner(text="Loading and indexing  docs – hang tight! This should take 1-2 minutes."):
         docs = SimpleDirectoryReader("database").load_data()
-        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4", temperature=0,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods(SPS,EPS,DPS,TPS,5DOF) of dual active bridge.Please answer the questions based on the documents I have provided you and your own understanding  .Make sure your answers are professional and accurate -- don't hallucinate."))
+        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4", temperature=0.1,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods(SPS,EPS,DPS,TPS,5DOF) of dual active bridge.Please answer the questions based on the documents I have provided you and your own understanding  .Make sure your answers are professional and accurate -- don't hallucinate."))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
 def load_data1():
@@ -78,7 +78,7 @@ if uploaded_file is not None:
  # for d in documents:
  #   index.insert(document=d,service_context=service_context)
 index0 = load_data0()  
-chat_engine = index0.as_chat_engine()
+chat_engine = index0.as_chat_engine(chat_mode="context")
 index1 = load_data1()  
 chat_engine1 = index1.as_chat_engine()
 index2 = load_data2()  
