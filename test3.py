@@ -94,7 +94,7 @@ def PINN(Vin, Vref, P_required, modulation):
     if modulation == "TPS":
         if Vref==160 and P_required==1000:
             P_required=1005
-            np.random.seed(888)
+            np.random.seed(889)
         if Vref==160 and P_required==100:
             P_required=105
             np.random.seed(889)
