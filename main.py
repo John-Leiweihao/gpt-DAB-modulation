@@ -78,7 +78,7 @@ if uploaded_file is not None:
  # for d in documents:
  #   index.insert(document=d,service_context=service_context)
 index0 = load_data0()  
-chat_engine = index0.as_chat_engine(chat_mode="context")
+chat_engine = index0.as_chat_engine()
 index1 = load_data1()  
 chat_engine1 = index1.as_chat_engine()
 index2 = load_data2()  
