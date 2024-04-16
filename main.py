@@ -6,7 +6,7 @@ from llama_index.llms.openai import OpenAI
 from llama_index.core.llms import ChatMessage, MessageRole
 import final_score
 import ast
-import test2 
+import test3 
 import pandas as pd
 import tempfile
 from llama_index.core.node_parser import SimpleNodeParser
@@ -130,20 +130,30 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             response = chat_engine.chat(prompt, messages_history)
             answer_list1 = ast.literal_eval(response.response)
             st.session_state.Uin, st.session_state.Uo,st.session_state.P = answer_list1   
-            Current_Stress,Current_Stress1,nZVS,nZCS,P,pos,plot,M=test2.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
-            Current_Stress_sps,Current_Stress1_sps,nZVS_sps,nZCS_sps,P_sps, pos_sps, plot_sps, M_sps=test2.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,"SPS")
-            Answer=test2.answer(pos,st.session_state.M ,Current_Stress,Current_Stress1,nZVS,nZCS,P,M)
-            reply=Answer
-            Answer1=test2.answer1(Current_Stress_sps,Current_Stress1_sps,st.session_state.M)
-            reply1=Answer1
-            st.write(reply)
+            Current_Stress,nZVS,nZCS,P,pos,plot,M=test3.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
+            Current_Stress1,nZVS1,nZCS1,P1,pos1,plot1,M1=test3.PINN(st.session_state.Uin,st.session_state.Uo,100,st.session_state.M)
+            Current_Stress_sps,nZVS_sps,nZCS_sps,P_sps, pos_sps, plot_sps, M_sps=test3.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,"SPS")
+            Current_Stress1_sps1,nZVS_sps1,nZCS_sps1,P_sps1, pos_sps1, plot_sps1, M_sps1=test3.PINN(st.session_state.Uin,st.session_state.Uo,100,"SPS")
+            Answer0=test3.answer(pos,st.session_state.M,Current_Stress,nZVS,nZCS,P,M)
+            Answer1=test3.answer1(pos1,st.session_state.M,Current_Stress1,nZVS1,nZCS1,P1,M1)
+            Answer2=test3.answer(pos_sps,"SPS",Current_Stress_sps,nZVS_sps,nZCS_sps,P_sps,M_sps)
+            Answer3=test3.answer1(pos_sps1,"SPS",Current_Stress_sps1,nZVS_sps1,nZCS_sps1,P_sps1,M_sps1,st.session_state.M)
+            st.write(Answer0)
             st.image(plot)
-            st.write(reply1)
+            st.write(Answer1)
+            st.image(plot1)
+            st.write(Answer2)
             st.image(plot_sps)
-            message = {"role": "assistant", "content": reply,"images": [plot]}
-            message1 = {"role": "assistant", "content": reply1,"images": [plot_sps]}
+            st.write(Answer3)
+            st.image(plot_sps1)
+            message = {"role": "assistant", "content": Answer0,"images": [plot]}
+            message1 = {"role": "assistant", "content": Answer1,"images": [plot1]}
+            message2 = {"role": "assistant", "content": Answer2,"images": [plot_sps]}
+            message3 = {"role": "assistant", "content": Answer3,"images": [plot_sps1]}
             st.session_state.messages.append(message)
             st.session_state.messages.append(message1)
+            st.session_state.messages.append(message2)
+            st.session_state.messages.append(message3)
     elif any(keyword in prompt.lower() for keyword in ["high", "big", "large","But","seems","satisfy","wider"]):
         with st.chat_message("assistant"):
           with st.spinner("Thinking..."):
@@ -169,13 +179,18 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     elif "OK" in prompt:
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            Current_Stress,Current_Stress1,nZVS,nZCS,P,pos,plot,M=test2.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
-            Answer=test2.answer(pos,st.session_state.M ,Current_Stress,Current_Stress1,nZVS,nZCS,P,M)
-            reply=Answer
-            st.write(reply)
+            Current_Stress,nZVS,nZCS,P,pos,plot,M=test3.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
+            Current_Stress1,nZVS1,nZCS1,P1,pos1,plot1,M1=test3.PINN(st.session_state.Uin,st.session_state.Uo,100,st.session_state.M)
+            Answer0=test3.answer(pos,st.session_state.M,Current_Stress,nZVS,nZCS,P,M)
+            Answer1=test3.answer1(pos1,st.session_state.M,Current_Stress1,nZVS1,nZCS1,P1,M1)
+            st.write(Answer0)
             st.image(plot)
-            message = {"role": "assistant", "content": reply,"images": [plot]}
+            st.write(Answer1)
+            st.image(plot1)
+            message = {"role": "assistant", "content": Answer0,"images": [plot]}
+            message1 = {"role": "assistant", "content": Answer1,"images": [plot1]}
             st.session_state.messages.append(message)
+            st.session_state.messages.append(message1)
     elif "Here you go" in prompt:
          with st.chat_message("assistant"):
              with st.spinner("Thinking..."):
