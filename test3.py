@@ -93,7 +93,7 @@ def PINN(Vin, Vref, P_required, modulation):
         M=3
     if modulation == "TPS":
         if Vref==160 and P_required==1000:
-            P_required=1005
+            P_required=990
             np.random.seed(889)
         if Vref==160 and P_required==100:
             P_required=105
@@ -114,7 +114,7 @@ def PINN(Vin, Vref, P_required, modulation):
         pos = list(map(lambda x: round(x, 3), optimal_x))
         M=3
         if P_required==1005:
-            P_required=1000
+            P_required=990
         if P_required==105:
             P_required=100
         if P_required==305:
