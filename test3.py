@@ -18,7 +18,7 @@ def plot_modulation(inputs, pred,Vin,Vref,P1,P2,modulation):
     ax2.plot(pred[0, :, 0], label='IL', color='b')
     ax1.legend(loc='upper right')  # 将输入的图例放在左上角
     ax2.legend(loc='upper left')  # 将预测的图例放在右上角
-    plt.title(f"{modulation}: Uin={int(Vin)} V, Uo={int(Vref)} V, Prated=int(P1) W, P=int(P2) W")
+    plt.title(f"{modulation}: Uin={Vin:.0f} V, Uo={Vref:.0f} V, Prated={P1：.0f} W, P={P2：.0f} W")
     #plt.show()
     buf = BytesIO()
     fig.savefig(buf, format='png')
