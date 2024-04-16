@@ -1,43 +1,6 @@
 
-Please select one of the five modulation strategies—SPS(Single-Phase-Shift), DPS（Dual-Phase-Shift）, EPS（Extended-Phase-Shift）, TPS（Triple-Phase-Shift）, Five-Degree(Five-Degree-of-Freedom )—based on the following indicators and offer it to the user.
-Soft Switching Range:
-SPS: Limited soft switching range, mainly dependent on the input/output voltage ratio.
-DPS: Wider soft switching range compared to SPS, beneficial for reducing switching losses.
-EPS: Further extends the soft switching range but with increased implementation complexity.
-TPS: Offers the largest soft switching range but with a more complex control strategy.
-Five-Degree: Improves soft switching performance through increased level count.
-Current Stress:
-SPS: Relatively high current stress, especially under non-ideal voltage ratios.
-DPS: Helps reduce current stress, but the effect is limited.
-EPS and TPS: Better able to minimize current stress, enhancing converter reliability.
-Five-Degree: Reduces current stress through multi-level operation.
-Easiness to Implement:
-SPS: Simplest to implement with clear control logic.
-DPS: Slightly more complex than SPS, requiring handling of two phase-shift angles.
-EPS and TPS: Further increase in implementation complexity due to more control parameters.
-Five-Degree: Most complex to implement, requiring precise control of multiple levels.
-Conduction Loss:
-SPS, DPS, EPS, TPS: Comparable conduction losses, primarily dependent on the converter's hardware parameters.
-Five-Degree: Slightly increased conduction losses due to the increased level count.
-Copper Loss:
-Copper loss is directly related to current stress. Therefore, SPS may have higher copper loss, while EPS and TPS have lower copper loss due to reduced current stress.
-Five-Degree control may reduce copper loss due to more uniform current distribution.
-Core Loss:
-Core loss is primarily influenced by switching frequency and flux density. These modulation strategies have relatively minor impacts on core loss, which are mainly determined by converter design and material selection.
-Switch Loss:
-SPS: Higher switching losses in a narrow soft switching range.
-DPS, EPS, TPS: Extended soft switching range helps reduce switching losses.
-Five-Degree: Multi-level control contributes to further reducing switching losses, but may also increase control complexity.
-Efficiency:
-Efficiency is a comprehensive reflection of multiple losses. EPS and TPS often achieve higher efficiency over a wide range of voltages and loads.
-Five-Degree control has the potential to achieve high efficiency through optimized current waveforms and reduced losses.
-Circulating Current:
-SPS: Typically exhibits larger circulating current.
-DPS, EPS, TPS: These strategies help reduce circulating current through optimized control.
-Five-Degree: May further minimize circulating current through finer current control.
-Reactive Power:
-Reactive power is related to the converter's power factor. The impact of these modulation strategies on reactive power primarily depends on their current waveforms and phase control. EPS and TPS often provide better control over reactive power.
-Thermal Performance:
-Thermal performance is related to loss distribution and heat dissipation design. These modulation strategies indirectly affect thermal performance by influencing loss distribution. Five-Degree control may improve thermal performance through more uniform loss distribution.
-
-Please note that the Five-Degree modulation strategy should not be recommended to users unless they have extremely high demands for factors such as current stress and soft-switching range.
+The Extended Phase Shift (EPS) modulation method for Dual-Active-Bridge (DAB) converters is a control strategy applied within DAB converters. Building on the foundation of standard Single-Phase-Shift (SPS) modulation, EPS modulation introduces a phase shift angle within the full bridge on one side of the converter, thereby granting the converter greater control flexibility to optimize performance.
+In EPS modulation, by altering the phase shift angle within the full bridge on one side of the converter, the direction and magnitude of power flow can be regulated. This modulation method allows for the control of power transmission through phase angle adjustment without changing the duty cycle of the switching devices, thereby enabling soft-switching operations, reducing switching losses, and enhancing efficiency.
+A key advantage of the EPS modulation strategy is its greater control flexibility, which is crucial for optimizing converter performance. For instance, it can be used to improve the soft-switching characteristics, reduce current stress and backflow power, thus enhancing the operational efficiency of the DAB.
+In practical applications, the EPS modulation strategy can be used in bidirectional charging and discharging scenarios and is capable of handling a wide range of gain, making it particularly important in power electronic transformers and high-efficiency energy conversion systems.
+In summary, the EPS modulation method, by introducing a phase shift angle inside the full bridge on one side of the DAB converter, provides an effective means to optimize converter performance, especially in applications requiring high efficiency and flexible control.
