@@ -190,10 +190,10 @@ def answer(pos, modulation, ipp,nZVS,nZCS,P_required, M=3):
 
     return response
 
-def answer1(pos,ipp,nZVS,nZCS,P_required, M,modulation="TPS"):
+def answer1(modulation,pos,ipp,nZVS,nZCS,P_required, M,modulation1="TPS"):
     response = "No valid modulation strategy found."
     if modulation=="SPS":
-        response = "Under light load conditions(PL={:.0} W),the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.The performance of current {} modulation far exceeds that of conventional SPS".format(P_required,nZVS,nZCS,ipp,modulation)
+        response = "Under light load conditions(PL={:.0} W),the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.The performance of current {} modulation far exceeds that of conventional SPS".format(P_required,nZVS,nZCS,ipp,modulation1)
     if modulation == "EPS":
         D0, D1 = pos[0], pos[1]
         if M == 1:
