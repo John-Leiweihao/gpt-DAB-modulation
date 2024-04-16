@@ -170,7 +170,7 @@ def PINN(Vin, Vref, P_required, modulation):
 def answer(pos, modulation, ipp,nZVS,nZCS,P_required, M=3):
     response = "No valid modulation strategy found."
     if modulation=="SPS":
-        response = "Under the  {} modulation strategy,the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.At rated power level(Prated={:.0} W) the peak-to-peak current is {:.2f} A.".format(modulation,nZVS,nZCS,P_required,ipp)
+        response = "Under the  {} modulation strategy,the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.At rated power level(Prated={} W) the peak-to-peak current is {:.2f} A.".format(modulation,nZVS,nZCS,P_required,ipp)
     if modulation == "EPS":
         D0, D1 = pos[0], pos[1]
         if M == 1:
@@ -179,36 +179,36 @@ def answer(pos, modulation, ipp,nZVS,nZCS,P_required, M=3):
             response = "Under the  {}{} modulation strategy,the optimal D0 is designed to be {},D2 is designed to be {},the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.At rated power level(Prated={} W), the peak-to-peak current is {:.2f} A.".format(modulation,M,D0,D1,nZVS,nZCS,P_required,ipp)
     if modulation == "DPS":
         D0, D1 = round(pos[0], 3), round(pos[1], 3)
-        response = "Under the  {} modulation strategy,the optimal D0 is designed to be {},D1 and D2 are designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.At rated power level(Prated={:.0} W), the peak-to-peak current is {:.2f} A.".format(modulation,D0,D1,nZVS,nZCS,P_required,ipp)
+        response = "Under the  {} modulation strategy,the optimal D0 is designed to be {},D1 and D2 are designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.At rated power level(Prated={} W), the peak-to-peak current is {:.2f} A.".format(modulation,D0,D1,nZVS,nZCS,P_required,ipp)
     if modulation == "TPS":
         D0, D1, D2 = round(pos[0], 3), round(pos[1], 3), round(pos[2], 3)
-        response = "Under the  {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.At rated power level(Prated={:.0} W), the peak-to-peak current is {:.2f} A.".format(modulation,D0,D1,D2,nZVS,nZCS,P_required,ipp)
+        response = "Under the  {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.At rated power level(Prated={} W), the peak-to-peak current is {:.2f} A.".format(modulation,D0,D1,D2,nZVS,nZCS,P_required,ipp)
     if modulation == "5DOF":
         D0, D1, D2, phi1, phi2 = round(pos[0], 3), round(pos[1], 3), round(pos[2], 3), round(pos[3], 3), round(pos[4],
                                                                                                                3)
-        response = "Under the  {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {},phi1 is designed to be {},phi2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}.And the current stress performance is shown with the following figure.At rated power level(Prated={:.0} W), the peak-to-peak current is {:.2f} A.".format(modulation,D0,D1,D2,phi1,phi2,nZVS,nZCS,P_required,ipp)
+        response = "Under the  {} modulation strategy,the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {},phi1 is designed to be {},phi2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}.And the current stress performance is shown with the following figure.At rated power level(Prated={} W), the peak-to-peak current is {:.2f} A.".format(modulation,D0,D1,D2,phi1,phi2,nZVS,nZCS,P_required,ipp)
 
     return response
 
 def answer1(pos,modulation,ipp,nZVS,nZCS,P_required, M,modulation1="TPS"):
     response = "No valid modulation strategy found."
     if modulation=="SPS":
-        response = "Under light load conditions(PL={:.0} W),the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.The performance of current {} modulation far exceeds that of conventional SPS".format(P_required,nZVS,nZCS,ipp,modulation1)
+        response = "Under light load conditions(PL={} W),the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.The performance of current {} modulation far exceeds that of conventional SPS".format(P_required,nZVS,nZCS,ipp,modulation1)
     if modulation == "EPS":
         D0, D1 = pos[0], pos[1]
         if M == 1:
-            response = "Under light load conditions(PL={:.0} W),the optimal D0 is designed to be {},D1 is designed to be {},the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.".format(P_required,D0,D1,nZVS,nZCS,ipp)
+            response = "Under light load conditions(PL={} W),the optimal D0 is designed to be {},D1 is designed to be {},the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.".format(P_required,D0,D1,nZVS,nZCS,ipp)
         if M == 2:
-            response = "Under light load conditions(PL={:.0} W),the optimal D0 is designed to be {},D2 is designed to be {},the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.".format(P_required,D0,D1,nZVS,nZCS,ipp)
+            response = "Under light load conditions(PL={} W),the optimal D0 is designed to be {},D2 is designed to be {},the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.".format(P_required,D0,D1,nZVS,nZCS,ipp)
     if modulation == "DPS":
         D0, D1 = round(pos[0], 3), round(pos[1], 3)
-        response = "Under light load conditions(PL={:.0} W),the optimal D0 is designed to be {},D1 and D2 are designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.".format(P_required,D0,D1,nZVS,nZCS,ipp)
+        response = "Under light load conditions(PL={} W),the optimal D0 is designed to be {},D1 and D2 are designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.".format(P_required,D0,D1,nZVS,nZCS,ipp)
     if modulation == "TPS":
         D0, D1, D2 = round(pos[0], 3), round(pos[1], 3), round(pos[2], 3)
-        response = "Under light load conditions(PL={:.0} W),the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.".format(P_required,D0,D1,D2,nZVS,nZCS,ipp)
+        response = "Under light load conditions(PL={} W),the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}. And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.".format(P_required,D0,D1,D2,nZVS,nZCS,ipp)
     if modulation == "5DOF":
         D0, D1, D2, phi1, phi2 = round(pos[0], 3), round(pos[1], 3), round(pos[2], 3), round(pos[3], 3), round(pos[4],
                                                                                                                3)
-        response = "Under light load conditions(PL={:.0} W),the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {},phi1 is designed to be {},phi2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}.And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.".format(P_required,D0,D1,D2,phi1,phi2,nZVS,nZCS,ipp)
+        response = "Under light load conditions(PL={} W),the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {},phi1 is designed to be {},phi2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}.And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.".format(P_required,D0,D1,D2,phi1,phi2,nZVS,nZCS,ipp)
 
     return response
