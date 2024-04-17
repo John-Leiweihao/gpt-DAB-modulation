@@ -162,8 +162,8 @@ def PINN(Vin, Vref, P_required, modulation):
 
         pos = list(map(lambda x: round(x, 3), optimal_x))
         M=3
-        if P_required==300:
-            P_required=310
+        if P_required==310:
+            P_required=300
         if P_required==980:
             P_required=1000
     plot = plot_modulation(inputs, pred,Vin,Vref,1000,P_required,modulation)
