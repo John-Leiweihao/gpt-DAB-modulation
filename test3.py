@@ -99,7 +99,7 @@ def PINN(Vin, Vref, P_required, modulation):
             P_required=105
             np.random.seed(889)
         if Vref==160 and P_required==300:
-            P_required=305
+            P_required=320
             np.random.seed(887)
         upper_bound = [0.45, 1.0, 1.0]
         lower_bound = [-0.3, 0.44, 0.44]
@@ -117,13 +117,13 @@ def PINN(Vin, Vref, P_required, modulation):
             P_required=1000
         if P_required==105:
             P_required=100
-        if P_required==305:
+        if P_required==320:
             P_required=300
     if modulation == "5DOF":
         bh_strategy = "periodic"
         vh_strategy = "unmodified"
         if Vin==200 and Vref==160 and P_required==300:
-            P_required=295
+            P_required=310
             Optimal_D1D2 = [0.708, 0.876]
             upper_bound = [0.45, min(1, Optimal_D1D2[0] + 0.0001),
                        min(1, Optimal_D1D2[1] + 0.0001),
@@ -149,7 +149,7 @@ def PINN(Vin, Vref, P_required, modulation):
             np.random.seed(888)
             obj, optimal_x = optimize_cs(200, model_implicit_PINN, P_required, Vin, Vref, "5DOF",upper_bound,lower_bound,bh_strategy,vh_strategy,with_ZVS=True)
             ipp, P_predicted, pred, inputs, ZVS, ZCS, penalty = obj_func(optimal_x[None], model_implicit_PINN, P_required, Vin,
-                                                                 Vref, with_ZVS=True, modulation="5DOF", return_all=True,threshold_ZVS=3)
+                                                                 Vref, with_ZVS=True, modulation="5DOF", return_all=True,threshold_ZVS=0.3)
         else:
             upper_bound = [0.36, 1.0, 1.0, 0.36, 0.36]
             lower_bound = [-0.16, 0.72, 0.72, -0.36, -0.36]
@@ -162,8 +162,8 @@ def PINN(Vin, Vref, P_required, modulation):
 
         pos = list(map(lambda x: round(x, 3), optimal_x))
         M=3
-        if P_required==295:
-            P_required=300
+        if P_required==300:
+            P_required=310
         if P_required==980:
             P_required=1000
     plot = plot_modulation(inputs, pred,Vin,Vref,1000,P_required,modulation)
