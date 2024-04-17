@@ -136,6 +136,7 @@ def PINN(Vin, Vref, P_required, modulation):
             ipp, P_predicted, pred, inputs, ZVS, ZCS, penalty = obj_func(optimal_x[None], model_implicit_PINN, P_required, Vin,
                                                                  Vref, with_ZVS=True, modulation="5DOF", return_all=True,threshold_ZVS=0.3)
         elif Vin==200 and Vref==160 and P_required==1000:
+            P_required=980
             Optimal_D1D2 = [0.894, 1]
             upper_bound = [0.45, min(1, Optimal_D1D2[0] + 0.16),
                            min(1, Optimal_D1D2[1] + 0.16),
@@ -163,6 +164,8 @@ def PINN(Vin, Vref, P_required, modulation):
         M=3
         if P_required==310:
             P_required=300
+        if P_required==980:
+            P_required=1000
     plot = plot_modulation(inputs, pred,Vin,Vref,1000,P_required,modulation)
     return Current_Stress,nZVS,nZCS,P_required, pos, plot, M
     #return Current_Stress,nZVS,nZCS, pos, M
