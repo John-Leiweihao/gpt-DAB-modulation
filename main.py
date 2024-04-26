@@ -95,7 +95,7 @@ if st.sidebar.button("Confirm Upload"):
 if st.session_state.vp is not None and st.session_state.vs is not None and st.session_state.iL is not None:
     inputs = np.concatenate((st.session_state.vp.T[1:, :, None], st.session_state.vs.T[1:, :, None]), axis=-1)
     states = st.session_state.iL.T[1:, :, None]
-
+    st.write("**All required files have been successfully uploaded.**")
 
 index0 = load_data0()  
 chat_engine = index0.as_chat_engine(chat_mode="context")
