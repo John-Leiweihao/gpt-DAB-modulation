@@ -64,19 +64,29 @@ if "Uo" not in st.session_state:
 if "P" not in st.session_state:
     st.session_state.P=1
 
-uploaded_vp = st.sidebar.file_uploader("Choose VP file", key="vp")
-uploaded_vs = st.sidebar.file_uploader("Choose VS file", key="vs")
-uploaded_il = st.sidebar.file_uploader("Choose IL file", key="il")
+file_type = st.sidebar.selectbox("Select file type", ("vp", "vs", "iL"))
 
-if uploaded_vp is not None and uploaded_vs is not None and uploaded_il is not None:
-    # 使用np.loadtxt读取数据，注意调整delimiter和skiprows参数以匹配您的文件格式
-    vp = np.loadtxt(uploaded_vp, skiprows=1, delimiter=',')  # 请根据实际情况调整delimiter
-    vs = np.loadtxt(uploaded_vs, skiprows=1, delimiter=',')  # 请根据实际情况调整delimiter
-    il = np.loadtxt(uploaded_il, skiprows=1, delimiter=',')  # 请根据实际情况调整delimiter
+# 创建文件上传器
+uploaded_file = st.sidebar.file_uploader("Upload file", key="file_uploader")
 
-    # 数据处理
+# 使用一个按钮来确认文件上传，并指定文件类型
+if st.sidebar.button("Confirm Upload"):
+    if uploaded_file is not None:
+        # 根据选择的文件类型处理文件
+        if file_type == "vp":
+            vp = np.loadtxt(uploaded_file, skiprows=1, delimiter=',')
+        elif file_type == "vs":
+            vs = np.loadtxt(uploaded_file, skiprows=1, delimiter=',')
+        elif file_type == "iL":
+            iL = np.loadtxt(uploaded_file, skiprows=1, delimiter=',')
+
+        # 提示用户文件已上传并处理
+        st.sidebar.write(f"{file_type} file uploaded successfully.")
+
+# 检查所有文件是否都已上传并处理
+if 'vp' in locals() and 'vs' in locals() and 'iL' in locals():
     inputs = np.concatenate((vp.T[1:, :, None], vs.T[1:, :, None]), axis=-1)
-    states = il.T[1:, :, None]
+    states = iL.T[1:, :, None]
 
 
 index0 = load_data0()  
