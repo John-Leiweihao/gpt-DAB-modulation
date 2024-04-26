@@ -95,9 +95,6 @@ if st.sidebar.button("Confirm Upload"):
 if st.session_state.vp is not None and st.session_state.vs is not None and st.session_state.iL is not None:
     inputs = np.concatenate((st.session_state.vp.T[1:, :, None], st.session_state.vs.T[1:, :, None]), axis=-1)
     states = st.session_state.iL.T[1:, :, None]
-    # 显示一些输出
-    st.write("Inputs shape:", inputs.shape)
-    st.write("States shape:", states.shape)
 
 
 index0 = load_data0()  
