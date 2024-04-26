@@ -166,7 +166,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             st.session_state.messages.append(message1)
             st.session_state.messages.append(message2)
             st.session_state.messages.append(message3)
-    elif any(keyword in prompt.lower() for keyword in ["high", "big", "large","But","seems","satisfy","wider","requirements"]):
+    elif any(keyword in prompt for keyword in ["high", "big", "large","But","seems","satisfy","wider","requirements"]):
         with st.chat_message("assistant"):
           with st.spinner("Thinking..."):
               response = chat_engine.chat(prompt, messages_history)
