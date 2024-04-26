@@ -63,10 +63,10 @@ if "Uo" not in st.session_state:
 if "P" not in st.session_state:
     st.session_state.P=1
 
-uploaded_vp = st.sidebar.file_uploader("Choose VP file", key="vp")
-uploaded_vs = st.sidebar.file_uploader("Choose VS file", key="vs")
-uploaded_il = st.sidebar.file_uploader("Choose IL file", key="il")
+# 创建一个选择文件类型的下拉菜单
+file_type = st.sidebar.selectbox("Select file type", ("vp", "vs", "iL"))
 
+# 创建文件上传器
 uploaded_file = st.sidebar.file_uploader("Upload file", key="file_uploader")
 
 # 使用一个按钮来确认文件上传，并指定文件类型
@@ -87,17 +87,8 @@ if st.sidebar.button("Confirm Upload"):
 if 'vp' in locals() and 'vs' in locals() and 'iL' in locals():
     inputs = np.concatenate((vp.T[1:, :, None], vs.T[1:, :, None]), axis=-1)
     states = iL.T[1:, :, None]
-  #temp_dir = tempfile.mkdtemp()
- # path = os.path.join(temp_dir, uploaded_file.name)
- # with open(path, "wb") as f:
-  #  f.write(uploaded_file.getvalue())
- # documents=SimpleDirectoryReader(temp_dir).load_data()
- # service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are a data analyst and you need to analyze this set of data for users"))
-  #index1 = VectorStoreIndex.from_documents(documents, service_context=service_context)
-  #parser = SimpleNodeParser()
-  #new_nodes = parser.get_nodes_from_documents(documents)
- # for d in documents:
- #   index.insert(document=d,service_context=service_context)
+
+
 index0 = load_data0()  
 chat_engine = index0.as_chat_engine(chat_mode="context")
 index1 = load_data1()  
