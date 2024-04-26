@@ -95,7 +95,6 @@ if st.sidebar.button("Confirm Upload"):
 if st.session_state.vp is not None and st.session_state.vs is not None and st.session_state.iL is not None:
     inputs = np.concatenate((st.session_state.vp.T[1:, :, None], st.session_state.vs.T[1:, :, None]), axis=-1)
     states = st.session_state.iL.T[1:, :, None]
-    st.write("**All required files have been successfully uploaded.**")
 
 index0 = load_data0()  
 chat_engine = index0.as_chat_engine(chat_mode="context")
@@ -151,9 +150,9 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             answer_list1 = ast.literal_eval(response.response)
             st.session_state.Uin, st.session_state.Uo,st.session_state.P = answer_list1   
             Current_Stress,nZVS,nZCS,P,pos,plot,M=test3.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
-            Current_Stress1,nZVS1,nZCS1,P1,pos1,plot1,M1=test3.PINN(st.session_state.Uin,st.session_state.Uo,300,st.session_state.M)
+            Current_Stress1,nZVS1,nZCS1,P1,pos1,plot1,M1=test3.PINN(st.session_state.Uin,st.session_state.Uo,100,st.session_state.M)
             Current_Stress_sps,nZVS_sps,nZCS_sps,P_sps, pos_sps, plot_sps, M_sps=test3.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,"SPS")
-            Current_Stress_sps1,nZVS_sps1,nZCS_sps1,P_sps1, pos_sps1, plot_sps1, M_sps1=test3.PINN(st.session_state.Uin,st.session_state.Uo,300,"SPS")
+            Current_Stress_sps1,nZVS_sps1,nZCS_sps1,P_sps1, pos_sps1, plot_sps1, M_sps1=test3.PINN(st.session_state.Uin,st.session_state.Uo,100,"SPS")
             Answer0=test3.answer(pos,st.session_state.M,Current_Stress,nZVS,nZCS,P,M)
             Answer1=test3.answer1(pos1,st.session_state.M,Current_Stress1,nZVS1,nZCS1,P1,M1)
             Answer2=test3.answer(pos_sps,"SPS",Current_Stress_sps,nZVS_sps,nZCS_sps,P_sps,M_sps)
@@ -200,7 +199,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             Current_Stress,nZVS,nZCS,P,pos,plot,M=test3.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
-            Current_Stress1,nZVS1,nZCS1,P1,pos1,plot1,M1=test3.PINN(st.session_state.Uin,st.session_state.Uo,300,st.session_state.M)
+            Current_Stress1,nZVS1,nZCS1,P1,pos1,plot1,M1=test3.PINN(st.session_state.Uin,st.session_state.Uo,100,st.session_state.M)
             Answer0=test3.answer(pos,st.session_state.M,Current_Stress,nZVS,nZCS,P,M)
             Answer1=test3.answer1(pos1,st.session_state.M,Current_Stress1,nZVS1,nZCS1,P1,M1)
             st.write(Answer0)
