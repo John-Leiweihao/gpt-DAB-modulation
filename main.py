@@ -63,9 +63,19 @@ if "Uo" not in st.session_state:
 if "P" not in st.session_state:
     st.session_state.P=1
 
-uploaded_file = st.sidebar.file_uploader("Choose a file")
-if uploaded_file is not None:
-    inputs, states = pickle.load(uploaded_file)
+uploaded_vp = st.sidebar.file_uploader("Choose VP file", key="vp")
+uploaded_vs = st.sidebar.file_uploader("Choose VS file", key="vs")
+uploaded_il = st.sidebar.file_uploader("Choose IL file", key="il")
+
+if uploaded_vp is not None and uploaded_vs is not None and uploaded_il is not None:
+    # 使用np.loadtxt读取数据，注意调整delimiter和skiprows参数以匹配您的文件格式
+    vp = np.loadtxt(uploaded_vp, skiprows=1, delimiter=',')  # 请根据实际情况调整delimiter
+    vs = np.loadtxt(uploaded_vs, skiprows=1, delimiter=',')  # 请根据实际情况调整delimiter
+    il = np.loadtxt(uploaded_il, skiprows=1, delimiter=',')  # 请根据实际情况调整delimiter
+
+    # 数据处理
+    inputs = np.concatenate((vp.T[1:, :, None], vs.T[1:, :, None]), axis=-1)
+    states = il.T[1:, :, None]
   #temp_dir = tempfile.mkdtemp()
  # path = os.path.join(temp_dir, uploaded_file.name)
  # with open(path, "wb") as f:
