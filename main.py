@@ -87,6 +87,8 @@ if st.sidebar.button("Confirm Upload"):
 if 'vp' in locals() and 'vs' in locals() and 'iL' in locals():
     inputs = np.concatenate((vp.T[1:, :, None], vs.T[1:, :, None]), axis=-1)
     states = iL.T[1:, :, None]
+    st.write("Inputs shape:", inputs.shape)
+    st.write("States shape:", states.shape)
 
 
 index0 = load_data0()  
