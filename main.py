@@ -64,6 +64,14 @@ if "Uo" not in st.session_state:
 if "P" not in st.session_state:
     st.session_state.P=1
 
+if 'vp' not in st.session_state:
+    st.session_state.vp = None
+if 'vs' not in st.session_state:
+    st.session_state.vs = None
+if 'iL' not in st.session_state:
+    st.session_state.iL = None
+
+# 创建一个选择文件类型的下拉菜单
 file_type = st.sidebar.selectbox("Select file type", ("vp", "vs", "iL"))
 
 # 创建文件上传器
@@ -74,19 +82,20 @@ if st.sidebar.button("Confirm Upload"):
     if uploaded_file is not None:
         # 根据选择的文件类型处理文件
         if file_type == "vp":
-            vp = np.loadtxt(uploaded_file, skiprows=1, delimiter=',')
+            st.session_state.vp = np.loadtxt(uploaded_file, skiprows=1, delimiter=',')
         elif file_type == "vs":
-            vs = np.loadtxt(uploaded_file, skiprows=1, delimiter=',')
+            st.session_state.vs = np.loadtxt(uploaded_file, skiprows=1, delimiter=',')
         elif file_type == "iL":
-            iL = np.loadtxt(uploaded_file, skiprows=1, delimiter=',')
+            st.session_state.iL = np.loadtxt(uploaded_file, skiprows=1, delimiter=',')
 
         # 提示用户文件已上传并处理
         st.sidebar.write(f"{file_type} file uploaded successfully.")
 
 # 检查所有文件是否都已上传并处理
-if 'vp' in locals() and 'vs' in locals() and 'iL' in locals():
-    inputs = np.concatenate((vp.T[1:, :, None], vs.T[1:, :, None]), axis=-1)
-    states = iL.T[1:, :, None]
+if st.session_state.vp is not None and st.session_state.vs is not None and st.session_state.iL is not None:
+    inputs = np.concatenate((st.session_state.vp.T[1:, :, None], st.session_state.vs.T[1:, :, None]), axis=-1)
+    states = st.session_state.iL.T[1:, :, None]
+    # 显示一些输出
     st.write("Inputs shape:", inputs.shape)
     st.write("States shape:", states.shape)
 
