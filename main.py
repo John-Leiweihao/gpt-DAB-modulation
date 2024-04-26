@@ -14,6 +14,7 @@ from io import BytesIO
 import matplotlib.pyplot as plt
 import Training
 import pickle
+import numpy as np
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 api_base = "https://pro.aiskt.com/v1"
 openai.base_url = api_base
