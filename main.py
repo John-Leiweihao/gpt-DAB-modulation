@@ -284,7 +284,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
                message = {"role": "assistant", "content": reply}
                st.session_state.messages.append(message)
     elif "C2M0080120D" in prompt.lower():
-        with st.chat_message("assistant"):    
+        with st.chat_message("Calculating"):    
               with st.spinner("Thinking..."):
                 reply=test_buck.answer3(st.session_state.P_on,st.session_state.P_off,st.session_state.P_cond)
                 st.write(reply)
