@@ -17,6 +17,7 @@ import pickle
 import numpy as np
 import Buck_plecs
 import test_buck
+
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 api_base = "https://pro.aiskt.com/v1"
 openai.base_url = api_base
@@ -32,6 +33,11 @@ with st.sidebar:
   st.markdown('---')
 clear_button=st.sidebar.button('Clear Conversation',key='clear')
 
+client = OpenAI(api_key=openai.api_key)
+
+if "openai_model" not in st.session_state:
+    st.session_state["openai_model"] = "gpt-4-0125-preview"
+
 with open('./prompt.txt', 'r') as file:
     content1 = file.read()
 if clear_button or "messages" not in st.session_state:  # Initialize the chat messages history
@@ -42,7 +48,7 @@ if clear_button or "messages" not in st.session_state:  # Initialize the chat me
 def load_data0():
     with st.spinner(text="Loading and indexing  docs – hang tight! This should take 1-2 minutes."):
         docs = SimpleDirectoryReader("database").load_data()
-        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods(SPS,EPS,DPS,TPS,5DOF) of dual active bridge.Please answer the questions based on the documents I have provided you and your own understanding  .Make sure your answers are professional and accurate -- don't hallucinate."))
+        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods(SPS,EPS,DPS,TPS,5DOF) of dual active bridge and optimzation design of buck converter.Please answer the questions based on the documents I have provided you and your own understanding  .Make sure your answers are professional and accurate -- don't hallucinate."))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
 def load_data1():
@@ -56,11 +62,6 @@ def load_data2():
         docs = SimpleDirectoryReader("introduction").load_data()
         service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
-        return index
-def load_data3():
-    with st.spinner(text="Loading and indexing the  docs – hang tight! This should take 1-2 minutes."):
-        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
-        index = VectorStoreIndex.from_documents(service_context=service_context)
         return index
 initial_values = {
     "M": "X",
@@ -128,8 +129,6 @@ index1 = load_data1()
 chat_engine1 = index1.as_chat_engine()
 index2 = load_data2()  
 chat_engine2 = index2.as_chat_engine(chat_mode="context")
-index3 = load_data3()
-chat_engine3 = index3.as_chat_engine()
 
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
     with st.chat_message(message["role"]):
@@ -299,7 +298,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     else:
          with st.chat_message("assistant"):
              with st.spinner("Thinking..."):
-                response = chat_engine3.chat(prompt, messages_history)
+                response = chat_engine.chat(prompt, messages_history)
                 st.write(response.response)
                 message = {"role": "assistant", "content": response.response}
                 st.session_state.messages.append(message)
