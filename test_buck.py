@@ -371,7 +371,7 @@ def draw(L, Co, Vin, Vref, PL, fs):
 #L_best,Co_best,i_ripple_value,v_ripple_value,i_ripple_percentage,v_ripple_percentage ,iLdc,iL1,iL2,iL3,Vodc,Vo1,Vo2,Vo3,P_on,P_off,P_cond=optimization(200,80,800,5e4,0.2,0.005)
 #print(L_best,Co_best,i_ripple_value,v_ripple_value,i_ripple_percentage,v_ripple_percentage ,iLdc,iL1,iL2,iL3,Vodc,Vo1,Vo2,Vo3,P_on,P_off,P_cond)
 #plot1,plot2=draw(L_best, Co_best, 200, 80, 800, 5e4)
-def ansewer1(L,C,v_ripple_value,v_ripple_percentage,i_ripple_value,i_ripple_percentage):
+def answer1(L,C,v_ripple_value,v_ripple_percentage,i_ripple_value,i_ripple_percentage):
    L=round(L*1e6,2)
    C=round(C*1e6,2)
    response="The optimal inductance L is designed to be {} uH, and the optimal capacitance C is designed to be {} uF. The output voltage ripple and inductor current ripple are {} V ({}) and {} A ({}), respectively. ".format(L,C,v_ripple_value,v_ripple_percentage,i_ripple_value,i_ripple_percentage)
