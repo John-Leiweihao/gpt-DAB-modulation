@@ -290,7 +290,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
                 st.write(reply)
                 message = {"role": "assistant", "content": reply}
                 st.session_state.messages.append(message)
-    elif "C2M0080120D" in prompt.lower():
+    elif "simulation" in prompt.lower():
         with st.chat_message("assistant"):    
               with st.spinner("Waiting... PLECS is starting up..."):
                 Buck_plecs.startplecs(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.L,st.session_state.C,st.session_state.fs)
