@@ -33,12 +33,12 @@ with st.sidebar:
   st.markdown('\n- PE-GPT (v2.0) supports the design of modulation strategies for the dual active bridge converter.')
   st.markdown('---')
 clear_button=st.sidebar.button('Clear Conversation',key='clear')
-plecs_button=st.sidebar.button('Open Plecs')
-if plecs_button:
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    # 构建相对路径
-    plecs_file_path = os.path.join(current_dir, "Buck.plecs")
-    subprocess.run(["xdg-open", plecs_file_path])
+#plecs_button=st.sidebar.button('Open Plecs')
+#if plecs_button:
+#   current_dir = os.path.dirname(os.path.abspath(__file__))
+#    # 构建相对路径
+#    plecs_file_path = os.path.join(current_dir, "Buck.plecs")
+#    subprocess.run(["xdg-open", plecs_file_path])
 client = OpenAI(api_key=openai.api_key)
 
 if "openai_model" not in st.session_state:
