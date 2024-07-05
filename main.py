@@ -259,7 +259,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
              with st.spinner("Well received. Please hold on for a while. Analysing….. "):
                 response = chat_engine.chat(prompt, messages_history)
                 answer_list = ast.literal_eval(response.response)
-                st.session_state.i_ripple_lim, st.session_state.v_ripple_lim,st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs = answer_list
+                st.session_state.v_ripple_lim, st.session_state.i_ripple_lim,st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs = answer_list
                 st.session_state.L,st.session_state.C,st.session_state.i_ripple_value,st.session_state.v_ripple_value,st.session_state.i_ripple_percentage,st.session_state.v_ripple_percentage ,st.session_state.iLdc,st.session_state.iL1,st.session_state.iL2,st.session_state.iL3,st.session_state.Vodc,st.session_state.Vo1,st.session_state.Vo2,st.session_state.Vo3,st.session_state.P_on,st.session_state.P_off,st.session_state.P_cond=test_buck.optimization(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs,st.session_state.i_ripple_lim, st.session_state.v_ripple_lim)
                 Answer1=test_buck.answer1(st.session_state.L,st.session_state.C,st.session_state.v_ripple_value,st.session_state.v_ripple_percentage,st.session_state.i_ripple_value,st.session_state.i_ripple_percentage)
                 Answer2="The output waveform of the inductor current in steady state under this operating condition is shown in the following figure:"
