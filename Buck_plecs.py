@@ -78,11 +78,11 @@ def startplecs(Vin,Vref,P,L_best,Co_best,fs):
     #L_best,Co_best,i_ripple_value,v_ripple_value,i_ripple_percentage,v_ripple_percentage ,iLdc,iL1,iL2,iL3,Vodc,Vo1,Vo2,Vo3,P_on,P_off,P_cond=test_buck.optimization(200,80,800,5e4,0.2,0.005)
 
     def startplecs(file_path):
-    if platform.system() == 'Windows':
-        os.startfile(file_path)
-    else:
-        opener = "open" if sys.platform == "darwin" else "xdg-open"
-        subprocess.call([opener, file_path])
+        if platform.system() == 'Windows':
+            os.startfile(file_path)
+        else:
+            opener = "open" if sys.platform == "darwin" else "xdg-open"
+            subprocess.call([opener, file_path])
 
 
     # 使用方法
