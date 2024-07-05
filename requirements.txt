@@ -9,3 +9,4 @@ torch
 pyswarms
 psutil
 func_timeout
+xdg-utils
