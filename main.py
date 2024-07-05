@@ -254,7 +254,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
                 st.write(reply)
                 message = {"role": "assistant", "content": reply}
                 st.session_state.messages.append(message)
-    elif "ripple constraint" in prompt.lower() and "Operating conditions" in prompt.lower():
+    elif "ripple constraint" in prompt.lower() and "operating conditions" in prompt.lower():
         with st.chat_message("assistant"):
              with st.spinner("Well received. Please hold on for a while. Analysing….. "):
                 response = chat_engine3.chat(prompt, messages_history)
