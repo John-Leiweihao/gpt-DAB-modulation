@@ -17,6 +17,7 @@ import pickle
 import numpy as np
 import Buck_plecs
 import test_buck
+import subprocess
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 api_base = "https://pro.aiskt.com/v1"
@@ -37,7 +38,7 @@ if plecs_button:
     current_dir = os.path.dirname(os.path.abspath(__file__))
     # 构建相对路径
     plecs_file_path = os.path.join(current_dir, "Buck.plecs")
-    os.startfile(plecs_file_path)
+    subprocess.run(["xdg-open", plecs_file_path])
 client = OpenAI(api_key=openai.api_key)
 
 if "openai_model" not in st.session_state:
