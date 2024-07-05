@@ -209,7 +209,7 @@ def optimization(Vin,Vo,PL,fs,i_ripple_lim,v_ripple_lim):
                                            model_PINN=model_PINN,
                                            Vin=Vin, Vref=Vref,
                                            i_ripple_lim=i_ripple_lim,
-                                           v_ripple_lim=v_ripple_lim)
+                                           v_ripple_lim=v_ripple_lim,verbose=False)
         return cost, pos
 
     upper_bound = [2e-3, 100e-6]
