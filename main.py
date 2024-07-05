@@ -265,7 +265,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
                 Answer1=test_buck.answer1(st.session_state.L,st.session_state.C,st.session_state.v_ripple_value,st.session_state.v_ripple_percentage,st.session_state.i_ripple_value,st.session_state.i_ripple_percentage)
                 Answer2="The output waveform of the inductor current in steady state under this operating condition is shown in the following figure:"
                 Answer3="The output waveform of the output voltage in steady state under this operating condition is shown in the following figure:"
-                plot1,plot2=test_buck.draw((st.session_state.L,st.session_state.C,st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs)
+                plot1,plot2=test_buck.draw(st.session_state.L,st.session_state.C,st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs)
                 st.write(Answer1)
                 st.write(Answer2)
                 st.image(plot1)    
