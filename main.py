@@ -15,6 +15,8 @@ import matplotlib.pyplot as plt
 import Training
 import pickle
 import numpy as np
+import Buck_plecs
+import test_buck
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 api_base = "https://pro.aiskt.com/v1"
 openai.base_url = api_base
@@ -63,6 +65,12 @@ if "Uo" not in st.session_state:
     st.session_state.Uo=1
 if "P" not in st.session_state:
     st.session_state.P=1
+if "Lr" not in st.session_state:
+    st.session_state.Lr=1
+if "Cf" not in st.session_state:
+    st.session_state.Cf=1
+if "fs" not in st.session_state:
+    st.session_state.fs=1
 
 if 'vp' not in st.session_state:
     st.session_state.vp = None
