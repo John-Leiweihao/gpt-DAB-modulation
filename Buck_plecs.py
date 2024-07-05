@@ -75,8 +75,18 @@ def startplecs(Vin,Vref,P,L_best,Co_best,fs):
     #fs=5e4
     #L_best,Co_best,i_ripple_value,v_ripple_value,i_ripple_percentage,v_ripple_percentage ,iLdc,iL1,iL2,iL3,Vodc,Vo1,Vo2,Vo3,P_on,P_off,P_cond=test_buck.optimization(200,80,800,5e4,0.2,0.005)
 
-    plecs_file_path=r"C:\Users\11023\Desktop\PA-RNN buck\Buck.plecs"
-    os.startfile(plecs_file_path)
+    def startplecs(file_path):
+        if platform.system() == 'Windows':
+            os.startfile(file_path)
+        else:
+            opener = "open" if platform.system() == "Darwin" else "xdg-open"
+            subprocess.call([opener, file_path])
+
+    # 使用方法
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # 构建相对路径
+    plecs_file_path = os.path.join(current_dir, "Buck.plecs")
+    startplecs(plecs_file_path)
 
     time.sleep(5)
 
