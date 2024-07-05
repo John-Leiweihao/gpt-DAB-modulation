@@ -57,27 +57,45 @@ def load_data2():
         service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
-if "M" not in st.session_state:
-    st.session_state.M = "X"  # 初始化M的值
-if "Uin" not in st.session_state: 
-   st.session_state.Uin=1
-if "Uo" not in st.session_state: 
-    st.session_state.Uo=1
-if "P" not in st.session_state:
-    st.session_state.P=1
-if "Lr" not in st.session_state:
-    st.session_state.Lr=1
-if "Cf" not in st.session_state:
-    st.session_state.Cf=1
-if "fs" not in st.session_state:
-    st.session_state.fs=1
+def load_data3():
+    with st.spinner(text="Loading and indexing the  docs – hang tight! This should take 1-2 minutes."):
+        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
+        index = VectorStoreIndex.from_documents(service_context=service_context)
+        return index
+initial_values = {
+    "M": "X",
+    "Uin": 1,
+    "Uo": 1,
+    "P": 1,
+    "L": 1,
+    "C": 1,
+    "fs": 1,
+    "i_ripple_lim": 1,
+    "v_ripple_lim": 1,
+    "i_ripple_value": 1,
+    "v_ripple_value": 1,
+    "i_ripple_percentage": 1,
+    "v_ripple_percentage": 1,
+    "iLdc": 1,
+    "iL1": 1,
+    "iL2": 1,
+    "iL3": 1,
+    "Vodc": 1,
+    "Vo1": 1,
+    "Vo2": 1,
+    "Vo3": 1,
+    "P_on": 1,
+    "P_off": 1,
+    "P_cond": 1,
+    "vp": None,
+    "vs": None,
+    "iL": None
+}
 
-if 'vp' not in st.session_state:
-    st.session_state.vp = None
-if 'vs' not in st.session_state:
-    st.session_state.vs = None
-if 'iL' not in st.session_state:
-    st.session_state.iL = None
+# 遍历字典，初始化 st.session_state 中的值
+for key, value in initial_values.items():
+    if key not in st.session_state:
+        st.session_state[key] = value
 
 # 创建一个选择文件类型的下拉菜单
 file_type = st.sidebar.selectbox("Select file type", ("vp", "vs", "iL"))
@@ -110,6 +128,9 @@ index1 = load_data1()
 chat_engine1 = index1.as_chat_engine()
 index2 = load_data2()  
 chat_engine2 = index2.as_chat_engine(chat_mode="context")
+index3 = load_data3()
+chat_engine3 = index3.as_chat_engine()
+
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
     with st.chat_message(message["role"]):
         st.write(message["content"])
@@ -124,7 +145,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     ChatMessage(role=MessageRole.USER if m["role"] == "user" else MessageRole.ASSISTANT, content=m["content"])
     for m in st.session_state.messages
 ]
-    if any(keyword in prompt.lower() for keyword in ["consideration","recommend","modulation","design","scheme","designs","desire","solution","goal","strategy"]):
+    if "dab" in prompt.lower() and any(keyword in prompt.lower() for keyword in ["consideration","recommend","modulation","design","scheme","designs","desire","solution","goal","strategy"]):
         with st.chat_message("assistant"):
           with st.spinner("Thinking..."):
               response = chat_engine1.chat(prompt, messages_history)
@@ -151,7 +172,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             st.write(response.response)
             message = {"role": "assistant", "content": response.response}
             st.session_state.messages.append(message)
-    elif "Uin" in prompt:
+    elif "Uin" in prompt and "DAB" in prompt:
       with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             response = chat_engine.chat(prompt, messages_history)
@@ -234,10 +255,51 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
                 st.write(reply)
                 message = {"role": "assistant", "content": reply}
                 st.session_state.messages.append(message)
+    elif "ripple constraint" in prompt.lower() and "Operating conditions" in prompt.lower():
+        with st.chat_message("assistant"):
+             with st.spinner("Well received. Please hold on for a while. Analysing….. "):
+                response = chat_engine3.chat(prompt, messages_history)
+                answer_list = ast.literal_eval(response.response)
+                st.session_state.i_ripple_lim, st.session_state.v_ripple_lim,st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs = answer_list
+                st.session_state.L,st.session_state.C,st.session_state.i_ripple_value,st.session_state.v_ripple_value,st.session_state.i_ripple_percentage,st.session_state.v_ripple_percentage ,st.session_state.iLdc,st.session_state.iL1,st.session_state.iL2,st.session_state.iL3,st.session_state.Vodc,st.session_state.Vo1,st.session_state.Vo2,st.session_state.Vo3,st.session_state.P_on,st.session_state.P_off,st.session_state.P_cond=test_buck.optimization(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs,st.session_state.i_ripple_lim, st.session_state.v_ripple_lim)
+                Answer1=test_buck.answer1(st.session_state.L,st.session_state.C,st.session_state.v_ripple_value,st.session_state.v_ripple_percentage,st.session_state.i_ripple_value,st.session_state.i_ripple_percentage)
+                Answer2="The output waveform of the inductor current in steady state under this operating condition is shown in the following figure:"
+                Answer3="The output waveform of the output voltage in steady state under this operating condition is shown in the following figure:"
+                plot1,plot2=test_buck.draw((st.session_state.L,st.session_state.C,st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs)
+                st.write(Answer1)
+                st.write(Answer2)
+                st.image(plot1)    
+                st.write(Answer3)
+                st.image(plot2)
+                message = {"role": "assistant", "content": Answer1}
+                message1 = {"role": "assistant", "content": Answer2,"images": plot1}
+                message2 = {"role": "assistant", "content": Answer3,"images": plot2}
+                st.session_state.messages.append(message)
+                st.session_state.messages.append(message1)
+                st.session_state.messages.append(message2)
+    elif "harmonic components" in prompt.lower():
+        with st.chat_message("assistant"):
+             with st.spinner("Thinking..."):
+               reply=test_buck.answer2(st.session_state.iLdc,st.session_state.iL1,st.session_state.iL2,st.session_state.iL3,st.session_state.Vodc,st.session_state.Vo1,st.session_state.Vo2,st.session_state.Vo3)
+               st.write(reply)
+               message = {"role": "assistant", "content": reply}
+               st.session_state.messages.append(message)
+    elif "C2M0080120D" in prompt.lower():
+        with st.chat_message("assistant"):    
+              with st.spinner("Thinking..."):
+                reply=test_buck.answer3(st.session_state.P_on,st.session_state.P_off,st.session_state.P_cond)
+                st.write(reply)
+                message = {"role": "assistant", "content": reply}
+                st.session_state.messages.append(message)
+    elif "C2M0080120D" in prompt.lower():
+        with st.chat_message("assistant"):    
+              with st.spinner("Waiting... PLECS is starting up..."):
+                Buck_plecs.startplecs(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.L,st.session_state.C,st.session_state.fs)
+                
     else:
          with st.chat_message("assistant"):
              with st.spinner("Thinking..."):
-                response = chat_engine.chat(prompt, messages_history)
+                response = chat_engine3.chat(prompt, messages_history)
                 st.write(response.response)
                 message = {"role": "assistant", "content": response.response}
                 st.session_state.messages.append(message)
