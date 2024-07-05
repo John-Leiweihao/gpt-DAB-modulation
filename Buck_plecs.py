@@ -84,8 +84,8 @@ def startplecs(Vin,Vref,P,L_best,Co_best,fs):
             os.startfile(plecs_file_path)
         elif system == 'Darwin':  # macOS
             subprocess.call(["open", plecs_file_path])
-      #  elif system == 'Linux':
-       #     subprocess.call(["xdg-open", plecs_file_path])
+        elif system == 'Linux':
+            subprocess.call(["xdg-open", plecs_file_path])
 
 
     # 使用方法
