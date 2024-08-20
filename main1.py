@@ -208,14 +208,14 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
         if any(keyword in decision for keyword in ["SPS", "DPS", "EPS", "TPS", "5DOF"]):
           if "recommend" in decision:
           # 获取 recommend 后面的内容
-          recommendation_start = decision.find("recommend") + len("recommend")
-          recommendation = decision[recommendation_start:].strip()
+            recommendation_start = decision.find("recommend") + len("recommend")
+            recommendation = decision[recommendation_start:].strip()
         
           # 提取调制方式，假设它是 recommendation 的第一个单词
-          modulation_method = recommendation.split()[0]
+            modulation_method = recommendation.split()[0]
         
           # 将调制方式赋值给 st.session_state.M
-          st.session_state.M = modulation_method
+            st.session_state.M = modulation_method
           st.write(decision)
           message = {"role": "assistant", "content": decision}
           st.session_state.messages.append(message)
