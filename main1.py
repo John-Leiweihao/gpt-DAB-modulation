@@ -224,7 +224,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
           st.session_state.messages.append(message)
         
         elif "[" in decision:
-            answer_list1 = ast.literal_eval(response.response)
+            answer_list1 = ast.literal_eval(decision)
             st.session_state.Uin, st.session_state.Uo,st.session_state.P = answer_list1   
             Current_Stress,nZVS,nZCS,P,pos,plot,M=test3.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
             Current_Stress1,nZVS1,nZCS1,P1,pos1,plot1,M1=test3.PINN(st.session_state.Uin,st.session_state.Uo,100,st.session_state.M)
