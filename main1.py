@@ -212,9 +212,9 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
           if "recommend" in decision:
               for keyword in ["SPS", "DPS", "EPS", "TPS", "5DOF"]:
               # 查找 "recommend" 后的第一个出现的关键字
-              if keyword in decision.split("recommend", 1)[1]:
-                st.session_state.M = keyword
-                break  # 找到第一个匹配的关键字后退出循环
+                if keyword in decision.split("recommend", 1)[1]:
+                  st.session_state.M = keyword
+                  break  # 找到第一个匹配的关键字后退出循环
           st.write(decision)
           message = {"role": "assistant", "content": decision}
           st.session_state.messages.append(message)
