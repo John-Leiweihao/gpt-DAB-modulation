@@ -77,9 +77,12 @@ def load_data2():
         index = VectorStoreIndex(nodes, service_context=service_context)
         return index
 def load_data3():
-      service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
-      index = VectorStoreIndex(service_context=service_context)
-      return index
+        docs = SimpleDirectoryReader("database_empty").load_data()
+        node_parser = SimpleNodeParser.from_defaults(chunk_size=512)
+        nodes = node_parser.get_nodes_from_documents(docs)
+        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods of dual active bridge.Please provide modulation to user according to my prompt .keep your answer follow the rules I told u-- don't hallucinate."))
+        index = VectorStoreIndex(nodes, service_context=service_context)
+        return index
 index0 = load_data0()  
 chat_engine = index0.as_chat_engine(similarity_top_k=7)
 index1 = load_data1()  
