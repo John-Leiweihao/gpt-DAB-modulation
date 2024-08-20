@@ -158,7 +158,6 @@ def determine_chat_engine(user_input,messages_history):
       1. Case 0: The user is inquiring about information related to the dual active bridge converter, except for asking you to recommend a modulation method for it.
       2. Case 1:The user needs to choose or update the modulation method for the dual active bridge converter.
       3. Case 2:The user needs you to introduce yourself (PE-GPT).
-      4. Case 3:The user's input does not contain any of the above three cases.
       You only need to understand the user's input and Return the most appropriate case..
     """
     response = chat_engine3.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
@@ -171,11 +170,9 @@ def determine_chat_engine(user_input,messages_history):
         return chat_engine1  # 使用 index1 的 chat_engine
     elif "Case 2" in decision:
         return chat_engine2  # 使用 index2 的 chat_engine
-    elif "Case 3" in decision:
-        return chat_engine3  # 暂时返回 None，因为语境4需要特别处理
-    else:
-        # 如果 GPT 返回了意料之外的结果，可以选择抛出错误或返回一个默认的 chat_engine
-        raise ValueError(f"Unexpected decision from GPT: {decision}")
+    else
+        return chat_engine3  # 
+
 
 #在GUI展示历史聊天对话
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
