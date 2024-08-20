@@ -44,7 +44,7 @@ if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = "gpt-4-0125-preview"
   
 #将prompt提供给GPT模型，进行预训练
-with open('C:\\Users\\11023\\Desktop\\PE-GPT-RANN\\gpt-DAB-modulation-main\\prompt.txt', 'r') as file:
+with open('prompt.txt', 'r') as file:
     content1 = file.read()
 if clear_button or "messages" not in st.session_state:  # Initialize the chat messages history
     st.session_state.messages = [{"role": "user", "content": content1},
