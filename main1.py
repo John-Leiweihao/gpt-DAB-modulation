@@ -173,6 +173,9 @@ def determine_chat_engine(user_input,messages_history):
         return chat_engine2  # 使用 index2 的 chat_engine
     elif "Case 3" in decision:
         return chat_engine3  # 暂时返回 None，因为语境4需要特别处理
+    else:
+        # 如果 GPT 返回了意料之外的结果，可以选择抛出错误或返回一个默认的 chat_engine
+        raise ValueError(f"Unexpected decision from GPT: {decision}")
 
 #在GUI展示历史聊天对话
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
