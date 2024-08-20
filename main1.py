@@ -210,15 +210,24 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     
         if any(keyword in decision for keyword in ["SPS", "DPS", "EPS", "TPS", "5DOF"]):
           if "recommend" in decision:
-              for keyword in ["SPS", "DPS", "EPS", "TPS", "5DOF"]:
-              # 查找 "recommend" 后的第一个出现的关键字
-                if keyword in decision.split("recommend", 1)[1]:
-                  st.session_state.M = keyword
-                  break  # 找到第一个匹配的关键字后退出循环
+            # 获取 "recommend" 之后的部分
+            recommend_index = decision.index("recommend")
+            subsequent_decision = decision[recommend_index + len("recommend"):]
+    
+            # 找到 ["SPS", "DPS", "EPS", "TPS", "5DOF"] 中最先出现的元素
+            first_keyword = None
+            for keyword in ["SPS", "DPS", "EPS", "TPS", "5DOF"]:
+              keyword_index = subsequent_decision.find(keyword)
+              if keyword_index != -1:
+                if first_keyword is None or keyword_index < first_keyword[1]:
+                  first_keyword = (keyword, keyword_index)
+    
+              # 将 st.session_state.M 设置为找到的第一个关键词
+            if first_keyword:
+              st.session_state.M = first_keyword[0]
           st.write(decision)
           message = {"role": "assistant", "content": decision}
           st.session_state.messages.append(message)
-        
         elif "[" in decision:
             answer_list1 = ast.literal_eval(decision)
             st.session_state.Uin, st.session_state.Uo,st.session_state.P = answer_list1   
