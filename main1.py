@@ -76,12 +76,18 @@ def load_data2():
         service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
         index = VectorStoreIndex(nodes, service_context=service_context)
         return index
+def load_data3():
+      service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
+      index = VectorStoreIndex(service_context=service_context)
+      return index
 index0 = load_data0()  
 chat_engine = index0.as_chat_engine(similarity_top_k=7)
 index1 = load_data1()  
 chat_engine1 = index1.as_chat_engine(similarity_top_k=7)
 index2 = load_data2()  
 chat_engine2 = index2.as_chat_engine(chat_mode="context",similarity_top_k=7)
+index3 = load_data3()  
+chat_engine3 = index3.as_chat_engine()
 
 #定义可能用到的变量名
 initial_values = {
@@ -114,6 +120,7 @@ initial_values = {
     "iL": None
 }
 
+
 # 遍历字典，初始化 st.session_state 中的值
 for key, value in initial_values.items():
     if key not in st.session_state:
@@ -139,11 +146,30 @@ if st.sidebar.button("Confirm Upload"):
         # 提示用户文件已上传并处理
         st.sidebar.write(f"{file_type} file uploaded successfully.")
 
-# 检查所有文件是否都已上传并处理
-if st.session_state.vp is not None and st.session_state.vs is not None and st.session_state.iL is not None:
-    inputs = np.concatenate((st.session_state.vp.T[1:, :, None], st.session_state.vs.T[1:, :, None]), axis=-1)
-    states = st.session_state.iL.T[1:, :, None]
 
+def determine_chat_engine(user_input,messages_history):
+    # 使用 GPT 来分析输入语境
+    prompt = f"""
+      The input content is: "{user_input}"
+      Please determine which case this belongs to:
+      1. Case 0: The user is inquiring about information related to the dual active bridge converter, except for asking you to recommend a modulation method for it.
+      2. Case 1:The user needs to choose or update the modulation method for the dual active bridge converter.
+      3. Case 2:The user needs you to introduce yourself (PE-GPT).
+      4. Case 3:The user's input does not contain any of the above three cases.
+      You only need to understand the user's input and Return the most appropriate case..
+    """
+    response = chat_engine3.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
+    decision = response.response.strip()
+
+    # 根据 GPT 的判断选择相应的 chat_engine
+    if "Case 0" in decision:
+        return chat_engine  # 使用 index0 的 chat_engine
+    elif "Case 1" in decision:
+        return chat_engine1  # 使用 index1 的 chat_engine
+    elif "Case 2" in decision:
+        return chat_engine2  # 使用 index2 的 chat_engine
+    elif "Case 3" in decision:
+        return chat_engine3  # 暂时返回 None，因为语境4需要特别处理
 
 #在GUI展示历史聊天对话
 for message in st.session_state.messages[2:]:  # Display the prior chat messages
@@ -151,7 +177,19 @@ for message in st.session_state.messages[2:]:  # Display the prior chat messages
         st.write(message["content"])
         if "images" in message:
           st.image(message["images"])
-
+          
+# 检查所有文件是否都已上传并处理
+if st.session_state.vp is not None and st.session_state.vs is not None and st.session_state.iL is not None:
+    inputs = np.concatenate((st.session_state.vp.T[1:, :, None], st.session_state.vs.T[1:, :, None]), axis=-1)
+    states = st.session_state.iL.T[1:, :, None]
+    with st.chat_message("assistant"):
+        with st.spinner("Thinking..."):
+            plot,test_loss,val_loss=Training.Training_PINN(inputs,states)
+            reply= "Retraining is done. The mean absolute error is improved from {:.3f} to {:.3f}. The predicted waveform and experimental waveform are shown below ".format(test_loss,val_loss)
+            st.write(reply)
+            st.image(plot)
+            message = {"role": "assistant", "content": reply,"images": [plot]}
+            st.session_state.messages.append(message)
 #用户提问框，各种提问方式以及对应回答所调用的GPT模型
 if prompt := st.chat_input("Your question"):  # Prompt for user input and save to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
@@ -161,37 +199,28 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
     ChatMessage(role=MessageRole.USER if m["role"] == "user" else MessageRole.ASSISTANT, content=m["content"])
     for m in st.session_state.messages
 ]
-    if "dab" in prompt.lower() and any(keyword in prompt.lower() for keyword in ["consideration","recommend","modulation","design","scheme","designs","desire","solution","goal","strategy"]):
-        with st.chat_message("assistant"):
-          with st.spinner("Thinking..."):
-              response = chat_engine1.chat(prompt, messages_history)
-              st.write(response.response)
-              modulation_methods = ["SPS", "DPS", "EPS", "TPS", "5DOF"]
-              first_method_found = None
-              first_method_index = len(response.response)
-              # 遍历每个方法，检查它是否在response.response中，并记录位置
-              for method in modulation_methods:
-                  index = response.response.find(method)
-                  # 如果找到了方法，并且这个位置比之前记录的位置更前，就更新记录
-                  if index != -1 and index < first_method_index:
-                      first_method_found = method
-                      first_method_index = index
-                # 如果找到了一个方法，就设置st.session_state.M
-              if first_method_found:
-                    st.session_state.M = first_method_found
-              message = {"role": "assistant", "content": response.response}
-              st.session_state.messages.append(message)
-    elif any(keyword in prompt for keyword in ["PE-GPT", "introduce"]):
-      with st.chat_message("assistant"):
-        with st.spinner("Thinking..."):
-            response = chat_engine2.chat(prompt)
-            st.write(response.response)
-            message = {"role": "assistant", "content": response.response}
-            st.session_state.messages.append(message)
-    elif "Uin" in prompt and "DAB" in prompt:
-      with st.chat_message("assistant"):
-        with st.spinner("Thinking..."):
-            response = chat_engine.chat(prompt, messages_history)
+    with st.chat_message("assistant"):
+      with st.spinner("Thinking..."):
+        selected_engine = determine_chat_engine(prompt, messages_history)
+        response =selected_engine.chat(prompt, messages_history)
+        decision = response.response
+    
+        if any(keyword in decision for keyword in ["SPS", "DPS", "EPS", "TPS", "5DOF"]):
+          if "recommend" in decision:
+          # 获取 recommend 后面的内容
+          recommendation_start = decision.find("recommend") + len("recommend")
+          recommendation = decision[recommendation_start:].strip()
+        
+          # 提取调制方式，假设它是 recommendation 的第一个单词
+          modulation_method = recommendation.split()[0]
+        
+          # 将调制方式赋值给 st.session_state.M
+          st.session_state.M = modulation_method
+          st.write(decision)
+          message = {"role": "assistant", "content": decision}
+          st.session_state.messages.append(message)
+        
+        elif isinstance(ast.literal_eval(decision), list):
             answer_list1 = ast.literal_eval(response.response)
             st.session_state.Uin, st.session_state.Uo,st.session_state.P = answer_list1   
             Current_Stress,nZVS,nZCS,P,pos,plot,M=test3.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
@@ -218,124 +247,96 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             st.session_state.messages.append(message1)
             st.session_state.messages.append(message2)
             st.session_state.messages.append(message3)
-#     elif any(keyword in prompt for keyword in ["high", "big", "large","But","seems","satisfy","wider","requirements"]):
-#         with st.chat_message("assistant"):
-#           with st.spinner("Thinking..."):
-#               response = chat_engine.chat(prompt, messages_history)
-#               st.write(response.response)
-#               modulation_methods = ["SPS", "DPS", "EPS", "TPS", "5DOF"]
-#               last_method_found = None
-#               last_method_index = -1  # 初始化为-1，表示尚未找到
-#
-#               # 反向遍历每个方法，检查它是否在response.response中，并记录位置
-#               for method in reversed(modulation_methods):
-#                     index = response.response.rfind(method)  # 使用rfind来找最后一次出现的位置
-#                       # 如果找到了方法，并且这个位置比之前记录的位置更后，就更新记录
-#                     if index != -1 and index > last_method_index:
-#                             last_method_found = method
-#                             last_method_index = index
-#
-# # 如果找到了一个方法，就设置st.session_state.M
-#               if last_method_found:
-#                       st.session_state.M = last_method_found
-#               message = {"role": "assistant", "content": response.response}
-#               st.session_state.messages.append(message)
-    elif "OK" in prompt:
-      with st.chat_message("assistant"):
-        with st.spinner("Thinking..."):
-            Current_Stress,nZVS,nZCS,P,pos,plot,M=test3.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
-            Current_Stress1,nZVS1,nZCS1,P1,pos1,plot1,M1=test3.PINN(st.session_state.Uin,st.session_state.Uo,100,st.session_state.M)
-            Answer0=test3.answer(pos,st.session_state.M,Current_Stress,nZVS,nZCS,P,M)
-            Answer1=test3.answer1(pos1,st.session_state.M,Current_Stress1,nZVS1,nZCS1,P1,M1)
-            st.write(Answer0)
-            st.image(plot)
-            st.write(Answer1)
-            st.image(plot1)
-            message = {"role": "assistant", "content": Answer0,"images": [plot]}
-            message1 = {"role": "assistant", "content": Answer1,"images": [plot1]}
-            st.session_state.messages.append(message)
-            st.session_state.messages.append(message1)
-    elif "Here you go" in prompt:
-         with st.chat_message("assistant"):
-             with st.spinner("Thinking..."):
-                plot,test_loss,val_loss=Training.Training_PINN(inputs,states)
-                reply= "Retraining is done. The mean absolute error is improved from {:.3f} to {:.3f}. The predicted waveform and experimental waveform are shown below ".format(test_loss,val_loss)
-                st.write(reply)
-                st.image(plot)
-                message = {"role": "assistant", "content": reply,"images": [plot]}
-                st.session_state.messages.append(message)
-    elif "experimental data" in prompt:
-      with st.chat_message("assistant"):
-             with st.spinner("Thinking..."):
-                reply = 'Yes, I can. Please upload your data through pickle file and I will retrain the physics-informed model embedded in PE-GPT.The pickle file should be an array arr with its first element arr[0] as "inputs", and the second element arr[1] as "states".  The shape of "inputs" is bs x seqlen x ndim_inp, denoting batch size, sequence length, and dimension of inputs, respectively. The shape of "outputs" is bs x seqlen x ndim_out, denoting batch size, sequence length, and dimension of outputs, respectively.'
-                st.write(reply)
-                message = {"role": "assistant", "content": reply}
-                st.session_state.messages.append(message)
-    elif "ripple constraint" in prompt.lower() and "operating conditions" in prompt.lower():
-        with st.chat_message("assistant"):
-             with st.spinner("Well received. Please hold on for a while. Analysing….. "):
-                response = chat_engine.chat(prompt, messages_history)
-                answer_list = ast.literal_eval(response.response)
-                st.session_state.v_ripple_lim, st.session_state.i_ripple_lim,st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs = answer_list
-                st.session_state.L,st.session_state.C,st.session_state.i_ripple_value,st.session_state.v_ripple_value,st.session_state.i_ripple_percentage,st.session_state.v_ripple_percentage ,st.session_state.iLdc,st.session_state.iL1,st.session_state.iL2,st.session_state.iL3,st.session_state.Vodc,st.session_state.Vo1,st.session_state.Vo2,st.session_state.Vo3,st.session_state.P_on,st.session_state.P_off,st.session_state.P_cond=test_buck.optimization(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs,st.session_state.i_ripple_lim, st.session_state.v_ripple_lim)
-                Answer1=test_buck.answer1(st.session_state.L,st.session_state.C,st.session_state.v_ripple_value,st.session_state.v_ripple_percentage,st.session_state.i_ripple_value,st.session_state.i_ripple_percentage)
-                Answer2="The output waveform of the inductor current in steady state under this operating condition is shown in the following figure:"
-                Answer3="The output waveform of the output voltage in steady state under this operating condition is shown in the following figure:"
-                plot1,plot2=test_buck.draw(st.session_state.L,st.session_state.C,st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs)
-                st.write(Answer1)
-                st.write(Answer2)
-                st.image(plot1)    
-                st.write(Answer3)
-                st.image(plot2)
-                message = {"role": "assistant", "content": Answer1}
-                message1 = {"role": "assistant", "content": Answer2,"images": plot1}
-                message2 = {"role": "assistant", "content": Answer3,"images": plot2}
-                st.session_state.messages.append(message)
-                st.session_state.messages.append(message1)
-                st.session_state.messages.append(message2)
-    elif "harmonic components" in prompt.lower():
-        with st.chat_message("assistant"):
-             with st.spinner("Thinking..."):
-               reply=test_buck.answer2(st.session_state.iLdc,st.session_state.iL1,st.session_state.iL2,st.session_state.iL3,st.session_state.Vodc,st.session_state.Vo1,st.session_state.Vo2,st.session_state.Vo3)
-               st.write(reply)
-               message = {"role": "assistant", "content": reply}
-               st.session_state.messages.append(message)
-    elif "C2M0080120D" in prompt:
-        with st.chat_message("assistant"):    
-              with st.spinner("Calculating"):
-                reply=test_buck.answer3(st.session_state.P_on,st.session_state.P_off,st.session_state.P_cond)
-                st.write(reply)
-                message = {"role": "assistant", "content": reply}
-                st.session_state.messages.append(message)
-    elif "verify" in prompt.lower():
-        with st.chat_message("assistant"):    
-              with st.spinner("Waiting... PLECS is starting up..."):
-                Buck_plecs.startplecs(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.L,st.session_state.C,st.session_state.fs)
-                reply="The PLECS simulation is running… Complete! You can now verify if the design is reasonable by observing the simulation waveforms."
-                st.write(reply)
-                message = {"role": "assistant", "content": reply}
-                st.session_state.messages.append(message)
-    else:
-         with st.chat_message("assistant"):
-             with st.spinner("Loading..."):
-                #response = chat_engine.chat(prompt, messages_history)
-                response=client.chat.completions.create(
-                        model=st.session_state["openai_model"],
-                    messages=[
-                        {"role":"system","content":"You are now an expert in the power electronics industry, and you are proficient in optimal design of buck converter.Please answer the questions  in a warm, positive and friendly manner.Keep your answer less than 150 words! Make sure your answers are professional and accurate -- don't hallucinate."},
-                        *[
-                            {"role": m["role"], "content": m["content"]}
-                        for m in st.session_state.messages
-                          ]
-                    ],
+            
+    # elif "OK" in prompt:
+    #   with st.chat_message("assistant"):
+    #     with st.spinner("Thinking..."):
+    #         Current_Stress,nZVS,nZCS,P,pos,plot,M=test3.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
+    #         Current_Stress1,nZVS1,nZCS1,P1,pos1,plot1,M1=test3.PINN(st.session_state.Uin,st.session_state.Uo,100,st.session_state.M)
+    #         Answer0=test3.answer(pos,st.session_state.M,Current_Stress,nZVS,nZCS,P,M)
+    #         Answer1=test3.answer1(pos1,st.session_state.M,Current_Stress1,nZVS1,nZCS1,P1,M1)
+    #         st.write(Answer0)
+    #         st.image(plot)
+    #         st.write(Answer1)
+    #         st.image(plot1)
+    #         message = {"role": "assistant", "content": Answer0,"images": [plot]}
+    #         message1 = {"role": "assistant", "content": Answer1,"images": [plot1]}
+    #         st.session_state.messages.append(message)
+    #         st.session_state.messages.append(message1)
 
-                         stream=False,
-                )
-                st.write(response.choices[0].message.content)
-                message = {"role": "assistant", "content": response.choices[0].message.content}
-                st.session_state.messages.append(message)
 
-                # response = chat_engine.chat(prompt, messages_history)
-                # st.write(response.response)
-                # message = {"role": "assistant", "content": response.response}
-                # st.session_state.messages.append(message)
+    # elif "experimental data" in prompt:
+    #   with st.chat_message("assistant"):
+    #          with st.spinner("Thinking..."):
+    #             reply = 'Yes, I can. Please upload your data through pickle file and I will retrain the physics-informed model embedded in PE-GPT.The pickle file should be an array arr with its first element arr[0] as "inputs", and the second element arr[1] as "states".  The shape of "inputs" is bs x seqlen x ndim_inp, denoting batch size, sequence length, and dimension of inputs, respectively. The shape of "outputs" is bs x seqlen x ndim_out, denoting batch size, sequence length, and dimension of outputs, respectively.'
+    #             st.write(reply)
+    #             message = {"role": "assistant", "content": reply}
+    #             st.session_state.messages.append(message)
+    # elif "ripple constraint" in prompt.lower() and "operating conditions" in prompt.lower():
+    #     with st.chat_message("assistant"):
+    #          with st.spinner("Well received. Please hold on for a while. Analysing….. "):
+    #             response = chat_engine.chat(prompt, messages_history)
+    #             answer_list = ast.literal_eval(response.response)
+    #             st.session_state.v_ripple_lim, st.session_state.i_ripple_lim,st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs = answer_list
+    #             st.session_state.L,st.session_state.C,st.session_state.i_ripple_value,st.session_state.v_ripple_value,st.session_state.i_ripple_percentage,st.session_state.v_ripple_percentage ,st.session_state.iLdc,st.session_state.iL1,st.session_state.iL2,st.session_state.iL3,st.session_state.Vodc,st.session_state.Vo1,st.session_state.Vo2,st.session_state.Vo3,st.session_state.P_on,st.session_state.P_off,st.session_state.P_cond=test_buck.optimization(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs,st.session_state.i_ripple_lim, st.session_state.v_ripple_lim)
+    #             Answer1=test_buck.answer1(st.session_state.L,st.session_state.C,st.session_state.v_ripple_value,st.session_state.v_ripple_percentage,st.session_state.i_ripple_value,st.session_state.i_ripple_percentage)
+    #             Answer2="The output waveform of the inductor current in steady state under this operating condition is shown in the following figure:"
+    #             Answer3="The output waveform of the output voltage in steady state under this operating condition is shown in the following figure:"
+    #             plot1,plot2=test_buck.draw(st.session_state.L,st.session_state.C,st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs)
+    #             st.write(Answer1)
+    #             st.write(Answer2)
+    #             st.image(plot1)    
+    #             st.write(Answer3)
+    #             st.image(plot2)
+    #             message = {"role": "assistant", "content": Answer1}
+    #             message1 = {"role": "assistant", "content": Answer2,"images": plot1}
+    #             message2 = {"role": "assistant", "content": Answer3,"images": plot2}
+    #             st.session_state.messages.append(message)
+    #             st.session_state.messages.append(message1)
+    #             st.session_state.messages.append(message2)
+    # elif "harmonic components" in prompt.lower():
+    #     with st.chat_message("assistant"):
+    #          with st.spinner("Thinking..."):
+    #            reply=test_buck.answer2(st.session_state.iLdc,st.session_state.iL1,st.session_state.iL2,st.session_state.iL3,st.session_state.Vodc,st.session_state.Vo1,st.session_state.Vo2,st.session_state.Vo3)
+    #            st.write(reply)
+    #            message = {"role": "assistant", "content": reply}
+    #            st.session_state.messages.append(message)
+    # elif "C2M0080120D" in prompt:
+    #     with st.chat_message("assistant"):    
+    #           with st.spinner("Calculating"):
+    #             reply=test_buck.answer3(st.session_state.P_on,st.session_state.P_off,st.session_state.P_cond)
+    #             st.write(reply)
+    #             message = {"role": "assistant", "content": reply}
+    #             st.session_state.messages.append(message)
+    # elif "verify" in prompt.lower():
+    #     with st.chat_message("assistant"):    
+    #           with st.spinner("Waiting... PLECS is starting up..."):
+    #             Buck_plecs.startplecs(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.L,st.session_state.C,st.session_state.fs)
+    #             reply="The PLECS simulation is running… Complete! You can now verify if the design is reasonable by observing the simulation waveforms."
+    #             st.write(reply)
+    #             message = {"role": "assistant", "content": reply}
+    #             st.session_state.messages.append(message)
+    # else:
+    #      with st.chat_message("assistant"):
+    #          with st.spinner("Loading..."):
+    #             #response = chat_engine.chat(prompt, messages_history)
+    #             response=client.chat.completions.create(
+    #                     model=st.session_state["openai_model"],
+    #                 messages=[
+    #                     {"role":"system","content":"You are now an expert in the power electronics industry, and you are proficient in optimal design of buck converter.Please answer the questions  in a warm, positive and friendly manner.Keep your answer less than 150 words! Make sure your answers are professional and accurate -- don't hallucinate."},
+    #                     *[
+    #                         {"role": m["role"], "content": m["content"]}
+    #                     for m in st.session_state.messages
+    #                       ]
+    #                 ],
+
+    #                      stream=False,
+    #             )
+    #             st.write(response.choices[0].message.content)
+    #             message = {"role": "assistant", "content": response.choices[0].message.content}
+    #             st.session_state.messages.append(message)
+
+    #             # response = chat_engine.chat(prompt, messages_history)
+    #             # st.write(response.response)
+    #             # message = {"role": "assistant", "content": response.response}
+    #             # st.session_state.messages.append(message)
