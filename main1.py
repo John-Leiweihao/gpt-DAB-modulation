@@ -170,7 +170,7 @@ def determine_chat_engine(user_input,messages_history):
         return chat_engine1  # 使用 index1 的 chat_engine
     elif "Case 2" in decision:
         return chat_engine2  # 使用 index2 的 chat_engine
-    else
+    else:
         return chat_engine3  # 
 
 
