@@ -183,6 +183,7 @@ def determine_action(user_input,messages_history):
       3. Action 2:The user provides the design requirements and operating conditions for the Buck converter and requests the design of the Buck converter accordingly.
       4. Action 3:The user requests you to analyze the harmonic components of the inductor current and capacitor voltage in the Buck converter.
       5. Action 4: The user requests you to validate the design results using PLECS.
+      6. Action 5:The user's instruction did not execute all of the metioned actions.
       You only need to understand the user's input and Return the most appropriate action.
     """
     response = chat_engine3.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
@@ -300,8 +301,13 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
               st.write(reply)
               message = {"role": "assistant", "content": reply}
               st.session_state.messages.append(message)
-        else:
+        elif "5" in Action:
           with st.spinner("Executing Action5..."):
+            st.write(decision)
+            message = {"role": "assistant", "content": decision}
+            st.session_state.messages.append(message)
+        else:
+          with st.spinner("Executing Action6..."):
             st.write(decision)
             message = {"role": "assistant", "content": decision}
             st.session_state.messages.append(message)
