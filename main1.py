@@ -224,7 +224,21 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
         Action=determine_action(prompt,messages_history)
         response =selected_engine.chat(prompt, messages_history)
         decision = response.response
-
+        if any(keyword in prompt for keyword in ["SPS","EPS","DPS","TPS","5DOF"]):
+          if "recommend" in decision:
+            # 获取 "recommend" 之后的部分
+            recommend_index = decision.index("recommend")
+            subsequent_decision = decision[recommend_index + len("recommend"):]
+            first_keyword = None
+            for keyword in ["SPS", "DPS", "EPS", "TPS", "5DOF"]:
+              keyword_index = subsequent_decision.find(keyword)
+              if keyword_index != -1:  # 如果找到关键词
+                if first_keyword is None or keyword_index < first_keyword[1]:
+                  first_keyword = (keyword, keyword_index)
+                # 将 st.session_state.M 设置为找到的第一个关键词
+            if first_keyword:
+              st.session_state.M = first_keyword[0]
+        
         if "0" in Action:
           with st.spinner("Executing Action0..."):
             answer_list1 = ast.literal_eval(decision)
