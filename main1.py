@@ -178,13 +178,13 @@ def determine_action(user_input,messages_history):
     prompt = f"""
       The input content is: "{user_input}"
       Please determine which action to execute:
-      1. Action 0: The user provides the operating conditions of the dual active bridge(DAB) converter
-      2. Action 1 :After the user expressed dissatisfaction and changed the modulation method,the user directly expresses the need to redesign the dual active bridge converter using the new modulation method.
-      3. Action 2:The user provides the design requirements and operating conditions for the Buck converter and requests the design of the Buck converter accordingly.
-      4. Action 3:The user requests you to analyze the harmonic components of the inductor current and capacitor voltage in the Buck converter.
-      5. Action 4: The user requests you to validate the design results using PLECS.
-      6. Action 5:The user expresses that the current modulation method of dual active bridge does not meet their application requirements
-      7. Action 6:The user's instruction did not execute all of the metioned actions. 
+      1. Action 1: The user provides the operating conditions of the dual active bridge(DAB) converter
+      2. Action 2:The user provides the design requirements and operating conditions for the Buck converter and requests the design of the Buck converter accordingly.
+      3. Action 3:The user requests you to analyze the harmonic components of the inductor current and capacitor voltage in the Buck converter.
+      4. Action 4: The user requests you to validate the design results using PLECS.
+      5. Action 5:The user expresses that the current modulation method of dual active bridge does not meet their application requirements
+      6. Action 6:The user's instruction did not execute all of the metioned actions. 
+      7. Action 7 :After the user expressed dissatisfaction and changed the modulation method,the user directly expresses the need to redesign the dual active bridge converter using the new modulation method.
       You only need to understand the user's input and Return the most appropriate action.
     """
     response = chat_engine3.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
@@ -246,7 +246,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             if first_keyword:
               st.session_state.M = first_keyword[0]
         
-        if "0" in Action :
+        if "1" in Action :
           with st.spinner("Executing Action0..."):
             answer_list1 = ast.literal_eval(decision)
             st.session_state.Uin, st.session_state.Uo,st.session_state.P = answer_list1   
@@ -274,7 +274,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             st.session_state.messages.append(message1)
             st.session_state.messages.append(message2)
             st.session_state.messages.append(message3)
-        elif "1" in Action:
+        elif "7" in Action:
           with st.spinner("Executing Action1..."): 
             Current_Stress,nZVS,nZCS,P,pos,plot,M=test3.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
             Current_Stress1,nZVS1,nZCS1,P1,pos1,plot1,M1=test3.PINN(st.session_state.Uin,st.session_state.Uo,100,st.session_state.M)
