@@ -179,7 +179,7 @@ def determine_action(user_input,messages_history):
       The input content is: "{user_input}"
       Please determine which action to execute:
       1. Action 0: The user provides the operating conditions of the dual active bridge(DAB) converter based on the recommended modulation method and requests its design.
-      2. Action 1:When you have once again recommended a new modulation scheme, and the user clearly expresses the need to redesign the dual active bridge converter under this new modulation scheme. If the user only expresses that the current modulation method does not meet their application needs, do not execute this action.
+      2. Action 1:When you have recommended a new modulation method to the user and the user directly expresses the need to redesign the dual active bridge converter using the new modulation method.
       3. Action 2:The user provides the design requirements and operating conditions for the Buck converter and requests the design of the Buck converter accordingly.
       4. Action 3:The user requests you to analyze the harmonic components of the inductor current and capacitor voltage in the Buck converter.
       5. Action 4: The user requests you to validate the design results using PLECS.
@@ -222,6 +222,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
       with st.spinner("Thinking..."):
         selected_engine = determine_chat_engine(prompt, messages_history)
         Action=determine_action(prompt,messages_history)
+        st.write(Action)
         response =selected_engine.chat(prompt, messages_history)
         decision = response.response
         if decision.rfind("recommend") != -1:
