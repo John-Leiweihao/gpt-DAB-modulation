@@ -178,8 +178,8 @@ def determine_action(user_input,messages_history):
     prompt = f"""
       The input content is: "{user_input}"
       Please determine which action to execute:
-      1. Action 0: The user provides the operating conditions of the dual active bridge converter based on the recommended modulation method and requests its design.
-      2. Action 1:The user is not satisfied with the current modulation method and requests a redesign of the dual active bridge converter using a new modulation method.
+      1. Action 0: The user provides the operating conditions of the dual active bridge(DAB) converter based on the recommended modulation method and requests its design.
+      2. Action 1:The user is not satisfied with the current modulation method and requests a redesign of the dual active bridge(DAB) converter using a new modulation method.
       3. Action 2:The user provides the design requirements and operating conditions for the Buck converter and requests the design of the Buck converter accordingly.
       4. Action 3:The user requests you to analyze the harmonic components of the inductor current and capacitor voltage in the Buck converter.
       5. Action 4: The user requests you to validate the design results using PLECS.
