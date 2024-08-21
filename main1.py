@@ -238,7 +238,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             if first_keyword:
               st.session_state.M = first_keyword[0]
         
-        if "0" in Action or "[" in decision:
+        if "0" in Action :
           with st.spinner("Executing Action0..."):
             answer_list1 = ast.literal_eval(decision)
             st.session_state.Uin, st.session_state.Uo,st.session_state.P = answer_list1   
