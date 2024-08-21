@@ -224,7 +224,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
         Action=determine_action(prompt,messages_history)
         response =selected_engine.chat(prompt, messages_history)
         decision = response.response
-        if "recommend" in decision:
+        if decision.rfind("recommend") != -1:
             # 获取 "recommend" 之后的部分
             recommend_index = decision.index("recommend")
             subsequent_decision = decision[recommend_index + len("recommend"):]
