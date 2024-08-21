@@ -199,16 +199,22 @@ for message in st.session_state.messages[2:]:  # Display the prior chat messages
           
 # 检查所有文件是否都已上传并处理
 if st.session_state.vp is not None and st.session_state.vs is not None and st.session_state.iL is not None:
-    inputs = np.concatenate((st.session_state.vp.T[1:, :, None], st.session_state.vs.T[1:, :, None]), axis=-1)
-    states = st.session_state.iL.T[1:, :, None]
-    with st.chat_message("assistant"):
-        with st.spinner("Processing data..."):
-            plot,test_loss,val_loss=Training.Training_PINN(inputs,states)
-            reply= "Retraining is done. The mean absolute error is improved from {:.3f} to {:.3f}. The predicted waveform and experimental waveform are shown below ".format(test_loss,val_loss)
-            st.write(reply)
-            st.image(plot)
-            message = {"role": "assistant", "content": reply,"images": [plot]}
-            st.session_state.messages.append(message)
+    if 'is_processed' not in st.session_state:
+        st.session_state.is_processed = False  # 初始化标志位
+
+    if not st.session_state.is_processed:
+        inputs = np.concatenate((st.session_state.vp.T[1:, :, None], st.session_state.vs.T[1:, :, None]), axis=-1)
+        states = st.session_state.iL.T[1:, :, None]
+        with st.chat_message("assistant"):
+            with st.spinner("Processing data..."):
+                plot, test_loss, val_loss = Training.Training_PINN(inputs, states)
+                reply = "Retraining is done. The mean absolute error is improved from {:.3f} to {:.3f}. The predicted waveform and experimental waveform are shown below ".format(test_loss, val_loss)
+                st.write(reply)
+                st.image(plot)
+                message = {"role": "assistant", "content": reply, "images": [plot]}
+                st.session_state.messages.append(message)
+
+        st.session_state.is_processed = True  # 标志位设为True，表示已处理
 #用户提问框，各种提问方式以及对应回答所调用的GPT模型
 if prompt := st.chat_input("Your question"):  # Prompt for user input and save to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
