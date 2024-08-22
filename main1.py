@@ -229,7 +229,6 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
       with st.spinner("Thinking..."):
         selected_engine = determine_chat_engine(prompt, messages_history)
         Action=determine_action(prompt,messages_history)
-        st.write(Action)
         response =selected_engine.chat(prompt, messages_history)
         decision = response.response
         if decision.rfind("recommend") != -1:
@@ -247,7 +246,6 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
               st.session_state.M = first_keyword[0]
         
         if "1" in Action :
-          with st.spinner("Executing Action0..."):
             answer_list1 = ast.literal_eval(decision)
             st.session_state.Uin, st.session_state.Uo,st.session_state.P = answer_list1   
             Current_Stress,nZVS,nZCS,P,pos,plot,M=test3.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
@@ -275,7 +273,6 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             st.session_state.messages.append(message2)
             st.session_state.messages.append(message3)
         elif "7" in Action:
-          with st.spinner("Executing Action1..."): 
             Current_Stress,nZVS,nZCS,P,pos,plot,M=test3.PINN(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.M)
             Current_Stress1,nZVS1,nZCS1,P1,pos1,plot1,M1=test3.PINN(st.session_state.Uin,st.session_state.Uo,100,st.session_state.M)
             Answer0=test3.answer(pos,st.session_state.M,Current_Stress,nZVS,nZCS,P,M)
@@ -289,7 +286,6 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             st.session_state.messages.append(message)
             st.session_state.messages.append(message1)
         elif "2" in Action:
-          with st.spinner("Executing Action2..."):
             answer_list = ast.literal_eval(decision)
             st.session_state.v_ripple_lim, st.session_state.i_ripple_lim,st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs = answer_list
             st.session_state.L,st.session_state.C,st.session_state.i_ripple_value,st.session_state.v_ripple_value,st.session_state.i_ripple_percentage,st.session_state.v_ripple_percentage ,st.session_state.iLdc,st.session_state.iL1,st.session_state.iL2,st.session_state.iL3,st.session_state.Vodc,st.session_state.Vo1,st.session_state.Vo2,st.session_state.Vo3,st.session_state.P_on,st.session_state.P_off,st.session_state.P_cond=test_buck.optimization(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.fs,st.session_state.i_ripple_lim, st.session_state.v_ripple_lim)
@@ -309,13 +305,11 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             st.session_state.messages.append(message1)
             st.session_state.messages.append(message2)
         elif "3" in Action:
-          with st.spinner("Executing Action3..."):
             reply=test_buck.answer2(st.session_state.iLdc,st.session_state.iL1,st.session_state.iL2,st.session_state.iL3,st.session_state.Vodc,st.session_state.Vo1,st.session_state.Vo2,st.session_state.Vo3)
             st.write(reply)
             message = {"role": "assistant", "content": reply}
             st.session_state.messages.append(message)
         elif "4" in Action:
-          with st.spinner("Executing Action4..."):
             with st.spinner("Waiting... PLECS is starting up..."):
               Buck_plecs.startplecs(st.session_state.Uin,st.session_state.Uo,st.session_state.P,st.session_state.L,st.session_state.C,st.session_state.fs)
               reply="The PLECS simulation is running… Complete! You can now verify if the design is reasonable by observing the simulation waveforms."
@@ -323,12 +317,10 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
               message = {"role": "assistant", "content": reply}
               st.session_state.messages.append(message)
         elif "5" in Action or "6" in Action:
-          with st.spinner("Executing Action5..."):
             st.write(decision)
             message = {"role": "assistant", "content": decision}
             st.session_state.messages.append(message)
         else:
-          with st.spinner("Executing Action6..."):
             st.write(decision)
             message = {"role": "assistant", "content": decision}
             st.session_state.messages.append(message)
