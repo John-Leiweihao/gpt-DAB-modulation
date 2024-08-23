@@ -319,6 +319,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             st.session_state.messages.append(message1)
         elif "7" in Action:
           with st.spinner("Executing Action7..."):
+              st.write("hello")
               plot, test_loss, val_loss = Training.Training_PINN(inputs, states)
               reply = "Retraining is done. The mean absolute error is improved from {:.3f} to {:.3f}. The predicted waveform and experimental waveform are shown below ".format(test_loss, val_loss)
               st.write(reply)
