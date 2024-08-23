@@ -182,7 +182,7 @@ def determine_action(user_input,messages_history):
       4. Action 4: The user requests you to validate the design results using PLECS.
       5. Action 5:The user expresses that the current modulation method of dual active bridge does not meet their application requirements
       6. Action 6 :After the user expressed dissatisfaction and changed the modulation method,the user directly expresses the need to redesign the dual active bridge converter using the new modulation method.
-      7. Action 7: If {st.session_state.is_processed} is True and user requests you to analyze the data.
+      7. Action 7: If {st.session_state.is_processed} is True, this logic is valid. and user requests you to analyze the data.
       8. Action 8:The user's instruction did not execute all of the metioned actions. 
       You only need to understand the user's input and Return the most appropriate action.
     """
