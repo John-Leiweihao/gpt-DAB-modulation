@@ -46,7 +46,7 @@ if "openai_model" not in st.session_state:
 
 
 file_path = os.path.join('.', 'prompt.txt')
-with open('C:\\Users\\11023\\Desktop\\PE-GPT-RANN\\gpt-DAB-modulation-main\\prompt.txt', 'r') as file:
+with open('prompt.txt', 'r') as file:
     content1 = file.read()
 if clear_button or "messages" not in st.session_state:  # Initialize the chat messages history
     st.session_state.messages = [{"role": "user", "content": content1},
@@ -56,7 +56,7 @@ if clear_button or "messages" not in st.session_state:  # Initialize the chat me
 @st.cache_resource(show_spinner=False)
 def load_data0():
     with st.spinner(text="Loading and indexing  docs – hang tight! This should take 1-2 minutes."):
-        docs = SimpleDirectoryReader(r"C:\Users\11023\Desktop\PE-GPT-RANN\gpt-DAB-modulation-main\database").load_data()
+        docs = SimpleDirectoryReader("database").load_data()
         node_parser = SimpleNodeParser.from_defaults(chunk_size=512)
         nodes = node_parser.get_nodes_from_documents(docs)
         service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods(SPS,EPS,DPS,TPS,5DOF) of dual active bridge and optimzation design of buck converter.Please answer the questions based on the documents I have provided you and your own understanding  .Make sure your answers are professional and accurate -- don't hallucinate."))
@@ -64,7 +64,7 @@ def load_data0():
         return index
 def load_data1():
     with st.spinner(text="Loading and indexing the docs – hang tight! This should take 1-2 minutes."):
-        docs = SimpleDirectoryReader(r"C:\Users\11023\Desktop\PE-GPT-RANN\gpt-DAB-modulation-main\database1").load_data()
+        docs = SimpleDirectoryReader("database1").load_data()
         node_parser = SimpleNodeParser.from_defaults(chunk_size=512)
         nodes = node_parser.get_nodes_from_documents(docs)
         service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods of dual active bridge.Please provide modulation to user according to my prompt .keep your answer follow the rules I told u-- don't hallucinate."))
@@ -72,14 +72,14 @@ def load_data1():
         return index
 def load_data2():
     with st.spinner(text="Loading and indexing the  docs – hang tight! This should take 1-2 minutes."):
-        docs = SimpleDirectoryReader(r"C:\Users\11023\Desktop\PE-GPT-RANN\gpt-DAB-modulation-main\introduction").load_data()
+        docs = SimpleDirectoryReader("introduction").load_data()
         node_parser = SimpleNodeParser.from_defaults(chunk_size=512)
         nodes = node_parser.get_nodes_from_documents(docs)
         service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
         index = VectorStoreIndex(nodes, service_context=service_context)
         return index
 def load_data3():
-        docs = SimpleDirectoryReader(r"C:\Users\11023\Desktop\PE-GPT-RANN\gpt-DAB-modulation-main\database_empty").load_data()
+        docs = SimpleDirectoryReader("database_empty").load_data()
         node_parser = SimpleNodeParser.from_defaults(chunk_size=512)
         nodes = node_parser.get_nodes_from_documents(docs)
         service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry.keep your answer follow the rules I told u-- don't hallucinate."))
