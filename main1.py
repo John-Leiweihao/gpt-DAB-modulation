@@ -185,7 +185,7 @@ def determine_action(user_input,messages_history):
       8. Action 8:The user's instruction did not execute all of the metioned actions. 
       You only need to understand the user's input and Return the most appropriate action.
     """
-    response = chat_engine1.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
+    response = chat_engine3.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
     Action = response.response.strip()
     return Action
   
