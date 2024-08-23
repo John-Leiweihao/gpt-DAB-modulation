@@ -220,9 +220,11 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
         response =selected_engine.chat(prompt, messages_history)
         decision = response.response
         if decision.rfind("recommend") != -1:
+            st.write(111)
             # 获取 "recommend" 之后的部分
             recommend_index = decision.rfind("recommend")
             subsequent_decision = decision[recommend_index + len("recommend"):]
+            st.write(subsequent_decision)
             first_keyword = None
             for keyword in ["SPS", "DPS", "EPS", "TPS", "5DOF"]:
               keyword_index = subsequent_decision.find(keyword)
