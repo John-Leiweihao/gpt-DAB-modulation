@@ -157,14 +157,14 @@ def determine_chat_engine(user_input,messages_history):
       You only need to understand the user's input and Return the most appropriate case..
     """
     response = chat_engine3.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
-    decision = response.response.strip()
+    decision1 = response.response.strip()
 
     # 根据 GPT 的判断选择相应的 chat_engine
-    if "0" in decision:
+    if "0" in decision1:
         return chat_engine  # 使用 index0 的 chat_engine
-    elif "1" in decision:
+    elif "1" in decision1:
         return chat_engine1  # 使用 index1 的 chat_engine
-    elif "2" in decision:
+    elif "2" in decision1:
         return chat_engine2  # 使用 index2 的 chat_engine
     else:
         return chat_engine3  # 
