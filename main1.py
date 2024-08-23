@@ -322,7 +322,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
             st.session_state.messages.append(message)
         else:
             st.write(decision)
-            message = {"role": "assistant", "content": decision}
+            message = {"role": "system", "content": decision}
             st.session_state.messages.append(message)
             
 
