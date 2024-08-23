@@ -157,8 +157,8 @@ def determine_chat_engine(user_input,messages_history):
       3. Case 2:The user needs you to introduce yourself (PE-GPT) or  the user ask what is PE-GPT.
       You only need to understand the user's input and Return the most appropriate case..
     """
-    response = chat_engine1.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
-    decision1 = response.response.strip()
+    response1 = chat_engine1.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
+    decision1 = response1.response.strip()
 
     # 根据 GPT 的判断选择相应的 chat_engine
     if "0" in decision1:
