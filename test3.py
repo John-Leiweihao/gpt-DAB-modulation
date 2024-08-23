@@ -215,3 +215,13 @@ def answer1(pos,modulation,ipp,nZVS,nZCS,P_required, M,modulation1="TPS"):
         response = "Under light load conditions(PL={} W),the optimal D0 is designed to be {},D1 is designed to be {},D2 is designed to be {},phi1 is designed to be {},phi2 is designed to be {}, the number of switches that achieve zero-voltage turn-on is {:.0f},the number of switches that achieve zero-current turn-off is {:.0f}.And the current stress performance is shown with the following figure.The peak-to-peak current is {:.2f} A.".format(P_required,D0,D1,D2,phi1,phi2,nZVS,nZCS,ipp)
 
     return response
+def change_modulation(modulation):
+    if modulation=="SPS":
+        new_modulation="EPS"
+    if modulation=="EPS" or modulation=="DPS":
+        new_modulation="TPS"
+    if modulation=="TPS":
+        new_modulation="5DOF"
+    else:
+        new_modulation="other"
+    return new_modulation
