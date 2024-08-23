@@ -219,8 +219,8 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
         Action=determine_action(prompt,messages_history)
         st.write(Action)
         response =selected_engine.chat(prompt, messages_history)
-        decision = response.response
-        if decision.rfind("recommend") != -1:
+        decision1 = response.response
+        if decision1.rfind("recommend") != -1:
             # 获取 "recommend" 之后的部分
             recommend_index = decision.rfind("recommend")
             subsequent_decision = decision[recommend_index + len("recommend"):]
@@ -331,12 +331,12 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
               st.session_state.messages.append(message)
         elif "8" in Action:
           with st.spinner("Executing Action8..."):
-            st.write(decision)
+            st.write(decision1)
             message = {"role": "assistant", "content": decision}
             st.session_state.messages.append(message)
         else:
           with st.spinner("Executing Action..."):
-            st.write(decision)
+            st.write(decision1)
             message = {"role": "assistant", "content": decision}
             st.session_state.messages.append(message)
             
