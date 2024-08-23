@@ -300,13 +300,8 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
               st.session_state.messages.append(message)
         elif "5" in Action:
           with st.spinner("Executing Action5..."):
-            new_modulation=test3.change_modulation(st.session_state.M)
-            if new_modulation=="other":
-                response5 = selected_engine.chat(prompt +"you need to provide me with other new methods(not phase shift modulation)", messages_history)
-            else:
-                response5 = selected_engine.chat(prompt+ " The {new_modulation} modulation may a better choice", messages_history)
-            st.write(response5.response)
-            message = {"role": "assistant", "content": response5.response}
+            st.write(decision)
+            message = {"role": "assistant", "content": decision}
             st.session_state.messages.append(message)
         elif "6" in Action:
           with st.spinner("Executing Action6..."):
