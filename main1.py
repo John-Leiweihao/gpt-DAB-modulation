@@ -87,6 +87,8 @@ index2 = load_data2()
 chat_engine2 = index2.as_chat_engine(chat_mode="context",similarity_top_k=7)
 index3 = load_data3()  
 chat_engine3 = index3.as_chat_engine()
+index4 = load_data3()  
+chat_engine4 = index4.as_chat_engine()
 
 #定义可能用到的变量名
 initial_values = {
@@ -156,7 +158,7 @@ def determine_chat_engine(user_input,messages_history):
       3. Case 2:The user needs you to introduce yourself (PE-GPT) or  the user ask what is PE-GPT.
       You only need to understand the user's input and Return the most appropriate case..
     """
-    response = chat_engine3.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
+    response = chat_engine4.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
     decision1 = response.response.strip()
 
     # 根据 GPT 的判断选择相应的 chat_engine
@@ -184,7 +186,7 @@ def determine_action(user_input,messages_history):
       8. Action 8:The user's instruction did not execute all of the metioned actions. 
       You only need to understand the user's input and Return the most appropriate action.
     """
-    response = chat_engine3.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
+    response = chat_engine4.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
     Action = response.response.strip()
     return Action
   
@@ -216,7 +218,7 @@ if prompt := st.chat_input("Your question"):  # Prompt for user input and save t
         selected_engine = determine_chat_engine(prompt, messages_history)
         Action=determine_action(prompt,messages_history)
         st.write(Action)
-        response =selected_engine.chat(prompt)
+        response =selected_engine.chat(prompt, messages_history)
         decision = response.response
         if decision.rfind("recommend") != -1:
             # 获取 "recommend" 之后的部分
