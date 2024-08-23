@@ -59,34 +59,34 @@ def load_data0():
         docs = SimpleDirectoryReader("database").load_data()
         node_parser = SimpleNodeParser.from_defaults(chunk_size=512)
         nodes = node_parser.get_nodes_from_documents(docs)
-        index = DocumentSummaryIndex(nodes, llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods(SPS,EPS,DPS,TPS,5DOF) of dual active bridge and optimzation design of buck converter.Please answer the questions based on the documents I have provided you and your own understanding  .Make sure your answers are professional and accurate -- don't hallucinate."))
+        index =VectorStoreIndex(nodes)
         return index
 def load_data1():
     with st.spinner(text="Loading and indexing the docs – hang tight! This should take 1-2 minutes."):
         docs = SimpleDirectoryReader("database1").load_data()
         node_parser = SimpleNodeParser.from_defaults(chunk_size=512)
         nodes = node_parser.get_nodes_from_documents(docs)
-        index = DocumentSummaryIndex(nodes, llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods of dual active bridge.Please provide modulation to user according to my prompt .keep your answer follow the rules I told u-- don't hallucinate."))
+        index = VectorStoreIndex(nodes)
         return index
 def load_data2():
     with st.spinner(text="Loading and indexing the  docs – hang tight! This should take 1-2 minutes."):
         docs = SimpleDirectoryReader("introduction").load_data()
         node_parser = SimpleNodeParser.from_defaults(chunk_size=512)
         nodes = node_parser.get_nodes_from_documents(docs)
-        index = DocumentSummaryIndex(nodes, llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
+        index = VectorStoreIndex(nodes)
         return index
 def load_data3():
         docs = SimpleDirectoryReader("database_empty").load_data()
-        index = DocumentSummaryIndex(docs, llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry.keep your answer follow the rules I told u-- don't hallucinate."))
+        index = VectorStoreIndex(docs)
         return index
-index0 = load_data0()  
-chat_engine = index0.as_chat_engine(similarity_top_k=7)
-index1 = load_data1()  
-chat_engine1 = index1.as_chat_engine(similarity_top_k=7)
-index2 = load_data2()  
-chat_engine2 = index2.as_chat_engine(chat_mode="context",similarity_top_k=7)
-index3 = load_data3()  
-chat_engine3 = index3.as_chat_engine()
+index0 = load_data0()
+chat_engine = index0.as_chat_engine(similarity_top_k=7, llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods(SPS,EPS,DPS,TPS,5DOF) of dual active bridge and optimzation design of buck converter.Please answer the questions based on the documents I have provided you and your own understanding  .Make sure your answers are professional and accurate -- don't hallucinate."))
+index1 = load_data1()
+chat_engine1 = index1.as_chat_engine(similarity_top_k=7, llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods of dual active bridge.Please provide modulation to user according to my prompt .keep your answer follow the rules I told u-- don't hallucinate."))
+index2 = load_data2()
+chat_engine2 = index2.as_chat_engine(chat_mode="context",similarity_top_k=7,llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
+index3 = load_data3()
+chat_engine3 = index3.as_chat_engine(llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry.keep your answer follow the rules I told u-- don't hallucinate."))
 
 
 #定义可能用到的变量名
@@ -149,7 +149,7 @@ if st.sidebar.button("Confirm Upload"):
 
 def determine_chat_engine(user_input,messages_history):
     # 使用 GPT 来分析输入语境
-    prompt1 = f"""
+    prompt = f"""
       The input content is: "{user_input}"
       Please determine which case this belongs to:
       1. Case 0: The user is inquiring about information related to the dual active bridge converter, except for asking you to recommend a modulation method for it.
@@ -157,8 +157,8 @@ def determine_chat_engine(user_input,messages_history):
       3. Case 2:The user needs you to introduce yourself (PE-GPT) or  the user ask what is PE-GPT.
       You only need to understand the user's input and Return the most appropriate case..
     """
-    response1 = chat_engine1.chat(prompt1,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
-    decision1 = response1.response.strip()
+    response = chat_engine3.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
+    decision = response.response.strip()
 
     # 根据 GPT 的判断选择相应的 chat_engine
     if "0" in decision1:
@@ -172,7 +172,7 @@ def determine_chat_engine(user_input,messages_history):
         
 def determine_action(user_input,messages_history):
     # 使用 GPT 来分析输入语境
-    prompt2 = f"""
+    prompt = f"""
       The input content is: "{user_input}"
       Please determine which action to execute:
       1. Action 1: The user provides the operating conditions of the dual active bridge(DAB) converter
@@ -185,7 +185,7 @@ def determine_action(user_input,messages_history):
       8. Action 8:The user's instruction did not execute all of the metioned actions. 
       You only need to understand the user's input and Return the most appropriate action.
     """
-    response = chat_engine1.chat(prompt2,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
+    response = chat_engine1.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
     Action = response.response.strip()
     return Action
   
