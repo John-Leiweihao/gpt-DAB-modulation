@@ -18,7 +18,7 @@ import Buck_plecs
 import test_buck
 
 #调用openai的API
-openai.api_key = "sk-FQ9kAJr8D6aKEtZj6aC43dEbDc964a96A5D96880B7A03cA1"
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 api_base = "https://pro.aiskt.com/v1"
 openai.base_url = api_base
 
