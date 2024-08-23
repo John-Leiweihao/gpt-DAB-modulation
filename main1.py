@@ -117,7 +117,8 @@ initial_values = {
     "P_cond": None,
     "vp": None,
     "vs": None,
-    "iL": None
+    "iL": None,
+    "is_processed":False
 }
 
 
@@ -198,8 +199,7 @@ for message in st.session_state.messages[2:]:  # Display the prior chat messages
           
 # 检查所有文件是否都已上传并处理
 if st.session_state.vp is not None and st.session_state.vs is not None and st.session_state.iL is not None:
-    if 'is_processed' not in st.session_state:
-        st.session_state.is_processed = True  # 初始化标志位
+    st.session_state.is_processed = True  # 初始化标志位
     inputs = np.concatenate((st.session_state.vp.T[1:, :, None], st.session_state.vs.T[1:, :, None]), axis=-1)
     states = st.session_state.iL.T[1:, :, None]
 
