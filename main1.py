@@ -149,7 +149,7 @@ if st.sidebar.button("Confirm Upload"):
 
 def determine_chat_engine(user_input,messages_history):
     # 使用 GPT 来分析输入语境
-    prompt = f"""
+    prompt1 = f"""
       The input content is: "{user_input}"
       Please determine which case this belongs to:
       1. Case 0: The user is inquiring about information related to the dual active bridge converter, except for asking you to recommend a modulation method for it.
@@ -157,7 +157,7 @@ def determine_chat_engine(user_input,messages_history):
       3. Case 2:The user needs you to introduce yourself (PE-GPT) or  the user ask what is PE-GPT.
       You only need to understand the user's input and Return the most appropriate case..
     """
-    response1 = chat_engine1.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
+    response1 = chat_engine1.chat(prompt1,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
     decision1 = response1.response.strip()
 
     # 根据 GPT 的判断选择相应的 chat_engine
@@ -172,7 +172,7 @@ def determine_chat_engine(user_input,messages_history):
         
 def determine_action(user_input,messages_history):
     # 使用 GPT 来分析输入语境
-    prompt = f"""
+    prompt2 = f"""
       The input content is: "{user_input}"
       Please determine which action to execute:
       1. Action 1: The user provides the operating conditions of the dual active bridge(DAB) converter
@@ -185,7 +185,7 @@ def determine_action(user_input,messages_history):
       8. Action 8:The user's instruction did not execute all of the metioned actions. 
       You only need to understand the user's input and Return the most appropriate action.
     """
-    response = chat_engine1.chat(prompt,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
+    response = chat_engine1.chat(prompt2,messages_history)  # 假设 gpt_model 是你使用的 GPT 接口
     Action = response.response.strip()
     return Action
   
