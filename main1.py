@@ -77,9 +77,7 @@ def load_data2():
         return index
 def load_data3():
         docs = SimpleDirectoryReader("database_empty").load_data()
-        node_parser = SimpleNodeParser.from_defaults(chunk_size=512)
-        nodes = node_parser.get_nodes_from_documents(docs)
-        index = DocumentSummaryIndex(nodes, llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry.keep your answer follow the rules I told u-- don't hallucinate."))
+        index = DocumentSummaryIndex(docs, llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry.keep your answer follow the rules I told u-- don't hallucinate."))
         return index
 index0 = load_data0()  
 chat_engine = index0.as_chat_engine(similarity_top_k=7)
