@@ -59,31 +59,27 @@ def load_data0():
         docs = SimpleDirectoryReader("database").load_data()
         node_parser = SimpleNodeParser.from_defaults(chunk_size=512)
         nodes = node_parser.get_nodes_from_documents(docs)
-        service_context =  ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods(SPS,EPS,DPS,TPS,5DOF) of dual active bridge and optimzation design of buck converter.Please answer the questions based on the documents I have provided you and your own understanding  .Make sure your answers are professional and accurate -- don't hallucinate."))
-        index = VectorStoreIndex(nodes, service_context=service_context)
+        index = VectorStoreIndex(nodes, llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1,system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods(SPS,EPS,DPS,TPS,5DOF) of dual active bridge and optimzation design of buck converter.Please answer the questions based on the documents I have provided you and your own understanding  .Make sure your answers are professional and accurate -- don't hallucinate."))
         return index
 def load_data1():
     with st.spinner(text="Loading and indexing the docs – hang tight! This should take 1-2 minutes."):
         docs = SimpleDirectoryReader("database1").load_data()
         node_parser = SimpleNodeParser.from_defaults(chunk_size=512)
         nodes = node_parser.get_nodes_from_documents(docs)
-        service_context =  ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods of dual active bridge.Please provide modulation to user according to my prompt .keep your answer follow the rules I told u-- don't hallucinate."))
-        index = VectorStoreIndex(nodes, service_context=service_context)
+        index = VectorStoreIndex(nodes, llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry, and you are proficient in various modulation methods of dual active bridge.Please provide modulation to user according to my prompt .keep your answer follow the rules I told u-- don't hallucinate."))
         return index
 def load_data2():
     with st.spinner(text="Loading and indexing the  docs – hang tight! This should take 1-2 minutes."):
         docs = SimpleDirectoryReader("introduction").load_data()
         node_parser = SimpleNodeParser.from_defaults(chunk_size=512)
         nodes = node_parser.get_nodes_from_documents(docs)
-        service_context =  ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
-        index = VectorStoreIndex(nodes, service_context=service_context)
+        index = VectorStoreIndex(nodes, llm=OpenAI(model="gpt-4-0125-preview", temperature=0.1))
         return index
 def load_data3():
         docs = SimpleDirectoryReader("database_empty").load_data()
         node_parser = SimpleNodeParser.from_defaults(chunk_size=512)
         nodes = node_parser.get_nodes_from_documents(docs)
-        service_context =  ServiceContext.from_defaults(llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry.keep your answer follow the rules I told u-- don't hallucinate."))
-        index = VectorStoreIndex(nodes, service_context=service_context)
+        index = VectorStoreIndex(nodes, llm=OpenAI(model="gpt-4-0125-preview", system_prompt="You are now an expert in the power electronics industry.keep your answer follow the rules I told u-- don't hallucinate."))
         return index
 index0 = load_data0()  
 chat_engine = index0.as_chat_engine(similarity_top_k=7)
