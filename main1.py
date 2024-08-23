@@ -161,11 +161,11 @@ def determine_chat_engine(user_input,messages_history):
     decision = response.response.strip()
 
     # 根据 GPT 的判断选择相应的 chat_engine
-    if "0" in decision1:
+    if "0" in decision:
         return chat_engine  # 使用 index0 的 chat_engine
-    elif "1" in decision1:
+    elif "1" in decision:
         return chat_engine1  # 使用 index1 的 chat_engine
-    elif "2" in decision1:
+    elif "2" in decision:
         return chat_engine2  # 使用 index2 的 chat_engine
     else:
         return chat_engine3  # 
